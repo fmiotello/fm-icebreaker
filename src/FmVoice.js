@@ -129,7 +129,7 @@ class FmVoice {
         });
 
         // triggering the envelopes
-        this.outEnv.trigger(this.maxOutputGain);
+        this.outEnv.noteOn(this.maxOutputGain, velocity);
     }
 }
 
