@@ -1,1 +1,10 @@
 @import "reset.css";
+
+body, html {
+    width: 100%;
+}
+
+#container {
+    margin: 100px auto;
+    width: 50%;
+}

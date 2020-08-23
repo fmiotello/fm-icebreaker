@@ -1,4 +1,4 @@
-import {PI2} from "../config.js";
+import {PI2} from "./config.js";
 
 /***
  * A Worklet that implements an fm operator.

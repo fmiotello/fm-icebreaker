@@ -1,41 +1,136 @@
-import {frequencyFromMidi, algorithms} from "./config.js";
+import {frequencyFromMidi, algorithms, PARAM_CHANGE_TIME} from "./config.js";
+import Envelope from "./Envelope.js";
 
 class FmVoice {
     constructor(audioContext) {
-        this.operators = [];
-        this.algorithm = undefined;
         this.audioContext = audioContext;
-        this._loadOperators()
-            .then(this.selectAlgorithm(0));
+        this.operators = []; // FmProcessor + Gain
+        this.feedbackNodes = []; // DelayNode + Gain
+        this.outputBusses = [new GainNode(audioContext), new GainNode(audioContext)]; // two mono busses
+        this.outputGain = new GainNode(audioContext);
+        this.maxOutputGain = 1;
+        this.outEnv = new Envelope(audioContext, this.outputGain.gain);
+        this.algorithm = undefined;
+        this._init();
     }
 
     /**
-     * Loads the fm-processor and pushes 4 operators for the voice.
+     * Loads the fm-processor, pushes 4 operators and 4 feedback networks.
      * @return {Promise<void>}
      * @private
      */
-    async _loadOperators() {
-        await this.audioContext.audioWorklet.addModule('fm-processor');
+    async _init() {
+        await this.audioContext.audioWorklet.addModule('src/FmProcessor.js');
+
+        // FmProcessor + Gain
         for (let i = 0; i < 4; i++) {
             let operator = new AudioWorkletNode(this.audioContext, 'fm-processor');
-            this.operators.push(operator);
+            let gain = new GainNode(this.audioContext);
+            operator.connect(gain);
+            this.operators.push({
+                source: operator,
+                gain: gain
+            });
         }
+
+        // DelayNode + Gain  -- (Feedback)
+        for (let i = 0; i < 4; i++) {
+            let delay = new DelayNode(this.audioContext);
+            let gain = new GainNode(this.audioContext);
+            gain.gain.value = 0;
+            delay.connect(gain);
+            this.feedbackNodes.push({
+                delay: delay,
+                gain: gain
+            });
+        }
+
+        // connecting the busses to the output
+        this.outputGain.gain.value = 0
+        this.outputBusses.forEach(bus => {
+            bus.gain.value = 0.5;
+            bus.connect(this.outputGain);
+        });
+        this.outputGain.connect(this.audioContext.destination);
+
+        this.selectAlgorithm(0);
     }
 
     /**
      * Initialize the routing of the operators.
      * @private
      */
-    _initOperators() {
-
+    _initRouting() {
+        this.operators.forEach(node => {
+            node.gain.disconnect();
+        });
+        this.feedbackNodes.forEach(node => {
+            node.gain.disconnect();
+        });
     }
 
+    /**
+     * Connects the operators depending on the chosen algorithm.
+     *
+     * @param index of the algorithm
+     */
     selectAlgorithm(index) {
-        if (index > algorithms.length) {
+        if (index > algorithms.length || index < 0) {
             console.log('Error: undefined algorithm');
             return;
         }
 
-        this._initOperators();
+        this._initRouting();
+        this.algorithm = algorithms[index];
+
+        // bus routing
+        this.algorithm.output.forEach((routing, i) => {
+            routing.forEach(function (outputIndex) {
+                this.operators[i].gain.connect(this.outputBusses[outputIndex]);
+            }, this);
+        });
+
+        // modulator routing
+        this.algorithm.modulations.forEach((modulations, i) => {
+            modulations.forEach(modIndex => {
+                if (i === modIndex) { // feedback
+                    this.operators[i].source
+                        .connect(this.feedbackNodes[i].delay);
+                    this.feedbackNodes[i].gain.connect(this.operators[i].source);
+                } else {
+                    this.operators[i].gain.connect(this.operators[modIndex].source);
+                }
+            });
+        });
+    }
+
+    /**
+     * Changes the ratio of an operator.
+     * @param opIndex
+     * @param ratio
+     */
+    setRatio(opIndex, ratio) {
+        let ratioParm = this.operators[opIndex].source.parameters.get('ratio');
+        ratioParm.linearRampToValueAtTime(ratio,
+            this.audioContext.currentTime + PARAM_CHANGE_TIME);
+    }
+
+    setMaxGain(maxGain) {
+        this.maxOutputGain = maxGain;
+    }
+
+    noteOn(note, velocity) {
+        // setting the frequency TODO: implement glide
+        let freq = frequencyFromMidi(note);
+        this.operators.forEach(op => {
+            let f = op.source.parameters.get('frequency');
+            f.linearRampToValueAtTime(freq,
+                this.audioContext.currentTime + PARAM_CHANGE_TIME);
+        });
+
+        // triggering the envelopes
+        this.outEnv.trigger(this.maxOutputGain);
     }
 }
+
+export default FmVoice;
