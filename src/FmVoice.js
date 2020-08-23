@@ -5,12 +5,15 @@ class FmVoice {
     constructor(audioContext) {
         this.audioContext = audioContext;
         this.operators = []; // FmProcessor + Gain
+        this.operatorsEnv = [];
+        this.operatorsEnvAmount = [0, 0, 0, 0];
         this.feedbackNodes = []; // DelayNode + Gain
         this.outputBusses = [new GainNode(audioContext), new GainNode(audioContext)]; // two mono busses
         this.outputGain = new GainNode(audioContext);
         this.maxOutputGain = 1;
         this.outEnv = new Envelope(audioContext, this.outputGain.gain);
         this.algorithm = undefined;
+        this.lastNote = undefined;
         this._init();
     }
 
@@ -22,7 +25,7 @@ class FmVoice {
     async _init() {
         await this.audioContext.audioWorklet.addModule('src/FmProcessor.js');
 
-        // FmProcessor + Gain
+        // FmProcessor + Gain -- (Operators)
         for (let i = 0; i < 4; i++) {
             let operator = new AudioWorkletNode(this.audioContext, 'fm-processor');
             let gain = new GainNode(this.audioContext);
@@ -31,6 +34,11 @@ class FmVoice {
                 source: operator,
                 gain: gain
             });
+
+            // modulation envelope
+            let modEnv = new Envelope(this.audioContext, gain.gain);
+            this.operatorsEnv.push(modEnv);
+
         }
 
         // DelayNode + Gain  -- (Feedback)
@@ -115,12 +123,18 @@ class FmVoice {
             this.audioContext.currentTime + PARAM_CHANGE_TIME);
     }
 
+    setModEnvAmount(opIndex, amount) {
+        this.operatorsEnvAmount[opIndex] = amount;
+    }
+
     setMaxGain(maxGain) {
         this.maxOutputGain = maxGain;
     }
 
     noteOn(note, velocity) {
         // setting the frequency TODO: implement glide
+        this.lastNote = note;
+
         let freq = frequencyFromMidi(note);
         this.operators.forEach(op => {
             let f = op.source.parameters.get('frequency');
@@ -130,6 +144,16 @@ class FmVoice {
 
         // triggering the envelopes
         this.outEnv.noteOn(this.maxOutputGain, velocity);
+        for (let i = 1; i < 4; i++) { // the first operator's envelope isn't triggered
+            this.operatorsEnv[i].noteOn(this.operatorsEnvAmount[i], 127);
+        }
+    }
+
+    noteOff() {
+        this.outEnv.noteOff();
+        this.operatorsEnv.forEach(env => {
+            env.noteOff();
+        });
     }
 }
 

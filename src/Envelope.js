@@ -8,12 +8,37 @@ class Envelope {
         this.audioContext = audioContext;
         this.parameter = parameter;
         this.isLinear = true;
-        this.time = [0, 0.4, 0.3, 0.6]; // delay - attack - decay - release
-        this.sustain = 0.8;
+        this.time = [0, 0.05, 0.3, 0.6]; // delay - attack - decay - release
+        this.sustain = 0.3;
     }
 
     setParameter(parameter) {
         this.parameter = parameter;
+    }
+
+    setDelay(t) {
+        if (t < 0) return;
+        this.time[0] = t;
+    }
+
+    setAttack(t) {
+        if (t < 0) return;
+        this.time[1] = t;
+    }
+
+    setDecay(t) {
+        if (t < 0) return;
+        this.time[2] = t;
+    }
+
+    setRelease(t) {
+        if (t < 0) return;
+        this.time[3] = t;
+    }
+
+    setSustain(value) {
+        if (value < 0 || value > 1) return;
+        this.sustain = value;
     }
 
     noteOn(maxGain, velocity) {
