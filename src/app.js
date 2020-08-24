@@ -2,7 +2,14 @@ import FmVoice from "./FmVoice.js";
 
 const audioContext = new AudioContext();
 let fmVoice = undefined;
+
+
 let playButton = document.getElementById('test-play-button');
+let envAmt1Slider = document.getElementById('EnvAmt1');
+let envAmt2Slider = document.getElementById('EnvAmt2');
+let envAmt3Slider = document.getElementById('EnvAmt3');
+
+
 let key2notes = [
     {key: 65, note: 60},
     {key: 83, note: 62},
@@ -29,11 +36,26 @@ document.onclick = async function () {
     await audioContext.audioWorklet.addModule('src/FmProcessor.js');
     fmVoice = new FmVoice(audioContext);
     fmVoice.setModEnvAmount(1, 1);
-    fmVoice.setModEnvAmount(2, 1.5);
-    fmVoice.setModEnvAmount(3, 1.2);
+    fmVoice.setModEnvAmount(2, 1);
+    fmVoice.setModEnvAmount(3, 1);
     document.onkeydown = noteOn;
     document.onkeyup = noteOff;
     document.onclick = undefined;
+
+    // uncomment this for ratio fun
+    //
+    setInterval(() => {
+        let ratios = [0.5, 1, 1.2, 1.5, 2, 3, 4, 7];
+        let randRatio = () => ratios[Math.floor(ratios.length * Math.random())];
+        fmVoice.setRatio(0, randRatio());
+        fmVoice.setRatio(1, randRatio());
+        fmVoice.setRatio(2, randRatio());
+        fmVoice.setRatio(3, randRatio());
+    }, 80);
+}
+
+envAmt1Slider.onchange = function (ev) {
+    fmVoice.setModEnvAmount(1, ev.target.value)
 }
 
 let noteOff = function (ev) {
@@ -48,16 +70,6 @@ let noteOn = function (ev) {
         fmVoice.noteOn(notes[noteIndex], 100);
     }
 
-    // uncomment this for ratio fun
-    //
-    // setInterval(() => {
-    //     let ratios = [0.5, 1, 1.2, 1.5, 2, 3, 4, 7];
-    //     let randRatio = () => ratios[Math.floor(ratios.length * Math.random())];
-    //     fmVoice.setRatio(0, randRatio());
-    //     fmVoice.setRatio(1, randRatio());
-    //     fmVoice.setRatio(2, randRatio());
-    //     fmVoice.setRatio(3, randRatio());
-    // }, 200);
 
     // let operator1 = new AudioWorkletNode(audioContext, 'fm-processor');
     // let operator2 = new AudioWorkletNode(audioContext, 'fm-processor');

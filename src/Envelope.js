@@ -8,8 +8,8 @@ class Envelope {
         this.audioContext = audioContext;
         this.parameter = parameter;
         this.isLinear = true;
-        this.time = [0, 0.05, 0.3, 0.6]; // delay - attack - decay - release
-        this.sustain = 0.3;
+        this.time = [0, 0.05, 0.3, 10]; // delay - attack - decay - release
+        this.sustain = 0.8;
     }
 
     setParameter(parameter) {
