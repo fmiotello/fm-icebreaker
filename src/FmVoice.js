@@ -94,7 +94,7 @@ class FmVoice {
         // bus routing
         this.algorithm.output.forEach((routing, i) => {
             routing.forEach(function (outputIndex) {
-                this.operators[i].gain.connect(this.outputBusses[outputIndex]);
+                this.operators[i].source.connect(this.outputBusses[outputIndex]);
             }, this);
         });
 

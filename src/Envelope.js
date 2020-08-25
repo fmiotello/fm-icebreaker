@@ -1,4 +1,4 @@
-import {PARAM_CHANGE_TIME} from "./config.js";
+import {PARAM_CHANGE_TIME, EPSILON} from "./config.js";
 
 /**
  * ADSR envelope with initial delay.
@@ -8,7 +8,7 @@ class Envelope {
         this.audioContext = audioContext;
         this.parameter = parameter;
         this.isLinear = true;
-        this.time = [0, 0.05, 0.3, 10]; // delay - attack - decay - release
+        this.time = [0, 0.05, 0.3, 1]; // delay - attack - decay - release
         this.sustain = 0.8;
     }
 

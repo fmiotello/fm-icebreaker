@@ -2,6 +2,7 @@ import FmVoice from "./FmVoice.js";
 
 const audioContext = new AudioContext();
 let fmVoice = undefined;
+let isNoteOn = false;
 
 // Env B
 let envAmtBSlider = document.getElementById('envAmtB');
@@ -58,28 +59,79 @@ document.onclick = async function () {
 let bindEventsToGui = function () {
     document.onkeydown = noteOn; // TODO: implement a boolean flag
     document.onkeyup = noteOff;
-    envAmtBSlider.onchange = envAmtClosure(1);
-    envAmtCSlider.onchange = envAmtClosure(2);
-    envAmtDSlider.onchange = envAmtClosure(3);
-}
 
-let noteOff = function (ev) {
-    fmVoice.noteOff();
+    envAmtBSlider.onchange = envAmtClosure(1);
+    envDelayBSlider.onchange = envDelayClosure(1);
+    envAttackBSlider.onchange = envAttackClosure(1);
+    envDecayBSlider.onchange = envDecayClosure(1);
+    envSustainBSlider.onchange = envSustainClosure(1);
+    envReleaseBSlider.onchange = envReleaseClosure(1);
+
+    envAmtCSlider.onchange = envAmtClosure(2);
+    envDelayCSlider.onchange = envDelayClosure(2);
+    envAttackCSlider.onchange = envAttackClosure(2);
+    envDecayCSlider.onchange = envDecayClosure(2);
+    envSustainCSlider.onchange = envSustainClosure(2);
+    envReleaseCSlider.onchange = envReleaseClosure(2);
+
+    envAmtDSlider.onchange = envAmtClosure(3);
+    envDelayDSlider.onchange = envDelayClosure(3);
+    envAttackDSlider.onchange = envAttackClosure(3);
+    envDecayDSlider.onchange = envDecayClosure(3);
+    envSustainDSlider.onchange = envSustainClosure(3);
+    envReleaseDSlider.onchange = envReleaseClosure(3);
 }
 
 let noteOn = function (ev) {
-    let allowedKeys = key2notes.map(obj => obj.key);
-    let notes = key2notes.map(obj => obj.note);
-    if (allowedKeys.includes(ev.keyCode)) { // asdfghjk
-        let noteIndex = allowedKeys.indexOf(ev.keyCode);
-        fmVoice.noteOn(notes[noteIndex], 100);
+    if (!isNoteOn) {
+        isNoteOn = true;
+        let allowedKeys = key2notes.map(obj => obj.key);
+        let notes = key2notes.map(obj => obj.note);
+        if (allowedKeys.includes(ev.keyCode)) { // asdfghjk
+            let noteIndex = allowedKeys.indexOf(ev.keyCode);
+            fmVoice.noteOn(notes[noteIndex], 100);
+        }
     }
+}
 
+let noteOff = function (ev) {
+    isNoteOn = false;
+    fmVoice.noteOff();
 }
 
 let envAmtClosure = function (opIndex) {
     return function (ev) {
         fmVoice.setModEnvAmount(opIndex, ev.target.value);
+    }
+}
+
+let envDelayClosure = function (opIndex) {
+    return function (ev) {
+        fmVoice.operatorsEnv[opIndex].setDelay(ev.target.value);
+    }
+}
+
+let envAttackClosure = function (opIndex) {
+    return function (ev) {
+        fmVoice.operatorsEnv[opIndex].setAttack(ev.target.value);
+    }
+}
+
+let envDecayClosure = function (opIndex) {
+    return function (ev) {
+        fmVoice.operatorsEnv[opIndex].setDecay(ev.target.value);
+    }
+}
+
+let envSustainClosure = function (opIndex) {
+    return function (ev) {
+        fmVoice.operatorsEnv[opIndex].setSustain(ev.target.value);
+    }
+}
+
+let envReleaseClosure = function (opIndex) {
+    return function (ev) {
+        fmVoice.operatorsEnv[opIndex].setRelease(ev.target.value);
     }
 }
 
