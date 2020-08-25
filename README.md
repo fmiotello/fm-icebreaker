@@ -28,7 +28,7 @@ The synth has four default operators A, B, C & D (da mettere come img), and two 
 The way the operators are arranged is called the _algorithm_ and it defines, together with the parameters' values, the type of sound generated.
 There are eight algorithms available for this synth:
 
-Da mettere immagine algoritmi
+![Algorithms_new](https://user-images.githubusercontent.com/57997005/91165597-36ca4380-e6d1-11ea-8e99-bf1ce79b3cd6.jpeg)
 
 #### Demo
 Video demo
