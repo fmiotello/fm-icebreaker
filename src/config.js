@@ -12,6 +12,12 @@ export function frequencyFromMidi(midiNote) {
 export const algorithms = [
     {output:[[0], [], [1], []], modulations:[[], [0, 1], [0], [2]]},
     {output:[[0], [], [1], []], modulations:[[], [0], [], [2, 3]]},
+    {output:[[0], [], [0], [1]], modulations:[[], [0, 1, 2, 3], [], []]},
+    {output:[[0], [1], [], []], modulations:[[], [0], [1], [2, 3]]},
+    {output:[[0], [1], [], []], modulations:[[], [0], [1, 2], [1, 2]]},
+    {output:[[0], [], [1], []], modulations:[[], [0, 1, 2], [], [0, 2]]},
+    {output:[[0], [0], [1], [1]], modulations:[[], [0, 1], [], [2]]},
+    {output:[[0], [], [1], [0]], modulations:[[], [0], [2], []]},
 ];
 
 
