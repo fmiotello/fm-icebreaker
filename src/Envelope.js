@@ -10,6 +10,8 @@ class Envelope {
         this.isLinear = true;
         this.time = [0, 0.05, 0.3, 1]; // delay - attack - decay - release
         this.sustain = 0.8;
+        this.timeoutFunction = undefined;
+        this.isRunning = false;
     }
 
     setParameter(parameter) {
@@ -17,27 +19,27 @@ class Envelope {
     }
 
     setDelay(t) {
-        if (t < 0) return;
+        if (t < 0) throw 'delay time not valid';
         this.time[0] = t;
     }
 
     setAttack(t) {
-        if (t < PARAM_CHANGE_TIME) return;
+        if (t < PARAM_CHANGE_TIME) throw 'delay time not valid';
         this.time[1] = t;
     }
 
     setDecay(t) {
-        if (t < PARAM_CHANGE_TIME) return;
+        if (t < PARAM_CHANGE_TIME) throw 'decay time not valid';
         this.time[2] = t;
     }
 
     setRelease(t) {
-        if (t < PARAM_CHANGE_TIME) return;
+        if (t < PARAM_CHANGE_TIME) throw 'release time not valid';
         this.time[3] = t;
     }
 
     setSustain(value) {
-        if (value < 0 || value > 1) return;
+        if (value < 0 || value > 1) throw 'sustain value not valid';
         this.sustain = value;
     }
 
@@ -47,9 +49,13 @@ class Envelope {
         let now = this.audioContext.currentTime;
         let amplitude = maxGain * velocity / 127;
 
+        // set the envelope state to on
+        this.isRunning = true;
+        if (this.timeoutFunction) clearTimeout(this.timeoutFunction);
+
         p.cancelScheduledValues(now); // resets the envelope
-        p.setValueAtTime(0, now + PARAM_CHANGE_TIME);
-        p.setValueAtTime(0, now + delay);
+        p.linearRampToValueAtTime(0, now + PARAM_CHANGE_TIME);
+        p.linearRampToValueAtTime(0, now + PARAM_CHANGE_TIME + delay);
 
         if (this.isLinear) {
             p.linearRampToValueAtTime(amplitude, now + delay + attack);
@@ -63,8 +69,14 @@ class Envelope {
 
     noteOff() {
         let release = this.time[3];
+        let releaseMs = release*1000;
         let p = this.parameter;
         let now = this.audioContext.currentTime;
+
+        // timeout function needed to know when the envelope is over
+        this.timeoutFunction = setTimeout(()=>{
+            this.isRunning = false;
+        }, releaseMs);
 
         p.cancelScheduledValues(now); // resets the envelope
         if (this.isLinear) {

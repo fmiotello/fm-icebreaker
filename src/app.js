@@ -1,40 +1,51 @@
+import {PARAM_CHANGE_TIME} from "./config.js";
 import FmVoice from "./FmVoice.js";
 
+// Core Components
 const audioContext = new AudioContext();
 let fmVoice = undefined;
 let isNoteOn = false;
 
-// Env B
+// Operator A
+let ratioASlider = document.getElementById('ratioA');
+
+
+// Operator B
 let envAmtBSlider = document.getElementById('envAmtB');
 let envDelayBSlider = document.getElementById('envDelayB');
 let envAttackBSlider = document.getElementById('envAttackB');
 let envDecayBSlider = document.getElementById('envDecayB');
 let envSustainBSlider = document.getElementById('envSustainB');
 let envReleaseBSlider = document.getElementById('envReleaseB');
+let ratioBSlider = document.getElementById('ratioB');
 
-// Env C
+// Operator C
 let envAmtCSlider = document.getElementById('envAmtC');
 let envDelayCSlider = document.getElementById('envDelayC');
 let envAttackCSlider = document.getElementById('envAttackC');
 let envDecayCSlider = document.getElementById('envDecayC');
 let envSustainCSlider = document.getElementById('envSustainC');
 let envReleaseCSlider = document.getElementById('envReleaseC');
+let ratioCSlider = document.getElementById('ratioC');
 
-// Env D
+// Operator D
 let envAmtDSlider = document.getElementById('envAmtD');
 let envDelayDSlider = document.getElementById('envDelayD');
 let envAttackDSlider = document.getElementById('envAttackD');
 let envDecayDSlider = document.getElementById('envDecayD');
 let envSustainDSlider = document.getElementById('envSustainD');
 let envReleaseDSlider = document.getElementById('envReleaseD');
+let ratioDSlider = document.getElementById('ratioD');
 
 // Env Out
-let envAmtOutSlider = document.getElementById('envAmtOut');
-let envDelayOutSlider = document.getElementById('envDelayOut');
+let outGainSlider = document.getElementById('outGain');
 let envAttackOutSlider = document.getElementById('envAttackOut');
 let envDecayOutSlider = document.getElementById('envDecayOut');
 let envSustainOutSlider = document.getElementById('envSustainOut');
 let envReleaseOutSlider = document.getElementById('envReleaseOut');
+
+// Utilities
+let componentList = [];
 
 
 let key2notes = [
@@ -52,13 +63,19 @@ document.onclick = async function () {
     await audioContext.resume();
     await audioContext.audioWorklet.addModule('src/FmProcessor.js');
     fmVoice = new FmVoice(audioContext);
+    fmVoice.connect(audioContext.destination);
+    await fmVoice.start();
+    fillComponentList();
     bindEventsToGui();
+    initParametersFromGui();
     document.onclick = undefined;
 }
 
 let bindEventsToGui = function () {
-    document.onkeydown = noteOn; // TODO: implement a boolean flag
+    document.onkeydown = noteOn;
     document.onkeyup = noteOff;
+
+    ratioASlider.onchange = ratioClosure(0);
 
     envAmtBSlider.onchange = envAmtClosure(1);
     envDelayBSlider.onchange = envDelayClosure(1);
@@ -66,6 +83,7 @@ let bindEventsToGui = function () {
     envDecayBSlider.onchange = envDecayClosure(1);
     envSustainBSlider.onchange = envSustainClosure(1);
     envReleaseBSlider.onchange = envReleaseClosure(1);
+    ratioBSlider.onchange = ratioClosure(1);
 
     envAmtCSlider.onchange = envAmtClosure(2);
     envDelayCSlider.onchange = envDelayClosure(2);
@@ -73,6 +91,7 @@ let bindEventsToGui = function () {
     envDecayCSlider.onchange = envDecayClosure(2);
     envSustainCSlider.onchange = envSustainClosure(2);
     envReleaseCSlider.onchange = envReleaseClosure(2);
+    ratioCSlider.onchange = ratioClosure(2);
 
     envAmtDSlider.onchange = envAmtClosure(3);
     envDelayDSlider.onchange = envDelayClosure(3);
@@ -80,6 +99,57 @@ let bindEventsToGui = function () {
     envDecayDSlider.onchange = envDecayClosure(3);
     envSustainDSlider.onchange = envSustainClosure(3);
     envReleaseDSlider.onchange = envReleaseClosure(3);
+    ratioDSlider.onchange = ratioClosure(3);
+
+
+    outGainSlider.onchange = outGainOnChange;
+    envAttackOutSlider.onchange = envAttackClosure(4);
+    envDecayOutSlider.onchange = envDecayClosure(4);
+    envSustainOutSlider.onchange = envSustainClosure(4);
+    envReleaseOutSlider.onchange = envReleaseClosure(4);
+}
+
+let fillComponentList = function () {
+    componentList.push(
+        ratioASlider,
+
+        envAmtBSlider,
+        envDelayBSlider,
+        envAttackBSlider,
+        envDecayBSlider,
+        envSustainBSlider,
+        envReleaseBSlider,
+        ratioBSlider,
+
+        envAmtCSlider,
+        envDelayCSlider,
+        envAttackCSlider,
+        envDecayCSlider,
+        envSustainCSlider,
+        envReleaseCSlider,
+        ratioCSlider,
+
+        envAmtDSlider,
+        envDelayDSlider,
+        envAttackDSlider,
+        envDecayDSlider,
+        envSustainDSlider,
+        envReleaseDSlider,
+        ratioDSlider,
+
+        outGainSlider,
+        envAttackOutSlider,
+        envDecayOutSlider,
+        envSustainOutSlider,
+        envReleaseOutSlider,
+    );
+}
+
+let initParametersFromGui = function () {
+    let changeEvent = new Event('change');
+    componentList.forEach(component => {
+        component.dispatchEvent(changeEvent);
+    });
 }
 
 let noteOn = function (ev) {
@@ -99,40 +169,66 @@ let noteOff = function (ev) {
     fmVoice.noteOff();
 }
 
-let envAmtClosure = function (opIndex) {
+let envAmtClosure = function (envIndex) {
     return function (ev) {
-        fmVoice.setModEnvAmount(opIndex, ev.target.value);
+        let value = parseFloat(ev.target.value);
+        fmVoice.setModEnvAmount(envIndex, value);
     }
 }
 
-let envDelayClosure = function (opIndex) {
+let envDelayClosure = function (envIndex) {
+    // 0 to 3: mod env
+    // 4: out env
+    let envelopes = fmVoice.operatorsEnv.concat(fmVoice.outEnv);
     return function (ev) {
-        fmVoice.operatorsEnv[opIndex].setDelay(ev.target.value);
+        let value = parseFloat(ev.target.value);
+        envelopes[envIndex].setDelay(value);
     }
 }
 
-let envAttackClosure = function (opIndex) {
+let envAttackClosure = function (envIndex) {
+    let envelopes = fmVoice.operatorsEnv.concat(fmVoice.outEnv);
     return function (ev) {
-        fmVoice.operatorsEnv[opIndex].setAttack(ev.target.value);
+        let value = parseFloat(ev.target.value);
+        envelopes[envIndex].setAttack(value);
     }
 }
 
-let envDecayClosure = function (opIndex) {
+let envDecayClosure = function (envIndex) {
+    let envelopes = fmVoice.operatorsEnv.concat(fmVoice.outEnv);
     return function (ev) {
-        fmVoice.operatorsEnv[opIndex].setDecay(ev.target.value);
+        let value = parseFloat(ev.target.value);
+        envelopes[envIndex].setDecay(value);
     }
 }
 
-let envSustainClosure = function (opIndex) {
+let envSustainClosure = function (envIndex) {
+    let envelopes = fmVoice.operatorsEnv.concat(fmVoice.outEnv);
     return function (ev) {
-        fmVoice.operatorsEnv[opIndex].setSustain(ev.target.value);
+        let value = parseFloat(ev.target.value);
+        envelopes[envIndex].setSustain(value);
     }
 }
 
-let envReleaseClosure = function (opIndex) {
+let envReleaseClosure = function (envIndex) {
+    let envelopes = fmVoice.operatorsEnv.concat(fmVoice.outEnv);
     return function (ev) {
-        fmVoice.operatorsEnv[opIndex].setRelease(ev.target.value);
+        let value = parseFloat(ev.target.value);
+        envelopes[envIndex].setRelease(value);
     }
+}
+
+let ratioClosure = function (opIndex) {
+    return function (ev) {
+        let value = parseFloat(ev.target.value);
+        fmVoice.setRatio(opIndex, value);
+    }
+}
+
+let outGainOnChange = function (ev) {
+    let now = audioContext.currentTime;
+    let value = parseFloat(ev.target.value);
+    fmVoice.maxOutputGain = value;
 }
 
 

@@ -14,7 +14,7 @@ class FmVoice {
         this.outEnv = new Envelope(audioContext, this.outputGain.gain);
         this.algorithm = undefined;
         this.lastNote = undefined;
-        this._init();
+        // this.start();
     }
 
     /**
@@ -22,7 +22,7 @@ class FmVoice {
      * @return {Promise<void>}
      * @private
      */
-    async _init() {
+    async start() {
         await this.audioContext.audioWorklet.addModule('src/FmProcessor.js');
 
         // FmProcessor + Gain -- (Operators)
@@ -59,7 +59,6 @@ class FmVoice {
             bus.gain.value = 0.5;
             bus.connect(this.outputGain);
         });
-        this.outputGain.connect(this.audioContext.destination);
 
         this.selectAlgorithm(0);
     }
@@ -83,10 +82,7 @@ class FmVoice {
      * @param index of the algorithm
      */
     selectAlgorithm(index) {
-        if (index > algorithms.length || index < 0) {
-            console.log('Error: undefined algorithm');
-            return;
-        }
+        if (index > algorithms.length || index < 0) throw 'algorithm not valid';
 
         this._initRouting();
         this.algorithm = algorithms[index];
@@ -118,6 +114,7 @@ class FmVoice {
      * @param ratio
      */
     setRatio(opIndex, ratio) {
+        if (ratio < 0.5 || ratio > 12) throw 'ratio value not valid'
         let ratioParm = this.operators[opIndex].source.parameters.get('ratio');
         ratioParm.linearRampToValueAtTime(ratio,
             this.audioContext.currentTime + PARAM_CHANGE_TIME);
@@ -154,6 +151,19 @@ class FmVoice {
         this.operatorsEnv.forEach(env => {
             env.noteOff();
         });
+    }
+
+    connect(node) {
+        this.outputGain.connect(node);
+    }
+
+    disconnect() {
+        this.outputGain.disconnect();
+    }
+
+    isRunning() {
+        // TODO: test it
+        return this.outEnv.isRunning;
     }
 }
 

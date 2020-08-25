@@ -12,7 +12,7 @@
 
     <div class="input-block">
         <div class="input-entry">
-            <input id="envAmtB" type="range" min="0" max="5" value="0" step="0.01">
+            <input id="envAmtB" type="range" min="0" max="5" value="0.4" step="0.01">
             <label for="envAmtB">EnvAmtB</label>
         </div>
         <div class="input-entry">
@@ -24,22 +24,26 @@
             <label for="envAttackB">envAttackB</label>
         </div>
         <div class="input-entry">
-            <input id="envDecayB" type="range" min="0.03" max="6" value="0.6" step="0.01">
+            <input id="envDecayB" type="range" min="0.03" max="6" value="1" step="0.01">
             <label for="envDecayB">envDecayB</label>
         </div>
         <div class="input-entry">
-            <input id="envSustainB" type="range" min="0" max="1" value="0.8" step="0.01">
+            <input id="envSustainB" type="range" min="0" max="1" value="0.2" step="0.01">
             <label for="envSustainB">envSustainB</label>
         </div>
         <div class="input-entry">
-            <input id="envReleaseB" type="range" min="0.03" max="10" value="0.6" step="0.01">
+            <input id="envReleaseB" type="range" min="0.03" max="6" value="0.6" step="0.01">
             <label for="envReleaseB">envReleaseB</label>
+        </div>
+        <div class="input-entry">
+            <input id="ratioB" type="range" min="0.5" max="12" value="1" step="0.5">
+            <label for="ratioB">ratioB</label>
         </div>
     </div>
 
     <div class="input-block">
         <div class="input-entry">
-            <input id="envAmtC" type="range" min="0" max="5" value="0" step="0.01">
+            <input id="envAmtC" type="range" min="0" max="5" value="0.3" step="0.01">
             <label for="envAmtC">EnvAmtC</label>
         </div>
         <div class="input-entry">
@@ -51,22 +55,26 @@
             <label for="envAttackC">envAttackC</label>
         </div>
         <div class="input-entry">
-            <input id="envDecayC" type="range" min="0.03" max="6" value="0.6" step="0.01">
+            <input id="envDecayC" type="range" min="0.03" max="6" value="1" step="0.01">
             <label for="envDecayC">envDecayC</label>
         </div>
         <div class="input-entry">
-            <input id="envSustainC" type="range" min="0" max="1" value="0.8" step="0.01">
+            <input id="envSustainC" type="range" min="0" max="1" value="0.2" step="0.01">
             <label for="envSustainC">envSustainC</label>
         </div>
         <div class="input-entry">
-            <input id="envReleaseC" type="range" min="0.03" max="10" value="0.6" step="0.01">
+            <input id="envReleaseC" type="range" min="0.03" max="6" value="0.6" step="0.01">
             <label for="envReleaseC">envReleaseC</label>
+        </div>
+        <div class="input-entry">
+            <input id="ratioC" type="range" min="0.5" max="12" value="1" step="0.5">
+            <label for="ratioC">ratioC</label>
         </div>
     </div>
 
     <div class="input-block">
         <div class="input-entry">
-            <input id="envAmtD" type="range" min="0" max="5" value="0" step="0.01">
+            <input id="envAmtD" type="range" min="0" max="5" value="0.3" step="0.01">
             <label for="envAmtD">EnvAmtD</label>
         </div>
         <div class="input-entry">
@@ -78,16 +86,20 @@
             <label for="envAttackD">envAttackD</label>
         </div>
         <div class="input-entry">
-            <input id="envDecayD" type="range" min="0.03" max="6" value="0.6" step="0.01">
+            <input id="envDecayD" type="range" min="0.03" max="6" value="1" step="0.01">
             <label for="envDecayD">envDecayD</label>
         </div>
         <div class="input-entry">
-            <input id="envSustainD" type="range" min="0" max="1" value="0.8" step="0.01">
+            <input id="envSustainD" type="range" min="0" max="1" value="0.2" step="0.01">
             <label for="envSustainD">envSustainD</label>
         </div>
         <div class="input-entry">
-            <input id="envReleaseD" type="range" min="0.03" max="10" value="0.6" step="0.01">
+            <input id="envReleaseD" type="range" min="0.03" max="6" value="0.6" step="0.01">
             <label for="envReleaseD">envReleaseD</label>
+            <div class="input-entry">
+                <input id="ratioD" type="range" min="0.5" max="12" value="1" step="0.5">
+                <label for="ratioD">ratioD</label>
+            </div>
         </div>
     </div>
 
@@ -95,12 +107,18 @@
 
     <div class="input-block">
         <div class="input-entry">
-            <input id="envAmtOut" type="range" min="0" max="5" value="0" step="0.01">
-            <label for="envAmtOut">EnvAmtOut</label>
+            <input id="ratioA" type="range" min="0.5" max="12" value="1" step="0.5">
+            <label for="ratioA">ratioA</label>
         </div>
+    </div>
+
+
+    <div class="h-separator"> ------------- </div>
+
+    <div class="input-block">
         <div class="input-entry">
-            <input id="envDelayOut" type="range" min="0" max="2" value="0" step="0.01">
-            <label for="envDelayOut">envDelayOut</label>
+            <input id="outGain" type="range" min="0" max="1" value="0.6" step="0.01">
+            <label for="outGain">outGain</label>
         </div>
         <div class="input-entry">
             <input id="envAttackOut" type="range" min="0.03" max="6" value="0.2" step="0.01">
@@ -115,7 +133,7 @@
             <label for="envSustainOut">envSustainOut</label>
         </div>
         <div class="input-entry">
-            <input id="envReleaseOut" type="range" min="0.03" max="10" value="0.6" step="0.01">
+            <input id="envReleaseOut" type="range" min="0.03" max="6" value="0.6" step="0.01">
             <label for="envReleaseOut">envReleaseOut</label>
         </div>
     </div>
