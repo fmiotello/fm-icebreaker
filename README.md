@@ -22,7 +22,7 @@ The generated sound is affected as well by _the envelope_ of each modulator, whi
 
 ## Usage
 #### Controls
-The synth has four default operators A, B, C & D (da mettere come img), and two output busses X & Y that can be differently mixed to obtain the output. 
+The synth has **four default operators** <img src="https://user-images.githubusercontent.com/57997005/91181243-fd9dcd80-e6e8-11ea-932f-4704ca88cd5d.jpg" alt="operator_A" width="23"/>  <img src="https://user-images.githubusercontent.com/57997005/91182726-d516d300-e6ea-11ea-99cf-3bd222320334.jpg" width="23"/>  <img src="https://user-images.githubusercontent.com/57997005/91182774-e52eb280-e6ea-11ea-8b01-62994754c548.jpg" alt="operator_C" width="23"/>  <img src="https://user-images.githubusercontent.com/57997005/91182760-e069fe80-e6ea-11ea-9cd0-26354f276780.jpg" alt="operator_D" width="23"/> , and **two output busses** _X & Y_ that can be differently mixed to obtain the output. 
 
 #### Algorithm presets
 The way the operators are arranged is called the _algorithm_ and it defines, together with the parameters' values, the type of sound generated.
