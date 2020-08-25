@@ -22,17 +22,17 @@ class Envelope {
     }
 
     setAttack(t) {
-        if (t < 0) return;
+        if (t < PARAM_CHANGE_TIME) return;
         this.time[1] = t;
     }
 
     setDecay(t) {
-        if (t < 0) return;
+        if (t < PARAM_CHANGE_TIME) return;
         this.time[2] = t;
     }
 
     setRelease(t) {
-        if (t < 0) return;
+        if (t < PARAM_CHANGE_TIME) return;
         this.time[3] = t;
     }
 
@@ -42,7 +42,7 @@ class Envelope {
     }
 
     noteOn(maxGain, velocity) {
-        let [delay, attack, decay, release] = this.time;
+        let [delay, attack, decay, _] = this.time;
         let p = this.parameter; // just a shortcut
         let now = this.audioContext.currentTime;
         let amplitude = maxGain * velocity / 127;

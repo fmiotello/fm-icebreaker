@@ -2,9 +2,14 @@
 
 body, html {
     width: 100%;
+    margin: 0;
 }
 
 #container {
-    margin: 100px auto;
-    width: 50%;
+
+}
+
+.input-block {
+    display: inline-block;
+    margin: 20px 30px;
 }
