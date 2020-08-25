@@ -49,12 +49,15 @@ class Envelope {
         let now = this.audioContext.currentTime;
         let amplitude = maxGain * velocity / 127;
 
-        // set the envelope state to on
+        // set the envelope state to running
         this.isRunning = true;
-        if (this.timeoutFunction) clearTimeout(this.timeoutFunction);
+        if (this.timeoutFunction) {
+            clearTimeout(this.timeoutFunction);
+            this.timeoutFunction = undefined;
+        }
 
         p.cancelScheduledValues(now); // resets the envelope
-        p.linearRampToValueAtTime(0, now + PARAM_CHANGE_TIME);
+        p.setTargetAtTime(0, now, PARAM_CHANGE_TIME);
         p.linearRampToValueAtTime(0, now + PARAM_CHANGE_TIME + delay);
 
         if (this.isLinear) {
@@ -68,6 +71,8 @@ class Envelope {
     }
 
     noteOff() {
+        if (!this.isRunning) return;
+
         let release = this.time[3];
         let releaseMs = release*1000;
         let p = this.parameter;

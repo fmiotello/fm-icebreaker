@@ -9,6 +9,7 @@ class FmVoice {
         this.operatorsEnvAmount = [0, 0, 0, 0];
         this.feedbackNodes = []; // DelayNode + Gain
         this.outputBusses = [new GainNode(audioContext), new GainNode(audioContext)]; // two mono busses
+        this.busMix = 1; // 0 -> Bus A | 1 -> Bus B
         this.outputGain = new GainNode(audioContext);
         this.maxOutputGain = 1;
         this.outEnv = new Envelope(audioContext, this.outputGain.gain);
@@ -118,6 +119,14 @@ class FmVoice {
         let ratioParm = this.operators[opIndex].source.parameters.get('ratio');
         ratioParm.linearRampToValueAtTime(ratio,
             this.audioContext.currentTime + PARAM_CHANGE_TIME);
+    }
+
+    setBusMix(value) {
+        if (value < 0 || value > 1) throw 'bus mix value not valid';
+        let now = this.audioContext.currentTime;
+        this.busMix = value;
+        this.outputBusses[0].gain.setTargetAtTime(1-value, now, PARAM_CHANGE_TIME);
+        this.outputBusses[1].gain.setTargetAtTime(value, now, PARAM_CHANGE_TIME);
     }
 
     setModEnvAmount(opIndex, amount) {

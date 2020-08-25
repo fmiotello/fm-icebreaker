@@ -37,12 +37,13 @@ let envSustainDSlider = document.getElementById('envSustainD');
 let envReleaseDSlider = document.getElementById('envReleaseD');
 let ratioDSlider = document.getElementById('ratioD');
 
-// Env Out
+// Out
 let outGainSlider = document.getElementById('outGain');
 let envAttackOutSlider = document.getElementById('envAttackOut');
 let envDecayOutSlider = document.getElementById('envDecayOut');
 let envSustainOutSlider = document.getElementById('envSustainOut');
 let envReleaseOutSlider = document.getElementById('envReleaseOut');
+let busMixSlider = document.getElementById('busMix');
 
 // Utilities
 let componentList = [];
@@ -106,12 +107,12 @@ let bindEventsToGui = function () {
     envReleaseDSlider.onchange = envReleaseClosure(3);
     ratioDSlider.onchange = ratioClosure(3);
 
-
     outGainSlider.onchange = outGainOnChange;
     envAttackOutSlider.onchange = envAttackClosure(4);
     envDecayOutSlider.onchange = envDecayClosure(4);
     envSustainOutSlider.onchange = envSustainClosure(4);
     envReleaseOutSlider.onchange = envReleaseClosure(4);
+    busMixSlider.onchange = busMixSliderOnChange;
 }
 
 let fillComponentList = function () {
@@ -147,6 +148,7 @@ let fillComponentList = function () {
         envDecayOutSlider,
         envSustainOutSlider,
         envReleaseOutSlider,
+        busMixSlider,
     );
 }
 
@@ -170,8 +172,10 @@ let noteOn = function (ev) {
 }
 
 let noteOff = function (ev) {
-    isNoteOn = false;
-    fmVoice.noteOff();
+    if (isNoteOn) {
+        isNoteOn = false;
+        fmVoice.noteOff();
+    }
 }
 
 let envAmtClosure = function (envIndex) {
@@ -234,6 +238,11 @@ let outGainOnChange = function (ev) {
     let now = audioContext.currentTime;
     let value = parseFloat(ev.target.value);
     fmVoice.maxOutputGain = value;
+}
+
+let busMixSliderOnChange = function (ev) {
+    let value = parseFloat(ev.target.value);
+    fmVoice.setBusMix(value);
 }
 
 
