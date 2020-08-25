@@ -49,14 +49,19 @@ let componentList = [];
 
 
 let key2notes = [
-    {key: 65, note: 60},
-    {key: 83, note: 62},
-    {key: 68, note: 64},
-    {key: 70, note: 65},
-    {key: 71, note: 67},
-    {key: 72, note: 69},
-    {key: 74, note: 71},
-    {key: 75, note: 72}
+    {key: 65, note: 60}, // C
+    {key: 87, note: 61}, // C#
+    {key: 83, note: 62}, // D
+    {key: 69, note: 63}, // D#
+    {key: 68, note: 64}, // E
+    {key: 70, note: 65}, // F
+    {key: 84, note: 66}, // F#
+    {key: 71, note: 67}, // G
+    {key: 89, note: 68}, // G#
+    {key: 72, note: 69}, // A
+    {key: 85, note: 70}, // A#
+    {key: 74, note: 71}, // B
+    {key: 75, note: 72}  // C
 ];
 
 document.onclick = async function () {
