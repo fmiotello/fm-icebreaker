@@ -123,6 +123,10 @@ class FmSynth {
         this.voices.forEach(voice => voice.setBusMix(value));
     }
 
+    setGlide(value) {
+        this.voices.forEach(voice => voice.setGlide(value));
+    }
+
 
 }
 

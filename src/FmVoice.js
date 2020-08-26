@@ -14,6 +14,7 @@ class FmVoice {
         this.maxOutputGain = 1;
         this.outEnv = new Envelope(audioContext, this.outputGain.gain);
         this.algorithm = undefined;
+        this.glideTime = 0.2
     }
 
     /**
@@ -135,15 +136,19 @@ class FmVoice {
         this.maxOutputGain = maxGain;
     }
 
+    setGlide(time) {
+        if (time < 0) throw 'glide time value not valid';
+        this.glideTime = time;
+    }
+
     noteOn(note, velocity) {
-        // setting the frequency TODO: implement glide
-        this.lastNote = note;
+        // setting the frequency
 
         let freq = frequencyFromMidi(note);
         this.operators.forEach(op => {
             let f = op.source.parameters.get('frequency');
             f.linearRampToValueAtTime(freq,
-                this.audioContext.currentTime + PARAM_CHANGE_TIME);
+                this.audioContext.currentTime + this.glideTime);
         });
 
         // triggering the envelopes
@@ -169,7 +174,6 @@ class FmVoice {
     }
 
     isRunning() {
-        // TODO: test it
         return this.outEnv.isRunning();
     }
 }

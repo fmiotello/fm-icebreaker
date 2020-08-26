@@ -43,6 +43,7 @@ let envDecayOutSlider = document.getElementById('envDecayOut');
 let envSustainOutSlider = document.getElementById('envSustainOut');
 let envReleaseOutSlider = document.getElementById('envReleaseOut');
 let busMixSlider = document.getElementById('busMix');
+let glideTimeSlider = document.getElementById('glideTime');
 
 // Utilities
 let componentList = [];
@@ -111,7 +112,9 @@ let bindEventsToGui = function () {
     envDecayOutSlider.onchange = envDecayClosure(4);
     envSustainOutSlider.onchange = envSustainClosure(4);
     envReleaseOutSlider.onchange = envReleaseClosure(4);
+
     busMixSlider.onchange = busMixSliderOnChange;
+    glideTimeSlider.onchange = glideTimeSliderOnChange;
 }
 
 let fillComponentList = function () {
@@ -147,7 +150,9 @@ let fillComponentList = function () {
         envDecayOutSlider,
         envSustainOutSlider,
         envReleaseOutSlider,
+
         busMixSlider,
+        glideTimeSlider,
     );
 }
 
@@ -250,4 +255,9 @@ let outGainOnChange = function (ev) {
 let busMixSliderOnChange = function (ev) {
     let value = parseFloat(ev.target.value);
     fmSynth.setBusMix(value);
+}
+
+let glideTimeSliderOnChange = function (ev) {
+    let value = parseFloat(ev.target.value);
+    fmSynth.setGlide(value);
 }
