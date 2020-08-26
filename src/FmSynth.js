@@ -50,6 +50,7 @@ class FmSynth {
             currentVoice = freeVoices[0];
         } else {
             // TODO: voice steeling
+            currentVoice = this.voices[0];
         }
 
         currentVoice.noteOn(note, velocity);

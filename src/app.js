@@ -5,7 +5,6 @@ import FmVoice from "./FmVoice.js";
 // Core Components
 const audioContext = new AudioContext();
 let fmSynth = undefined;
-let testFmVoice = undefined;
 
 // Operator A
 let ratioASlider = document.getElementById('ratioA');
@@ -68,21 +67,13 @@ let key2notes = [
 document.onclick = async function () {
     await audioContext.resume();
     await audioContext.audioWorklet.addModule('src/FmProcessor.js');
-    fmSynth = new FmSynth(audioContext, FmVoice);
+    fmSynth = new FmSynth(audioContext, FmVoice, 2);
     fmSynth.connect(audioContext.destination);
     await fmSynth.start();
     fillComponentList();
     bindEventsToGui();
     initParametersFromGui();
     document.onclick = undefined;
-
-    // TODO: test
-    testFmVoice = new FmVoice(audioContext);
-    await testFmVoice.start();
-    testFmVoice.connect(audioContext.destination);
-    setTimeout(() => testFmVoice.noteOn(74, 100), 3000);
-    setTimeout(() => testFmVoice.noteOff(), 4000);
-
 }
 
 let bindEventsToGui = function () {
@@ -181,7 +172,7 @@ let noteOff = function (ev) {
     let notes = key2notes.map(obj => obj.note);
     if (allowedKeys.includes(ev.keyCode)) { // A-K
         let noteIndex = allowedKeys.indexOf(ev.keyCode);
-        fmSynth.noteOn(notes[noteIndex], 100);
+        fmSynth.noteOff(notes[noteIndex]);
     }
 }
 
@@ -260,13 +251,3 @@ let busMixSliderOnChange = function (ev) {
     let value = parseFloat(ev.target.value);
     fmSynth.setBusMix(value);
 }
-
-
-// setInterval(() => {
-//     let ratios = [0.5, 1, 1.2, 1.5, 2, 3, 4, 7];
-//     let randRatio = () => ratios[Math.floor(ratios.length * Math.random())];
-//     fmVoice.setRatio(0, randRatio());
-//     fmVoice.setRatio(1, randRatio());
-//     fmVoice.setRatio(2, randRatio());
-//     fmVoice.setRatio(3, randRatio());
-// }, 80);
