@@ -1,14 +1,13 @@
 import {PARAM_CHANGE_TIME} from "./config.js";
+import FmSynth from "./FmSynth.js";
 import FmVoice from "./FmVoice.js";
 
 // Core Components
 const audioContext = new AudioContext();
-let fmVoice = undefined;
-let isNoteOn = false;
+let fmSynth = undefined;
 
 // Operator A
 let ratioASlider = document.getElementById('ratioA');
-
 
 // Operator B
 let envAmtBSlider = document.getElementById('envAmtB');
@@ -47,6 +46,7 @@ let busMixSlider = document.getElementById('busMix');
 
 // Utilities
 let componentList = [];
+const OUT_INDEX = 4;
 
 
 let key2notes = [
@@ -68,9 +68,9 @@ let key2notes = [
 document.onclick = async function () {
     await audioContext.resume();
     await audioContext.audioWorklet.addModule('src/FmProcessor.js');
-    fmVoice = new FmVoice(audioContext);
-    fmVoice.connect(audioContext.destination);
-    await fmVoice.start();
+    fmSynth = new FmSynth(audioContext, FmVoice, 6);
+    fmSynth.connect(audioContext.destination);
+    await fmSynth.start();
     fillComponentList();
     bindEventsToGui();
     initParametersFromGui();
@@ -160,89 +160,97 @@ let initParametersFromGui = function () {
 }
 
 let noteOn = function (ev) {
-    if (!isNoteOn) {
-        isNoteOn = true;
-        let allowedKeys = key2notes.map(obj => obj.key);
-        let notes = key2notes.map(obj => obj.note);
-        if (allowedKeys.includes(ev.keyCode)) { // asdfghjk
-            let noteIndex = allowedKeys.indexOf(ev.keyCode);
-            fmVoice.noteOn(notes[noteIndex], 100);
-        }
+    let allowedKeys = key2notes.map(obj => obj.key);
+    let notes = key2notes.map(obj => obj.note);
+    if (allowedKeys.includes(ev.keyCode)) { // A-K
+        let noteIndex = allowedKeys.indexOf(ev.keyCode);
+        fmSynth.noteOn(notes[noteIndex], 100);
     }
 }
 
 let noteOff = function (ev) {
-    if (isNoteOn) {
-        isNoteOn = false;
-        fmVoice.noteOff();
+    let allowedKeys = key2notes.map(obj => obj.key);
+    let notes = key2notes.map(obj => obj.note);
+    if (allowedKeys.includes(ev.keyCode)) { // A-K
+        let noteIndex = allowedKeys.indexOf(ev.keyCode);
+        fmSynth.noteOn(notes[noteIndex], 100);
     }
 }
+
 
 let envAmtClosure = function (envIndex) {
     return function (ev) {
         let value = parseFloat(ev.target.value);
-        fmVoice.setModEnvAmount(envIndex, value);
+        fmSynth.setModEnvAmount(envIndex, value);
     }
 }
 
-let envDelayClosure = function (envIndex) {
-    // 0 to 3: mod env
-    // 4: out env
-    let envelopes = fmVoice.operatorsEnv.concat(fmVoice.outEnv);
+let envDelayClosure = function (opIndex) {
     return function (ev) {
         let value = parseFloat(ev.target.value);
-        envelopes[envIndex].setDelay(value);
+        fmSynth.setModDelay(opIndex, value);
     }
 }
 
 let envAttackClosure = function (envIndex) {
-    let envelopes = fmVoice.operatorsEnv.concat(fmVoice.outEnv);
     return function (ev) {
         let value = parseFloat(ev.target.value);
-        envelopes[envIndex].setAttack(value);
+        if (envIndex === OUT_INDEX) {
+            fmSynth.setAmpAttack(value);
+        } else {
+            fmSynth.setModAttack(envIndex, value);
+        }
     }
 }
 
 let envDecayClosure = function (envIndex) {
-    let envelopes = fmVoice.operatorsEnv.concat(fmVoice.outEnv);
     return function (ev) {
         let value = parseFloat(ev.target.value);
-        envelopes[envIndex].setDecay(value);
+        if (envIndex === OUT_INDEX) {
+            fmSynth.setAmpDecay(value);
+        } else {
+            fmSynth.setModDecay(envIndex, value);
+        }
     }
 }
 
 let envSustainClosure = function (envIndex) {
-    let envelopes = fmVoice.operatorsEnv.concat(fmVoice.outEnv);
     return function (ev) {
         let value = parseFloat(ev.target.value);
-        envelopes[envIndex].setSustain(value);
+        if (envIndex === OUT_INDEX) {
+            fmSynth.setAmpSustain(value);
+        } else {
+            fmSynth.setModSustain(envIndex, value);
+        }
     }
 }
 
 let envReleaseClosure = function (envIndex) {
-    let envelopes = fmVoice.operatorsEnv.concat(fmVoice.outEnv);
     return function (ev) {
         let value = parseFloat(ev.target.value);
-        envelopes[envIndex].setRelease(value);
+        if (envIndex === OUT_INDEX) {
+            fmSynth.setAmpRelease(value);
+        } else {
+            fmSynth.setModRelease(envIndex, value);
+        }
     }
 }
 
 let ratioClosure = function (opIndex) {
     return function (ev) {
         let value = parseFloat(ev.target.value);
-        fmVoice.setRatio(opIndex, value);
+        fmSynth.setRatio(opIndex, value);
     }
 }
 
 let outGainOnChange = function (ev) {
-    let now = audioContext.currentTime;
     let value = parseFloat(ev.target.value);
-    fmVoice.maxOutputGain = value;
+    fmSynth.setOutGain(value);
 }
 
 let busMixSliderOnChange = function (ev) {
     let value = parseFloat(ev.target.value);
-    fmVoice.setBusMix(value);
+    fmSynth.setBusMix(value);
 }
 
 
