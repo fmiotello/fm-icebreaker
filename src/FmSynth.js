@@ -2,7 +2,7 @@ import FmVoice from "./FmVoice.js";
 import {PARAM_CHANGE_TIME} from "./config.js";
 
 class FmSynth {
-    constructor(audioContext, VoiceClass, polyphony) {
+    constructor(audioContext, polyphony) {
         this.audioContext = audioContext;
         this.voices = [];
         this.polyphony = polyphony || 16;
@@ -11,7 +11,7 @@ class FmSynth {
         this.outGain = new GainNode(audioContext);
 
         for (let i = 0; i < this.polyphony; i++) {
-            this.voices.push(new VoiceClass(audioContext));
+            this.voices.push(new FmVoice(audioContext));
         }
     }
 

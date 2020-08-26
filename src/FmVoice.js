@@ -171,7 +171,7 @@ class FmVoice {
 
     isRunning() {
         // TODO: test it
-        return this.outEnv.isRunning;
+        return this.outEnv.isRunning();
     }
 }
 

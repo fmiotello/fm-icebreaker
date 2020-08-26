@@ -1,7 +1,6 @@
 import {PARAM_CHANGE_TIME} from "./config.js";
 import FmSynth from "./FmSynth.js";
 import FmVoice from "./FmVoice.js";
-import LookupTable from "./LookupTable.js";
 
 // Core Components
 const audioContext = new AudioContext();
@@ -68,7 +67,7 @@ let key2notes = [
 document.onclick = async function () {
     await audioContext.resume();
     await audioContext.audioWorklet.addModule('src/FmProcessor.js');
-    fmSynth = new FmSynth(audioContext, FmVoice, 3);
+    fmSynth = new FmSynth(audioContext, 3);
     fmSynth.connect(audioContext.destination);
     await fmSynth.start();
     fillComponentList();
