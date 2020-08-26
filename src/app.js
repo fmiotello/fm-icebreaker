@@ -5,6 +5,7 @@ import FmVoice from "./FmVoice.js";
 // Core Components
 const audioContext = new AudioContext();
 let fmSynth = undefined;
+let testFmVoice = undefined;
 
 // Operator A
 let ratioASlider = document.getElementById('ratioA');
@@ -48,7 +49,6 @@ let busMixSlider = document.getElementById('busMix');
 let componentList = [];
 const OUT_INDEX = 4;
 
-
 let key2notes = [
     {key: 65, note: 60}, // C
     {key: 87, note: 61}, // C#
@@ -68,13 +68,21 @@ let key2notes = [
 document.onclick = async function () {
     await audioContext.resume();
     await audioContext.audioWorklet.addModule('src/FmProcessor.js');
-    fmSynth = new FmSynth(audioContext, FmVoice, 6);
+    fmSynth = new FmSynth(audioContext, FmVoice);
     fmSynth.connect(audioContext.destination);
     await fmSynth.start();
     fillComponentList();
     bindEventsToGui();
     initParametersFromGui();
     document.onclick = undefined;
+
+    // TODO: test
+    testFmVoice = new FmVoice(audioContext);
+    await testFmVoice.start();
+    testFmVoice.connect(audioContext.destination);
+    setTimeout(() => testFmVoice.noteOn(74, 100), 3000);
+    setTimeout(() => testFmVoice.noteOff(), 4000);
+
 }
 
 let bindEventsToGui = function () {

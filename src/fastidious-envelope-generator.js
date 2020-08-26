@@ -6,7 +6,7 @@ function assert(v) {
 
 // It doesn't seem useful for these to be a settings
 var INITIAL_LEVEL = 0;
-var ATTACK_LEVEL = 1;
+var ATTACK_LEVEL = 1; // TODO: move as parameter
 
 function Adsr(audioContext, targetParam) {
     // Support instantiating w/o new

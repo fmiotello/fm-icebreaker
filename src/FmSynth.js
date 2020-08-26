@@ -6,7 +6,7 @@ class FmSynth {
         this.audioContext = audioContext;
         this.voices = [];
         this.polyphony = polyphony || 16;
-        this.eventQueue = [];
+        this.midiEventQueue = [];
         this.noteOnStack = [];
         this.outGain = new GainNode(audioContext);
 
@@ -16,7 +16,7 @@ class FmSynth {
     }
 
     queueMidiEvent(midiEvent) {
-        this.eventQueue.push(midiEvent);
+        this.midiEventQueue.push(midiEvent);
     }
 
     processMidiEvent(midiEvent) {
@@ -29,7 +29,7 @@ class FmSynth {
         this.voices.forEach(voice => promises.push(voice.start()));
         await Promise.all(promises);
         this.voices.forEach(voice => voice.connect(this.outGain));
-        this.outGain.gain.setTargetAtTime(1/this.polyphony, now, PARAM_CHANGE_TIME);
+        // this.outGain.gain.setTargetAtTime(1/this.polyphony, now, PARAM_CHANGE_TIME);
     }
 
     setOutGain(value) {
@@ -41,7 +41,7 @@ class FmSynth {
     noteOn(note, velocity) {
         // if the note is already in the stack, do nothing
         let noteStack = this.noteOnStack.map(x => x.note);
-        if (noteStack.includes(note)) return;
+        if (noteStack.includes(note)) return; // TODO: trigger a note off, it's better
 
         // finds the first free voice, if there's any
         let freeVoices = this.voices.filter(v => !v.isRunning());
@@ -63,8 +63,8 @@ class FmSynth {
         let noteStack = this.noteOnStack.map(x => x.note);
         if (!noteStack.includes(note)) return; // no note matching in the stack
 
-        let targetIndex = noteStack.indexOf(note)
-        let targetVoice = noteStack[targetIndex];
+        let targetIndex = noteStack.indexOf(note);
+        let targetVoice = this.noteOnStack[targetIndex].voice;
         targetVoice.noteOff();
         this.noteOnStack.splice(targetIndex, 1); // removing the note from the stack
     }

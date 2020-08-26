@@ -15,7 +15,6 @@ class FmVoice {
         this.outEnv = new Envelope(audioContext, this.outputGain.gain);
         this.algorithm = undefined;
         this.lastNote = undefined;
-        // this.start();
     }
 
     /**
