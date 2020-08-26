@@ -66,6 +66,7 @@ class Envelope {
     }
 
     noteOff() {
+        if (this.timeoutFunction) clearTimeout(this.timeoutFunction);
         this.adsr.gate(false);
     }
 }

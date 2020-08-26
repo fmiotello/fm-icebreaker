@@ -1,4 +1,5 @@
 import {PI2} from "./config.js";
+import LookupTable from "./LookupTable.js";
 
 /***
  * A Worklet that implements an fm operator.
@@ -7,6 +8,7 @@ class FmProcessor extends AudioWorkletProcessor {
     constructor() {
         super();
         this.phase = 0; // incremental phase
+        this.lookupTable = new LookupTable();
     }
 
     static get parameterDescriptors() {
@@ -46,7 +48,8 @@ class FmProcessor extends AudioWorkletProcessor {
 
         if (nChannels > 0) {
             for (let i = 0; i < output.length; i++) {
-                output[i] = Math.sin(this.phase + modulator[i % modulator.length]);
+                // output[i] = Math.sin(this.phase + modulator[i % modulator.length]);
+                output[i] = this.lookupTable.getValue(this.phase + modulator[i % modulator.length]);
 
                 // phase accumulation
                 this.phase += freq[i % freq.length] * ratio[i % ratio.length] * PI2 / sampleRate;

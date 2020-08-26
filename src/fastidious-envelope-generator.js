@@ -6,7 +6,6 @@ function assert(v) {
 
 // It doesn't seem useful for these to be a settings
 var INITIAL_LEVEL = 0;
-var ATTACK_LEVEL = 1; // TODO: move as parameter
 
 function Adsr(audioContext, targetParam) {
     // Support instantiating w/o new
@@ -16,6 +15,7 @@ function Adsr(audioContext, targetParam) {
 
     this._audioContext = audioContext;
     this._targetParam = targetParam;
+    this.attackLevel = 1;
 
     var _this = this;
 
@@ -215,10 +215,10 @@ Adsr.prototype.gate = function(on, time) {
             }
 
             // Schedule decay
-            this._scheduleSegmentFromValueThreshold(ATTACK_LEVEL, decayTargetLevel, this._decayTime);
+            this._scheduleSegmentFromValueThreshold(this.attackLevel, decayTargetLevel, this._decayTime);
         } else if (this._mode === 'ASR') {
             // Schedule sustain
-            this._scheduleSegmentFromValueThreshold(ATTACK_LEVEL, ATTACK_LEVEL, 1); // timeConst here doesn't really matter
+            this._scheduleSegmentFromValueThreshold(this.attackLevel, this.attackLevel, 1); // timeConst here doesn't really matter
         } else {
             assert(false); // invalid mode
         }
