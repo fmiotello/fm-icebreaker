@@ -52,6 +52,9 @@ let midiInputSelect = document.getElementById('midiInput');
 
 // Utilities
 let componentList = [];
+let octaveIndex = 0;
+let maxOctave = 2;
+let minOctave = -2;
 const OUT_INDEX = 4;
 
 let key2notes = [
@@ -67,7 +70,9 @@ let key2notes = [
     {key: 72, note: 69}, // A
     {key: 85, note: 70}, // A#
     {key: 74, note: 71}, // B
-    {key: 75, note: 72}  // C
+    {key: 75, note: 72}, // C
+    {key: 79, note: 73}, // C#
+    {key: 76, note: 74}, // D
 ];
 
 document.onclick = async function () {
@@ -174,9 +179,13 @@ let initParametersFromGui = function () {
 let noteOn = function (ev) {
     let allowedKeys = key2notes.map(obj => obj.key);
     let notes = key2notes.map(obj => obj.note);
-    if (allowedKeys.includes(ev.keyCode)) { // A-K
+    if (allowedKeys.includes(ev.keyCode)) { // A-L
         let noteIndex = allowedKeys.indexOf(ev.keyCode);
-        fmSynth.noteOn(notes[noteIndex], 100);
+        fmSynth.noteOn(notes[noteIndex] + 12*octaveIndex, 100);
+    } else if (ev.keyCode === 88) { // X: octave up
+        octaveIndex < maxOctave ? octaveIndex++ : octaveIndex = maxOctave;
+    } else if (ev.keyCode === 90) { // Z: octave down
+        octaveIndex > minOctave ? octaveIndex-- : octaveIndex = minOctave;
     }
 }
 
@@ -185,7 +194,7 @@ let noteOff = function (ev) {
     let notes = key2notes.map(obj => obj.note);
     if (allowedKeys.includes(ev.keyCode)) { // A-K
         let noteIndex = allowedKeys.indexOf(ev.keyCode);
-        fmSynth.noteOff(notes[noteIndex]);
+        fmSynth.noteOff(notes[noteIndex] + 12*octaveIndex);
     }
 }
 
