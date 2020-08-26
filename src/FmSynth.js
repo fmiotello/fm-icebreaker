@@ -5,6 +5,7 @@ class FmSynth {
     constructor(audioContext, polyphony) {
         this.audioContext = audioContext;
         this.voices = [];
+        this.currentVoiceIndex = 0;
         this.polyphony = polyphony || 16;
         this.midiEventQueue = [];
         this.noteOnStack = [];
@@ -41,17 +42,11 @@ class FmSynth {
     noteOn(note, velocity) {
         // if the note is already in the stack, do nothing
         let noteStack = this.noteOnStack.map(x => x.note);
-        if (noteStack.includes(note)) return; // TODO: trigger a note off, it's better
+        if (noteStack.includes(note)) return;
 
-        // finds the first free voice, if there's any
-        let freeVoices = this.voices.filter(v => !v.isRunning());
-        let currentVoice = undefined;
-        if (freeVoices.length > 0) {
-            currentVoice = freeVoices[0];
-        } else {
-            // TODO: voice steeling
-            currentVoice = this.voices[0];
-        }
+        // round robin policy for voice allocation
+        let currentVoice = this.voices[this.currentVoiceIndex];
+        this.currentVoiceIndex = (this.currentVoiceIndex + 1) % this.polyphony;
 
         currentVoice.noteOn(note, velocity);
         this.noteOnStack.push({
