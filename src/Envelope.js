@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {PARAM_CHANGE_TIME} from "./config.js";
 import Adsr from "./fastidious-envelope-generator.js";
 
@@ -5,68 +6,99 @@ import Adsr from "./fastidious-envelope-generator.js";
  * Custom ADSR envelope implementation with initial delay.
  */
 
+=======
+import {PARAM_CHANGE_TIME, EPSILON} from "./config.js";
+
+/**
+ * ADSR envelope with initial delay.
+ */
+>>>>>>> parent of 2872a22... Envelope Fix
 class Envelope {
     constructor(audioContext, parameter) {
-        this.adsr = new Adsr(audioContext, parameter);
-        this.delay = 0;
+        this.audioContext = audioContext;
+        this.parameter = parameter;
+        this.isLinear = true;
+        this.time = [0, 0.05, 0.3, 1]; // delay - attack - decay - release
+        this.sustain = 0.8;
         this.timeoutFunction = undefined;
-        this.adsr.mode = 'ADSR';
+        this.isRunning = false;
+    }
+
+    setParameter(parameter) {
+        this.parameter = parameter;
     }
 
     setDelay(t) {
         if (t < 0) throw 'delay time not valid';
-        this.delay = t;
+        this.time[0] = t;
     }
 
     setAttack(t) {
         if (t < PARAM_CHANGE_TIME) throw 'delay time not valid';
-        this.adsr.attackTime = t;
+        this.time[1] = t;
     }
 
     setDecay(t) {
         if (t < PARAM_CHANGE_TIME) throw 'decay time not valid';
-        this.adsr.decayTime = t;
+        this.time[2] = t;
     }
 
     setRelease(t) {
         if (t < PARAM_CHANGE_TIME) throw 'release time not valid';
-        this.adsr.releaseTime = t;
+        this.time[3] = t;
     }
 
     setSustain(value) {
         if (value < 0 || value > 1) throw 'sustain value not valid';
-        this.adsr.sustainLevel = value;
-    }
-
-    isRunning() {
-        return this.timeoutFunction !== undefined;
+        this.sustain = value;
     }
 
     noteOn(maxGain, velocity) {
+        let [delay, attack, decay, _] = this.time;
+        let p = this.parameter; // just a shortcut
+        let now = this.audioContext.currentTime;
         let amplitude = maxGain * velocity / 127;
-        let adsr = this.adsr;
-        adsr.attackLevel = amplitude;
 
-
-        // if the envelope was already running, the timeoutFunction
-        // should be stopped
-        if (this.isRunning()) clearTimeout(this.timeoutFunction);
-
-        // starting a new timer for the delay
-        this.timeoutFunction = setTimeout(() => {
-            this.adsr.gate(true);
-        }, this.delay * 1000);
-
-        // timeout at the end of the envelope
-        let totalTime = this.delay + adsr.attackTime + adsr.decayTime + adsr.releaseTime;
-        setTimeout(() => {
+        // set the envelope state to running
+        this.isRunning = true;
+        if (this.timeoutFunction) {
+            clearTimeout(this.timeoutFunction);
             this.timeoutFunction = undefined;
-        }, totalTime * 1000);
+        }
+
+        p.cancelScheduledValues(now); // resets the envelope
+        p.setTargetAtTime(0, now, PARAM_CHANGE_TIME);
+        p.linearRampToValueAtTime(0, now + PARAM_CHANGE_TIME + delay);
+
+        if (this.isLinear) {
+            p.linearRampToValueAtTime(amplitude, now + delay + attack);
+            p.linearRampToValueAtTime(amplitude * this.sustain, now + delay + attack + decay);
+        } else { // exponential envelope
+            p.exponentialRampToValueAtTime(amplitude, now + delay + attack);
+            p.exponentialRampToValueAtTime(amplitude * this.sustain, now + delay + attack + decay);
+        }
 
     }
 
     noteOff() {
-        this.adsr.gate(false);
+        if (!this.isRunning) return;
+
+        let release = this.time[3];
+        let releaseMs = release*1000;
+        let p = this.parameter;
+        let now = this.audioContext.currentTime;
+
+        // timeout function needed to know when the envelope is over
+        this.timeoutFunction = setTimeout(()=>{
+            this.isRunning = false;
+        }, releaseMs);
+
+        p.cancelScheduledValues(now); // resets the envelope
+        if (this.isLinear) {
+            p.linearRampToValueAtTime(0, now + release);
+        } else {
+            p.exponentialRampToValueAtTime(0, now + release);
+        }
     }
 }
 
