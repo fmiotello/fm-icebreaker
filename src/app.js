@@ -1,10 +1,12 @@
 import {PARAM_CHANGE_TIME} from "./config.js";
 import FmSynth from "./FmSynth.js";
 import FmVoice from "./FmVoice.js";
+import Midi from "./Midi.js";
 
 // Core Components
 const audioContext = new AudioContext();
 let fmSynth = undefined;
+let midi = undefined;
 
 // Operator A
 let ratioASlider = document.getElementById('ratioA');
@@ -43,7 +45,10 @@ let envDecayOutSlider = document.getElementById('envDecayOut');
 let envSustainOutSlider = document.getElementById('envSustainOut');
 let envReleaseOutSlider = document.getElementById('envReleaseOut');
 let busMixSlider = document.getElementById('busMix');
+
+// Other Things
 let glideTimeSlider = document.getElementById('glideTime');
+let midiInputSelect = document.getElementById('midiInput');
 
 // Utilities
 let componentList = [];
@@ -71,6 +76,8 @@ document.onclick = async function () {
     fmSynth = new FmSynth(audioContext, 3);
     fmSynth.connect(audioContext.destination);
     await fmSynth.start();
+    midi = new Midi(fmSynth, midiInputSelect);
+    await midi.start();
     fillComponentList();
     bindEventsToGui();
     initParametersFromGui();
@@ -153,6 +160,7 @@ let fillComponentList = function () {
 
         busMixSlider,
         glideTimeSlider,
+        midiInputSelect, // onchange handled inside Midi class
     );
 }
 

@@ -7,8 +7,9 @@ class FmSynth {
         this.voices = [];
         this.currentVoiceIndex = 0;
         this.polyphony = polyphony || 16;
-        this.midiEventQueue = [];
-        this.noteOnStack = [];
+        this._midiEventQueue = [];
+        this._midiUpdateRate = 100; // ms
+        this._noteOnStack = [];
         this.outGain = new GainNode(audioContext);
 
         for (let i = 0; i < this.polyphony; i++) {
@@ -17,11 +18,25 @@ class FmSynth {
     }
 
     queueMidiEvent(midiEvent) {
-        this.midiEventQueue.push(midiEvent);
+        this._midiEventQueue.push(midiEvent);
     }
 
-    processMidiEvent(midiEvent) {
-        // TODO: read midi events
+    processMidiEvent() {
+        if (this._midiEventQueue.length === 0) return;
+
+        let midiEvent = this._midiEventQueue.pop();
+        let command = midiEvent.data[0] >> 4;
+        let note = midiEvent.data[1];
+        let velocity = midiEvent.data[2];
+
+        console.log(note, velocity);
+
+        if (command === 8 || (command === 9 && velocity === 0)) { // note off
+            this.noteOff(note);
+        } else if (command === 9) { // note on
+            this.noteOn(note, velocity);
+        }
+
     }
 
     async start() {
@@ -30,7 +45,9 @@ class FmSynth {
         this.voices.forEach(voice => promises.push(voice.start()));
         await Promise.all(promises);
         this.voices.forEach(voice => voice.connect(this.outGain));
-        // this.outGain.gain.setTargetAtTime(1/this.polyphony, now, PARAM_CHANGE_TIME);
+
+        // handling midi
+        setInterval(this.processMidiEvent.bind(this), this._midiUpdateRate);
     }
 
     setOutGain(value) {
@@ -41,7 +58,7 @@ class FmSynth {
 
     noteOn(note, velocity) {
         // if the note is already in the stack, do nothing
-        let noteStack = this.noteOnStack.map(x => x.note);
+        let noteStack = this._noteOnStack.map(x => x.note);
         if (noteStack.includes(note)) return;
 
         // round robin policy for voice allocation
@@ -49,20 +66,20 @@ class FmSynth {
         this.currentVoiceIndex = (this.currentVoiceIndex + 1) % this.polyphony;
 
         currentVoice.noteOn(note, velocity);
-        this.noteOnStack.push({
+        this._noteOnStack.push({
             note: note,
             voice: currentVoice,
         });
     }
 
     noteOff(note) {
-        let noteStack = this.noteOnStack.map(x => x.note);
+        let noteStack = this._noteOnStack.map(x => x.note);
         if (!noteStack.includes(note)) return; // no note matching in the stack
 
         let targetIndex = noteStack.indexOf(note);
-        let targetVoice = this.noteOnStack[targetIndex].voice;
+        let targetVoice = this._noteOnStack[targetIndex].voice;
         targetVoice.noteOff();
-        this.noteOnStack.splice(targetIndex, 1); // removing the note from the stack
+        this._noteOnStack.splice(targetIndex, 1); // removing the note from the stack
     }
 
     connect(node) {
@@ -73,29 +90,33 @@ class FmSynth {
         this.outGain.disconnect();
     }
 
-    // TODO: check opIndex range
-
     setModEnvAmount(opIndex, amount) {
+        if (opIndex < 0 || opIndex > 3) throw 'opIndex not valid';
         this.voices.forEach(voice => voice.setModEnvAmount(opIndex, amount));
     }
 
     setModDelay(opIndex, time) {
+        if (opIndex < 0 || opIndex > 3) throw 'opIndex not valid';
         this.voices.forEach(voice => voice.operatorsEnv[opIndex].setDelay(time));
     }
 
     setModAttack(opIndex, time) {
+        if (opIndex < 0 || opIndex > 3) throw 'opIndex not valid';
         this.voices.forEach(voice => voice.operatorsEnv[opIndex].setAttack(time));
     }
 
     setModDecay(opIndex, time) {
+        if (opIndex < 0 || opIndex > 3) throw 'opIndex not valid';
         this.voices.forEach(voice => voice.operatorsEnv[opIndex].setDecay(time));
     }
 
     setModSustain(opIndex, value) {
+        if (opIndex < 0 || opIndex > 3) throw 'opIndex not valid';
         this.voices.forEach(voice => voice.operatorsEnv[opIndex].setSustain(value));
     }
 
     setModRelease(opIndex, time) {
+        if (opIndex < 0 || opIndex > 3) throw 'opIndex not valid';
         this.voices.forEach(voice => voice.operatorsEnv[opIndex].setRelease(time));
     }
 
@@ -116,6 +137,7 @@ class FmSynth {
     }
 
     setRatio(opIndex, ratio) {
+        if (opIndex < 0 || opIndex > 3) throw 'opIndex not valid';
         this.voices.forEach(voice => voice.setRatio(opIndex, ratio));
     }
 

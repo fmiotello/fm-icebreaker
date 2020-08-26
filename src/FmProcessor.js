@@ -53,9 +53,7 @@ class FmProcessor extends AudioWorkletProcessor {
 
                 // phase accumulation
                 this.phase += freq[i % freq.length] * ratio[i % ratio.length] * PI2 / sampleRate;
-                if (this.phase > PI2) {
-                    this.phase -= PI2;
-                }
+                while (this.phase > PI2) this.phase -= PI2;
             }
         }
 
