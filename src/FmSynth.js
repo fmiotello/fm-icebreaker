@@ -1,5 +1,6 @@
 import FmVoice from "./FmVoice.js";
 import {PARAM_CHANGE_TIME} from "./config.js";
+import Midi from "./Midi.js";
 
 class FmSynth {
     constructor(audioContext, polyphony) {
@@ -8,7 +9,6 @@ class FmSynth {
         this.currentVoiceIndex = 0;
         this.polyphony = polyphony || 16;
         this._midiEventQueue = [];
-        this._midiUpdateRate = 100; // ms
         this._noteOnStack = [];
         this.outGain = new GainNode(audioContext);
 
@@ -24,17 +24,20 @@ class FmSynth {
     processMidiEvent() {
         if (this._midiEventQueue.length === 0) return;
 
-        let midiEvent = this._midiEventQueue.pop();
+        let midiEvent = this._midiEventQueue.shift();
         let command = midiEvent.data[0] >> 4;
         let note = midiEvent.data[1];
         let velocity = midiEvent.data[2];
 
+        // TODO: just for debug
         console.log(note, velocity);
 
         if (command === 8 || (command === 9 && velocity === 0)) { // note off
             this.noteOff(note);
         } else if (command === 9) { // note on
             this.noteOn(note, velocity);
+        } else {
+            console.log('midi message not supported');
         }
 
     }
@@ -47,7 +50,7 @@ class FmSynth {
         this.voices.forEach(voice => voice.connect(this.outGain));
 
         // handling midi
-        setInterval(this.processMidiEvent.bind(this), this._midiUpdateRate);
+        setInterval(this.processMidiEvent.bind(this), Midi.updateRate);
     }
 
     setOutGain(value) {
@@ -148,8 +151,7 @@ class FmSynth {
     setGlide(value) {
         this.voices.forEach(voice => voice.setGlide(value));
     }
-
-
 }
+
 
 export default FmSynth;

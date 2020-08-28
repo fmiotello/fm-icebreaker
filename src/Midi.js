@@ -40,4 +40,6 @@ class Midi {
     }
 }
 
+Midi.updateRate = 30; // ms TODO: test for the opt value
+
 export default Midi;

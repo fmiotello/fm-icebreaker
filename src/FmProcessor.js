@@ -9,6 +9,7 @@ class FmProcessor extends AudioWorkletProcessor {
         super();
         this.phase = 0; // incremental phase
         this.lookupTable = new LookupTable();
+        this._emptyModulationArray = [0]; // pre-allocated array for empty modulation
     }
 
     static get parameterDescriptors() {
@@ -44,7 +45,7 @@ class FmProcessor extends AudioWorkletProcessor {
         const ratio = parameters.ratio;
         const freq = parameters.frequency;
         const nChannels = output.length;
-        const modulator = input ? input : new Array([0]);
+        const modulator = input ? input : this._emptyModulationArray;
 
         if (nChannels > 0) {
             for (let i = 0; i < output.length; i++) {

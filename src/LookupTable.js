@@ -7,12 +7,17 @@ class LookupTable {
         this.values = new Array(this.resolution);
 
         // filling the LUT
-        let angleDelta = PI2 / (this.resolution - 1);
+        let angleDelta = PI2 / this.resolution;
         for (let i = 0; i < this.resolution; i++) {
             this.values[i] = this.func(i * angleDelta);
         }
     }
 
+    /**
+     *
+     * @param phase
+     * @return {number} the
+     */
     getValue(phase) {
         // phase wrapping
         if (phase < 0) phase += PI2;

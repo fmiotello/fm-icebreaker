@@ -14,7 +14,7 @@ class FmVoice {
         this.maxOutputGain = 1;
         this.outEnv = new Envelope(audioContext, this.outputGain.gain);
         this.algorithm = undefined;
-        this.glideTime = 0.2
+        this.glideTime = 0.2;
     }
 
     /**
@@ -137,7 +137,7 @@ class FmVoice {
     }
 
     setGlide(time) {
-        if (time < 0) throw 'glide time value not valid';
+        if (time < PARAM_CHANGE_TIME) throw 'glide time value not valid';
         this.glideTime = time;
     }
 

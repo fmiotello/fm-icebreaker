@@ -76,9 +76,10 @@ let key2notes = [
 ];
 
 document.onclick = async function () {
+    // TODO: scale gain in respect to the polyphony
     await audioContext.resume();
     await audioContext.audioWorklet.addModule('src/FmProcessor.js');
-    fmSynth = new FmSynth(audioContext, 3);
+    fmSynth = new FmSynth(audioContext, 6);
     fmSynth.connect(audioContext.destination);
     await fmSynth.start();
     midi = new Midi(fmSynth, midiInputSelect);
