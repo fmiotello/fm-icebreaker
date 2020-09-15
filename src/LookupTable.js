@@ -14,9 +14,10 @@ class LookupTable {
     }
 
     /**
+     * Returns the lookup table index, corresponding to a given phase.
      *
      * @param phase
-     * @return {number} the
+     * @return {number}
      */
     getValue(phase) {
         // phase wrapping

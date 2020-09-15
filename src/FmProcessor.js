@@ -12,6 +12,12 @@ class FmProcessor extends AudioWorkletProcessor {
         this._emptyModulationArray = [0]; // pre-allocated array for empty modulation
     }
 
+    /**
+     * Returns the frequency and ratio of an operator.
+     *
+     * @return {Array}
+     *
+     */
     static get parameterDescriptors() {
         return [
             {

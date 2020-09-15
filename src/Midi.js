@@ -8,6 +8,12 @@ class Midi {
         midiSelect.options.length = 0; // resets the select
     }
 
+    /**
+     * Looks for the midi input devices.
+     *
+     * @return {Promise}
+     *
+     */
     async start() {
         try {
             this.midiAccess = await navigator.requestMIDIAccess();
@@ -22,6 +28,12 @@ class Midi {
         }
     }
 
+    /**
+     * Links a new midi input device, if it changes.
+     *
+     * @param ev midi event
+     *
+     */
     midiSelectOnChange(ev) {
         let index = ev.target.selectedIndex;
         let option = this.midiSelect[index];
@@ -35,6 +47,12 @@ class Midi {
         this.midiIn.onmidimessage = this.midiMessageReceived.bind(this);
     }
 
+    /**
+     * Receives the new midi events.
+     *
+     * @param midi
+     *
+     */
     midiMessageReceived(midi) {
         this.synth.queueMidiEvent(midi);
     }

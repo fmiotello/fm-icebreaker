@@ -5,6 +5,14 @@ export const PARAM_CHANGE_TIME = 0.03;
 
 export const EPSILON = 1e-6;
 
+/**
+ * Computes a frequency of a given midi note.
+ *
+ * @param midiNote
+ * @return {number}
+ *
+ */
+
 export function frequencyFromMidi(midiNote) {
     return 440 * Math.pow(2,(midiNote-69)/12);
 }

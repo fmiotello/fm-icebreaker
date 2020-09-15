@@ -55,7 +55,7 @@ class FmSynth {
     /**
      * Starts all the voices and connects them to the output node.
      *
-     * @return {Promise<void>}
+     * @return {Promise}
      *
      */
     async start() {
@@ -81,6 +81,13 @@ class FmSynth {
         this.outGain.gain.setTargetAtTime(value, now, PARAM_CHANGE_TIME)
     }
 
+    /**
+     * Finds a free voice, if there is any, and calls its noteOn function.
+     *
+     * @param note
+     * @param velocity
+     *
+     */
     noteOn(note, velocity) {
         // if the note is already in the stack, do nothing
         let noteStack = this._noteOnStack.map(x => x.note);
@@ -97,6 +104,12 @@ class FmSynth {
         });
     }
 
+    /**
+     * Calls the noteOff function of the voice which is playing a certain note.
+     *
+     * @param note
+     *
+     */
     noteOff(note) {
         let noteStack = this._noteOnStack.map(x => x.note);
         if (!noteStack.includes(note)) return; // no note matching in the stack
@@ -107,10 +120,19 @@ class FmSynth {
         this._noteOnStack.splice(targetIndex, 1); // removing the note from the stack
     }
 
+    /**
+     * Connects two nodes.
+     * @param node
+     *
+     */
     connect(node) {
         this.outGain.connect(node);
     }
 
+    /**
+     * Disconnects two nodes.
+     *
+     */
     disconnect() {
         this.outGain.disconnect();
     }
@@ -134,7 +156,7 @@ class FmSynth {
         if (opIndex < 0 || opIndex > 3) throw 'opIndex not valid';
         this.voices.forEach(voice => voice.operatorsEnv[opIndex].setDecay(time));
     }
-
+    
     setModSustain(opIndex, value) {
         if (opIndex < 0 || opIndex > 3) throw 'opIndex not valid';
         this.voices.forEach(voice => voice.operatorsEnv[opIndex].setSustain(value));
@@ -145,33 +167,76 @@ class FmSynth {
         this.voices.forEach(voice => voice.operatorsEnv[opIndex].setRelease(time));
     }
 
+    /**
+     * Sets the output attack time.
+     *
+     * @parameter time
+     *
+     */
     setAmpAttack(time) {
         this.voices.forEach(voice => voice.outEnv.setAttack(time));
     }
 
+    /**
+     * Sets the output decay time.
+     *
+     * @parameter time
+     *
+     */
     setAmpDecay(time) {
         this.voices.forEach(voice => voice.outEnv.setDecay(time));
     }
 
+    /**
+     * Sets the output sustain level.
+     *
+     * @parameter value
+     *
+     */
     setAmpSustain(value) {
         this.voices.forEach(voice => voice.outEnv.setSustain(value));
     }
 
+    /**
+     * Sets the output release time.
+     *
+     * @parameter time
+     *
+     */
     setAmpRelease(time) {
         this.voices.forEach(voice => voice.outEnv.setRelease(time));
     }
 
+    /**
+     * Sets the ratio of each voice.
+     *
+     * @parameter opIndex
+     * @parameter ratio
+     *
+     */
     setRatio(opIndex, ratio) {
         if (opIndex < 0 || opIndex > 3) throw 'opIndex not valid';
         this.voices.forEach(voice => voice.setRatio(opIndex, ratio));
     }
 
+    /**
+     * Sets the output bus mix of each voice.
+     *
+     * @parameter time
+     *
+     */
     setBusMix(value) {
         this.voices.forEach(voice => voice.setBusMix(value));
     }
 
-    setGlide(value) {
-        this.voices.forEach(voice => voice.setGlide(value));
+    /**
+     * Sets the glide time of each voice.
+     *
+     * @parameter time
+     *
+     */
+    setGlide(time) {
+        this.voices.forEach(voice => voice.setGlide(time));
     }
 }
 
