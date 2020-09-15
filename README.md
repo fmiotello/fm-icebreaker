@@ -24,6 +24,43 @@ The generated sound is affected as well by _the envelope_ of each modulator, whi
 #### Controls
 The synth has _four default operators_ <img src="https://user-images.githubusercontent.com/57997005/91181243-fd9dcd80-e6e8-11ea-932f-4704ca88cd5d.jpg" alt="operator_A" width="23"/>  <img src="https://user-images.githubusercontent.com/57997005/91182726-d516d300-e6ea-11ea-99cf-3bd222320334.jpg" width="23"/>  <img src="https://user-images.githubusercontent.com/57997005/91182774-e52eb280-e6ea-11ea-8b01-62994754c548.jpg" alt="operator_C" width="23"/>  <img src="https://user-images.githubusercontent.com/57997005/91182760-e069fe80-e6ea-11ea-9cd0-26354f276780.jpg" alt="operator_D" width="23"/> , and _two output busses_  <img src="https://user-images.githubusercontent.com/57997005/91295067-c7b92180-e79a-11ea-8701-080a95665bf9.jpg" alt="output_x" width="18"/> &  <img src="https://user-images.githubusercontent.com/57997005/91295070-c8ea4e80-e79a-11ea-83d8-39013da6c53c.jpg" alt="output_y" width="18"/> that can be differently mixed to obtain the output. 
 
+| ID | Val Min  | Val Max | Default | Function | MIDI |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **envAmtA**   | 0 | 5 | 0.4 | Change the amouny of operator A |  |
+| **envDelayA**   | 0 | 2 | 0 | Change the delay of operator A |  |
+| **envAttackA**    | 0.03 | 6 | 1 | Change the attack of operator A |  |
+| **envDecayA**    | 0.03 | 6 | 1 | Change the decay of operator A |  |
+| **envSustainA**    | 0 | 1 | 0.2 | Change the sustain of operator A |  |
+| **envReleaseA**    | 0.03 | 6 | 0.6 | Change the release of operator A |  |
+| **ratioA**    | 0.5 | 12 | 1 | Change the ratio of operator A |  |
+| **envAmtB**   | 0 | 5 | 0.4 | Change the amount of operator B |  |
+| **envDelayB**   | 0 | 2 | 0 | Change the delay of operator B  |  |
+| **envAttackB**    | 0.03 | 6 | 1 | Change the attack of operator B |  |
+| **envDecayB**    | 0.03 | 6 | 1 | Change the decay of operator B |  |
+| **envSustainB**    | 0 | 1 | 0.2 | Change the sustain of operator B |  |
+| **envReleaseB**    | 0.03 | 6 | 0.6 | Change the release of operator B |  |
+| **ratioB**    | 0.5 | 12 | 1 | Change the ratio of operator B |  |
+| **envAmtC**   | 0 | 5 | 0.4 | Change the amount of operator C |  |
+| **envDelayC**   | 0 | 2 | 0 | Change the delay of operator C |  |
+| **envAttackC**    | 0.03 | 6 | 1 | Change the attack of operator C |  |
+| **envDecayC**    | 0.03 | 6 | 1 | Change the decay of operator C |  |
+| **envSustainC**    | 0 | 1 | 0.2 | Change the sustain of operator C |  |
+| **envReleaseC**    | 0.03 | 6 | 0.6 | Change the release of operator C |  |
+| **ratioC**    | 0.5 | 12 | 1 | Change the ratio of operator C |  |
+| **envAmtD**   | 0 | 5 | 0.4 | Change the amount of operator D |  |
+| **envDelayD**   | 0 | 2 | 0 | Change the delay of operator D |  |
+| **envAttackD**    | 0.03 | 6 | 1 | Change the attack of operator D |  |
+| **envDecayD**    | 0.03 | 6 | 1 | Change the decay of operator D |  |
+| **envSustainD**    | 0 | 1 | 0.2 | Change the sustain of operator D |  |
+| **envReleaseD**    | 0.03 | 6 | 0.6 | Change the release of operator D |  |
+| **ratioD**    | 0.5 | 12 | 1 | Change the ratio of operator D |  |
+| **outGain**   | 0 | 0.16 | 0.16 | Change the gain of the output |  |
+| **envAttackOut**   | 0.03 | 6 | 0.2 | Change the attack of the output  |  |
+| **envDecayOut**    | 0.03 | 6 | 0.6 | Change the decay of the output |  |
+| **envSustainOut**    | 0 | 1 | 0.8 | Change the sustain of the output |  |
+| **envReleaseOut**    | 0.03 | 6 | 0.6 | Change the release of the output |  |
+
+
 #### Algorithm presets
 The way the operators are arranged is called the **algorithm** and it defines, together with the parameters' values, the type of sound generated.
 There are eight algorithms available for this synth:
