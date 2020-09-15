@@ -120,6 +120,11 @@ class FmVoice {
             this.audioContext.currentTime + PARAM_CHANGE_TIME);
     }
 
+    /**
+     * Sets the output bus mix.
+     * @param value
+     *
+     */
     setBusMix(value) {
         if (value < 0 || value > 1) throw 'bus mix value not valid';
         let now = this.audioContext.currentTime;
@@ -128,19 +133,40 @@ class FmVoice {
         this.outputBusses[1].gain.setTargetAtTime(value, now, PARAM_CHANGE_TIME);
     }
 
+
+    /**
+     * Sets the envelope amount of a given operator.
+     * @param opIndex
+     * @param amount
+     */
     setModEnvAmount(opIndex, amount) {
         this.operatorsEnvAmount[opIndex] = amount;
     }
 
+    /**
+     * Sets the maximum gain of the output.
+     * @param maxGain
+     *
+     */
     setMaxGain(maxGain) {
         this.maxOutputGain = maxGain;
     }
 
+    /**
+     * Sets the glide time.
+     * @param time
+     *
+     */
     setGlide(time) {
         if (time < PARAM_CHANGE_TIME) throw 'glide time value not valid';
         this.glideTime = time;
     }
 
+    /**
+     * Sets the frequency of all the operators and triggers the envelopes.
+     * @param note
+     * @param velocity
+     */
     noteOn(note, velocity) {
         // setting the frequency
 
@@ -158,6 +184,10 @@ class FmVoice {
         }
     }
 
+    /**
+     * Stops each envelope.
+     *
+     */
     noteOff() {
         this.outEnv.noteOff();
         this.operatorsEnv.forEach(env => {
@@ -165,14 +195,27 @@ class FmVoice {
         });
     }
 
+    /**
+     * Connects two nodes.
+     * @param node
+     *
+     */
     connect(node) {
         this.outputGain.connect(node);
     }
 
+    /**
+     * Disconnects two nodes.
+     *
+     */
     disconnect() {
         this.outputGain.disconnect();
     }
 
+    /**
+     * Checks whether the envelope of a node is running.
+     *
+     */
     isRunning() {
         return this.outEnv.isRunning();
     }

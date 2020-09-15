@@ -17,10 +17,20 @@ class FmSynth {
         }
     }
 
+    /**
+     * Pushes a midi event in the midiEventQueue.
+     *
+     * @param midiEvent
+     *
+     */
     queueMidiEvent(midiEvent) {
         this._midiEventQueue.push(midiEvent);
     }
 
+    /**
+     * Extract the information from a midi event.
+     *
+     */
     processMidiEvent() {
         if (this._midiEventQueue.length === 0) return;
 
@@ -42,6 +52,12 @@ class FmSynth {
 
     }
 
+    /**
+     * Starts all the voices and connects them to the output node.
+     *
+     * @return {Promise<void>}
+     *
+     */
     async start() {
         let now = this.audioContext.currentTime;
         let promises = []
@@ -53,6 +69,12 @@ class FmSynth {
         setInterval(this.processMidiEvent.bind(this), Midi.updateRate);
     }
 
+
+    /**
+     * Sets the output gain.
+     * @param value
+     *
+     */
     setOutGain(value) {
         if (value < 0) throw 'gain not valid';
         let now = this.audioContext.currentTime;
