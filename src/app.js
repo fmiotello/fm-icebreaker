@@ -48,6 +48,7 @@ let busMixSlider = document.getElementById('busMix');
 
 // Other Things
 let glideTimeSlider = document.getElementById('glideTime');
+let phaseRestartCheckbox = document.getElementById('phaseRestart');
 let midiInputSelect = document.getElementById('midiInput');
 
 // Utilities
@@ -128,6 +129,7 @@ let bindEventsToGui = function () {
 
     busMixSlider.onchange = busMixSliderOnChange;
     glideTimeSlider.onchange = glideTimeSliderOnChange;
+    phaseRestartCheckbox.onchange = phaseRestartCheckboxOnChange;
 }
 
 let fillComponentList = function () {
@@ -166,6 +168,7 @@ let fillComponentList = function () {
 
         busMixSlider,
         glideTimeSlider,
+        phaseRestartCheckbox,
         midiInputSelect, // onchange handled inside Midi class
     );
 }
@@ -279,3 +282,10 @@ let glideTimeSliderOnChange = function (ev) {
     let value = parseFloat(ev.target.value);
     fmSynth.setGlide(value);
 }
+
+let phaseRestartCheckboxOnChange = function (ev) {
+    let value = ev.target.value === "true";
+    fmSynth.setPhaseRestart(value);
+}
+
+

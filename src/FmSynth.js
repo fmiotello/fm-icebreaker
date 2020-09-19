@@ -40,7 +40,7 @@ class FmSynth {
         let velocity = midiEvent.data[2];
 
         // TODO: just for debug
-        console.log(note, velocity);
+        // console.log(note, velocity);
 
         if (command === 8 || (command === 9 && velocity === 0)) { // note off
             this.noteOff(note);
@@ -237,6 +237,11 @@ class FmSynth {
      */
     setGlide(time) {
         this.voices.forEach(voice => voice.setGlide(time));
+    }
+
+
+    setPhaseRestart(flag) {
+        this.voices.forEach(voice => voice.setPhaseRestart(flag));
     }
 }
 

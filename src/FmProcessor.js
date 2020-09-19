@@ -32,7 +32,14 @@ class FmProcessor extends AudioWorkletProcessor {
                 defaultValue: 1,
                 max: 12,
                 min: 0.1
+            },
+            {
+                name: 'phaseRestart',
+                defaultValue: 0,
+                max: 1,
+                min: 0
             }
+
         ]
     }
 
@@ -50,8 +57,15 @@ class FmProcessor extends AudioWorkletProcessor {
         const output = outputs[0][0];
         const ratio = parameters.ratio;
         const freq = parameters.frequency;
+        const phaseRestart = parameters.phaseRestart;
         const nChannels = output.length;
         const modulator = input ? input : this._emptyModulationArray;
+
+        // phase restart
+        if (phaseRestart === 1) {
+            this.phase = 0;
+            parameters.phaseRestart = 0;
+        }
 
         if (nChannels > 0) {
             for (let i = 0; i < output.length; i++) {

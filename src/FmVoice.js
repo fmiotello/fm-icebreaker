@@ -15,6 +15,7 @@ class FmVoice {
         this.outEnv = new Envelope(audioContext, this.outputGain.gain);
         this.algorithm = undefined;
         this.glideTime = 0.2;
+        this.phaseRestart = true;
     }
 
     /**
@@ -162,6 +163,10 @@ class FmVoice {
         this.glideTime = time;
     }
 
+    setPhaseRestart(flag) {
+        this.phaseRestart = flag;
+    }
+
     /**
      * Sets the frequency of all the operators and triggers the envelopes.
      * @param note
@@ -176,6 +181,14 @@ class FmVoice {
             f.linearRampToValueAtTime(freq,
                 this.audioContext.currentTime + this.glideTime);
         });
+
+        // phase reset
+        if (this.phaseRestart) {
+            this.operators.forEach(op => {
+                let phaseRestart = op.source.parameters.get('phaseRestart');
+                phaseRestart.setValueAtTime(1, this.audioContext.currentTime);
+            });
+        }
 
         // triggering the envelopes
         this.outEnv.noteOn(this.maxOutputGain, velocity);
