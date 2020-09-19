@@ -58,6 +58,7 @@ class FmProcessor extends AudioWorkletProcessor {
         const ratio = parameters.ratio;
         const freq = parameters.frequency;
         const phaseRestart = parameters.phaseRestart;
+        const polyphonyChange = parameters.polyphonyChange;
         const nChannels = output.length;
         const modulator = input ? input : this._emptyModulationArray;
 
@@ -65,6 +66,11 @@ class FmProcessor extends AudioWorkletProcessor {
         if (phaseRestart === 1) {
             this.phase = 0;
             parameters.phaseRestart = 0;
+        }
+
+        //polyphony change
+        if (polyphonyChange) {
+            return false;
         }
 
         if (nChannels > 0) {

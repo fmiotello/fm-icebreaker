@@ -7,6 +7,7 @@ import Midi from "./Midi.js";
 const audioContext = new AudioContext();
 let fmSynth = undefined;
 let midi = undefined;
+let polyphony = 4;
 
 // Operator A
 let ratioASlider = document.getElementById('ratioA');
@@ -49,7 +50,11 @@ let busMixSlider = document.getElementById('busMix');
 // Other Things
 let glideTimeSlider = document.getElementById('glideTime');
 let phaseRestartCheckbox = document.getElementById('phaseRestart');
+let detuneSlider = document.getElementById('detune');
 let midiInputSelect = document.getElementById('midiInput');
+let savePresetLink = document.getElementById('savePreset');
+let presetInputText = document.getElementById('presetInputText');
+let polyphonyValue = document.getElementById('polyphony');
 
 // Utilities
 let componentList = [];
@@ -80,7 +85,7 @@ document.onclick = async function () {
     // TODO: scale gain in respect to the polyphony
     await audioContext.resume();
     await audioContext.audioWorklet.addModule('src/FmProcessor.js');
-    fmSynth = new FmSynth(audioContext, 6);
+    fmSynth = new FmSynth(audioContext, polyphony);
     fmSynth.connect(audioContext.destination);
     await fmSynth.start();
     midi = new Midi(fmSynth, midiInputSelect);
@@ -129,7 +134,11 @@ let bindEventsToGui = function () {
 
     busMixSlider.onchange = busMixSliderOnChange;
     glideTimeSlider.onchange = glideTimeSliderOnChange;
+    detuneSlider.onchange = detuneSliderOnChange;
     phaseRestartCheckbox.onchange = phaseRestartCheckboxOnChange;
+    polyphonyValue.onchange = polyphonyValueOnChange;
+
+    presetInputText.onchange = presetInputTextOnChange;
 }
 
 let fillComponentList = function () {
@@ -170,6 +179,8 @@ let fillComponentList = function () {
         glideTimeSlider,
         phaseRestartCheckbox,
         midiInputSelect, // onchange handled inside Midi class
+        polyphonyValue,
+        detuneSlider,
     );
 }
 
@@ -178,6 +189,25 @@ let initParametersFromGui = function () {
     componentList.forEach(component => {
         component.dispatchEvent(changeEvent);
     });
+}
+
+let jsonFromParameters = function () {
+    let parameterObj = {};
+    componentList.forEach(component => {
+        parameterObj[component.id] = component.value;
+    });
+
+    return JSON.stringify(parameterObj);
+}
+
+let generatePresetUrl = function (presetName) {
+    let blob = new Blob(
+        [jsonFromParameters()],
+        {
+            type: "application/json",
+            name: presetName
+        });
+    return URL.createObjectURL(blob);
 }
 
 let noteOn = function (ev) {
@@ -286,6 +316,25 @@ let glideTimeSliderOnChange = function (ev) {
 let phaseRestartCheckboxOnChange = function (ev) {
     let value = ev.target.value === "true";
     fmSynth.setPhaseRestart(value);
+}
+
+let detuneSliderOnChange = function (ev) {
+    let value = parseFloat(ev.target.value);
+    fmSynth.setDetune(value);
+}
+
+let presetInputTextOnChange = function (ev) {
+    let presetName = presetInputText.value;
+    savePresetLink.href = generatePresetUrl(presetName + ".sasp");
+}
+
+let polyphonyValueOnChange = async function (ev) {
+    let value = parseInt(ev.target.value);
+    fmSynth.destroy();
+    fmSynth = new FmSynth(audioContext, value);
+    fmSynth.connect(audioContext.destination);
+    await fmSynth.start();
+    midi.synth = fmSynth;
 }
 
 

@@ -16,6 +16,8 @@ class FmVoice {
         this.algorithm = undefined;
         this.glideTime = 0.2;
         this.phaseRestart = true;
+        this.detune = 0;
+        this.polyphonyChange = false;
     }
 
     /**
@@ -175,7 +177,7 @@ class FmVoice {
     noteOn(note, velocity) {
         // setting the frequency
 
-        let freq = frequencyFromMidi(note);
+        let freq = frequencyFromMidi(note) * (1 + this.detune);
         this.operators.forEach(op => {
             let f = op.source.parameters.get('frequency');
             f.linearRampToValueAtTime(freq,
@@ -231,6 +233,27 @@ class FmVoice {
      */
     isRunning() {
         return this.outEnv.isRunning();
+    }
+
+    setPolyphonyChange(flag) {
+        this.polyphonyChange = flag;
+    }
+
+    setDetune(value) {
+        this.detune = value;
+    }
+
+    destroy() {
+        this.setPolyphonyChange(true);
+        this.operators.forEach(op => {
+            op.source.disconnect();
+            op.gain.disconnect();
+        });
+        this.feedbackNodes.forEach(op => {
+            op.delay.disconnect();
+            op.gain.disconnect();
+        });
+        this.outputBusses.forEach(bus => bus.disconnect());
     }
 }
 

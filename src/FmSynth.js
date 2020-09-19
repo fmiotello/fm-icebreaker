@@ -7,10 +7,11 @@ class FmSynth {
         this.audioContext = audioContext;
         this.voices = [];
         this.currentVoiceIndex = 0;
-        this.polyphony = polyphony || 16;
+        this.polyphony = polyphony || 8;
         this._midiEventQueue = [];
         this._noteOnStack = [];
         this.outGain = new GainNode(audioContext);
+        this.detune = 0;
 
         for (let i = 0; i < this.polyphony; i++) {
             this.voices.push(new FmVoice(audioContext));
@@ -242,6 +243,22 @@ class FmSynth {
 
     setPhaseRestart(flag) {
         this.voices.forEach(voice => voice.setPhaseRestart(flag));
+    }
+
+    setDetune(value) {
+        value = (value < 0)? 0 : value;
+
+        let detuneScale = [0, -1, 0.4, 0.6]; // multiplies the detune value for each operator
+        for (let i = 0; i < 4; i++) {
+            this.voices[i].setDetune(value * detuneScale[i]);
+        }
+    }
+
+    destroy() {
+        this.voices.forEach(voice => {
+            voice.setPolyphonyChange(true);
+            voice.destroy();
+        });
     }
 }
 
