@@ -27,38 +27,38 @@ The synth has _four default operators_ <img src="https://user-images.githubuserc
 | ID | Val Min  | Val Max | Default | Function | MIDI |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **envAmtA**   | 0 | 5 | 0.4 | Change the amouny of operator A |  |
-| **envDelayA**   | 0 | 2 | 0 | Change the delay of operator A |  |
-| **envAttackA**    | 0.03 | 6 | 1 | Change the attack of operator A |  |
-| **envDecayA**    | 0.03 | 6 | 1 | Change the decay of operator A |  |
+| **envDelayA**   | 0 | 1.5 | 0 | Change the delay of operator A |  |
+| **envAttackA**    | 0.03 | 0.8 | 1 | Change the attack of operator A |  |
+| **envDecayA**    | 0.03 | 1 | 1 | Change the decay of operator A |  |
 | **envSustainA**    | 0 | 1 | 0.2 | Change the sustain of operator A |  |
-| **envReleaseA**    | 0.03 | 6 | 0.6 | Change the release of operator A |  |
+| **envReleaseA**    | 0.03 | 1.3 | 0.6 | Change the release of operator A |  |
 | **ratioA**    | 0.5 | 12 | 1 | Change the ratio of operator A |  |
 | **envAmtB**   | 0 | 5 | 0.4 | Change the amount of operator B |  |
-| **envDelayB**   | 0 | 2 | 0 | Change the delay of operator B  |  |
-| **envAttackB**    | 0.03 | 6 | 1 | Change the attack of operator B |  |
-| **envDecayB**    | 0.03 | 6 | 1 | Change the decay of operator B |  |
+| **envDelayB**   | 0 | 1.5 | 0 | Change the delay of operator B  |  |
+| **envAttackB**    | 0.03 | 0.8 | 1 | Change the attack of operator B |  |
+| **envDecayB**    | 0.03 | 1 | 1 | Change the decay of operator B |  |
 | **envSustainB**    | 0 | 1 | 0.2 | Change the sustain of operator B |  |
-| **envReleaseB**    | 0.03 | 6 | 0.6 | Change the release of operator B |  |
+| **envReleaseB**    | 0.03 | 1.3 | 0.6 | Change the release of operator B |  |
 | **ratioB**    | 0.5 | 12 | 1 | Change the ratio of operator B |  |
 | **envAmtC**   | 0 | 5 | 0.4 | Change the amount of operator C |  |
-| **envDelayC**   | 0 | 2 | 0 | Change the delay of operator C |  |
-| **envAttackC**    | 0.03 | 6 | 1 | Change the attack of operator C |  |
-| **envDecayC**    | 0.03 | 6 | 1 | Change the decay of operator C |  |
+| **envDelayC**   | 0 | 1.5 | 0 | Change the delay of operator C |  |
+| **envAttackC**    | 0.03 | 0.8 | 1 | Change the attack of operator C |  |
+| **envDecayC**    | 0.03 | 1 | 1 | Change the decay of operator C |  |
 | **envSustainC**    | 0 | 1 | 0.2 | Change the sustain of operator C |  |
-| **envReleaseC**    | 0.03 | 6 | 0.6 | Change the release of operator C |  |
+| **envReleaseC**    | 0.03 | 1.3 | 0.6 | Change the release of operator C |  |
 | **ratioC**    | 0.5 | 12 | 1 | Change the ratio of operator C |  |
 | **envAmtD**   | 0 | 5 | 0.4 | Change the amount of operator D |  |
-| **envDelayD**   | 0 | 2 | 0 | Change the delay of operator D |  |
-| **envAttackD**    | 0.03 | 6 | 1 | Change the attack of operator D |  |
-| **envDecayD**    | 0.03 | 6 | 1 | Change the decay of operator D |  |
+| **envDelayD**   | 0 | 1.5 | 0 | Change the delay of operator D |  |
+| **envAttackD**    | 0.03 | 0.8 | 1 | Change the attack of operator D |  |
+| **envDecayD**    | 0.03 | 1 | 1 | Change the decay of operator D |  |
 | **envSustainD**    | 0 | 1 | 0.2 | Change the sustain of operator D |  |
-| **envReleaseD**    | 0.03 | 6 | 0.6 | Change the release of operator D |  |
+| **envReleaseD**    | 0.03 | 1.3 | 0.6 | Change the release of operator D |  |
 | **ratioD**    | 0.5 | 12 | 1 | Change the ratio of operator D |  |
 | **outGain**   | 0 | 0.16 | 0.16 | Change the gain of the output |  |
-| **envAttackOut**   | 0.03 | 6 | 0.2 | Change the attack of the output  |  |
-| **envDecayOut**    | 0.03 | 6 | 0.6 | Change the decay of the output |  |
+| **envAttackOut**   | 0 | 0.8 | 0.01 | Change the attack of the output  |  |
+| **envDecayOut**    | 0.03 | 1 | 0.6 | Change the decay of the output |  |
 | **envSustainOut**    | 0 | 1 | 0.8 | Change the sustain of the output |  |
-| **envReleaseOut**    | 0.03 | 6 | 0.6 | Change the release of the output |  |
+| **envReleaseOut**    | 0.03 | 1.3 | 0.1 | Change the release of the output |  |
 
 
 #### Algorithm presets
