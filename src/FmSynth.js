@@ -240,11 +240,6 @@ class FmSynth {
         this.voices.forEach(voice => voice.setGlide(time));
     }
 
-
-    setPhaseRestart(flag) {
-        this.voices.forEach(voice => voice.setPhaseRestart(flag));
-    }
-
     setDetune(value) {
         value = (value < 0)? 0 : value;
 
@@ -256,7 +251,6 @@ class FmSynth {
 
     destroy() {
         this.voices.forEach(voice => {
-            voice.setPolyphonyChange(true);
             voice.destroy();
         });
     }

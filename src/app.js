@@ -49,7 +49,6 @@ let busMixSlider = document.getElementById('busMix');
 
 // Other Things
 let glideTimeSlider = document.getElementById('glideTime');
-let phaseRestartCheckbox = document.getElementById('phaseRestart');
 let detuneSlider = document.getElementById('detune');
 let midiInputSelect = document.getElementById('midiInput');
 let savePresetLink = document.getElementById('savePreset');
@@ -93,6 +92,11 @@ document.onclick = async function () {
     fillComponentList();
     bindEventsToGui();
     initParametersFromGui();
+
+    // scaling gain, depending on voice number
+    let scaledGain = (1 / (polyphony+1)); // TODO: check value
+    outGainSlider.value = scaledGain.toString();
+
     document.onclick = undefined;
 }
 
@@ -135,7 +139,6 @@ let bindEventsToGui = function () {
     busMixSlider.onchange = busMixSliderOnChange;
     glideTimeSlider.onchange = glideTimeSliderOnChange;
     detuneSlider.onchange = detuneSliderOnChange;
-    phaseRestartCheckbox.onchange = phaseRestartCheckboxOnChange;
     polyphonyValue.onchange = polyphonyValueOnChange;
 
     presetInputText.onchange = presetInputTextOnChange;
@@ -177,9 +180,7 @@ let fillComponentList = function () {
 
         busMixSlider,
         glideTimeSlider,
-        phaseRestartCheckbox,
         midiInputSelect, // onchange handled inside Midi class
-        polyphonyValue,
         detuneSlider,
     );
 }
@@ -311,11 +312,6 @@ let busMixSliderOnChange = function (ev) {
 let glideTimeSliderOnChange = function (ev) {
     let value = parseFloat(ev.target.value);
     fmSynth.setGlide(value);
-}
-
-let phaseRestartCheckboxOnChange = function (ev) {
-    let value = ev.target.value === "true";
-    fmSynth.setPhaseRestart(value);
 }
 
 let detuneSliderOnChange = function (ev) {

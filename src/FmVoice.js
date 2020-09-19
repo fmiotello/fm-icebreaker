@@ -15,9 +15,7 @@ class FmVoice {
         this.outEnv = new Envelope(audioContext, this.outputGain.gain);
         this.algorithm = undefined;
         this.glideTime = 0.2;
-        this.phaseRestart = true;
         this.detune = 0;
-        this.polyphonyChange = false;
     }
 
     /**
@@ -165,10 +163,6 @@ class FmVoice {
         this.glideTime = time;
     }
 
-    setPhaseRestart(flag) {
-        this.phaseRestart = flag;
-    }
-
     /**
      * Sets the frequency of all the operators and triggers the envelopes.
      * @param note
@@ -183,14 +177,6 @@ class FmVoice {
             f.linearRampToValueAtTime(freq,
                 this.audioContext.currentTime + this.glideTime);
         });
-
-        // phase reset
-        if (this.phaseRestart) {
-            this.operators.forEach(op => {
-                let phaseRestart = op.source.parameters.get('phaseRestart');
-                phaseRestart.setValueAtTime(1, this.audioContext.currentTime);
-            });
-        }
 
         // triggering the envelopes
         this.outEnv.noteOn(this.maxOutputGain, velocity);
@@ -235,23 +221,22 @@ class FmVoice {
         return this.outEnv.isRunning();
     }
 
-    setPolyphonyChange(flag) {
-        this.polyphonyChange = flag;
-    }
-
     setDetune(value) {
         this.detune = value;
     }
 
     destroy() {
-        this.setPolyphonyChange(true);
         this.operators.forEach(op => {
             op.source.disconnect();
             op.gain.disconnect();
+            let destruction = op.source.parameters.get('destruction');
+            destruction.setValueAtTime(1, this.audioContext.currentTime);
         });
         this.feedbackNodes.forEach(op => {
             op.delay.disconnect();
             op.gain.disconnect();
+            //let destruction = op.delay.parameters.get('destruction');
+            //destruction.setValueAtTime(1, this.audioContext.currentTime);
         });
         this.outputBusses.forEach(bus => bus.disconnect());
     }
