@@ -29,8 +29,11 @@ class Envelope {
      * @param t seconds
      */
     setAttack(t) {
-        if (t < PARAM_CHANGE_TIME) throw 'delay time not valid';
-        this.adsr.attackTime = t;
+        if (t < PARAM_CHANGE_TIME) {
+            this.adsr.attackTime = PARAM_CHANGE_TIME;
+        } else {
+            this.adsr.attackTime = t;
+        }
     }
 
     /**
@@ -87,17 +90,21 @@ class Envelope {
         // should be stopped
         if (this.isRunning()) clearTimeout(this.timeoutFunction);
 
-        // starting a new timer for the delay
-        this.timeoutFunction = setTimeout(() => {
+        if (this.delay !== 0) {
+            // starting a new timer for the delay
+            this.timeoutFunction = setTimeout(() => {
+                this.adsr.gate(true);
+            }, this.delay * 1000);
+
+            // timeout at the end of the envelope
+            let totalTime = this.delay + adsr.attackTime + adsr.decayTime + adsr.releaseTime;
+            setTimeout(() => {
+                this.timeoutFunction = undefined;
+            }, totalTime * 1000);
+        } else {
+            // without the delay we just use the adsr envelope
             this.adsr.gate(true);
-        }, this.delay * 1000);
-
-        // timeout at the end of the envelope
-        let totalTime = this.delay + adsr.attackTime + adsr.decayTime + adsr.releaseTime;
-        setTimeout(() => {
-            this.timeoutFunction = undefined;
-        }, totalTime * 1000);
-
+        }
     }
 
     /**

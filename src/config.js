@@ -1,7 +1,7 @@
 
 export const PI2 = Math.PI*2;
 
-export const PARAM_CHANGE_TIME = 0.03;
+export const PARAM_CHANGE_TIME = 0.001;
 
 export const EPSILON = 1e-6;
 
