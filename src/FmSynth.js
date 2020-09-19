@@ -47,6 +47,8 @@ class FmSynth {
             this.noteOff(note);
         } else if (command === 9) { // note on
             this.noteOn(note, velocity);
+        } else if (command === 14) {
+                this.setPitchBend(((velocity * 128.0 + note)-8192)/8192.0);
         } else {
             console.log('midi message not supported');
         }
@@ -247,6 +249,10 @@ class FmSynth {
         for (let i = 0; i < 4; i++) {
             this.voices[i].setDetune(value * detuneScale[i]);
         }
+    }
+
+    setPitchBend(value) {
+        this.voices.forEach(voice => voice.setPitchBend(value));
     }
 }
 

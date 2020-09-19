@@ -32,7 +32,7 @@ class FmProcessor extends AudioWorkletProcessor {
                 defaultValue: 1,
                 max: 12,
                 min: 0.1
-            },
+            }
         ]
     }
 

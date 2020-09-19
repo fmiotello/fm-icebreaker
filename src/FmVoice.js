@@ -16,6 +16,9 @@ class FmVoice {
         this.algorithm = undefined;
         this.glideTime = 0.2;
         this.detune = 0;
+        this.pitchBendRange = 2; //TODO: pitch bend bug note on
+        this.pitchBendValue = 0;
+        this.note = undefined;
     }
 
     /**
@@ -169,13 +172,14 @@ class FmVoice {
      * @param velocity
      */
     noteOn(note, velocity) {
-        // setting the frequency
+        this.note = note;
 
-        let freq = frequencyFromMidi(note) * (1 + this.detune);
+        // setting the frequency
+        let noteDelta = this.pitchBendRange * this.pitchBendValue;
+        let freq = frequencyFromMidi(note + noteDelta) * (1 + this.detune);
         this.operators.forEach(op => {
             let f = op.source.parameters.get('frequency');
-            f.linearRampToValueAtTime(freq,
-                this.audioContext.currentTime + this.glideTime);
+            f.linearRampToValueAtTime(freq, this.audioContext.currentTime + this.glideTime);
         });
 
         // triggering the envelopes
@@ -223,6 +227,17 @@ class FmVoice {
 
     setDetune(value) {
         this.detune = value;
+    }
+
+    setPitchBend(value) {
+        if (value < -1 || value > 1) throw 'pitch bend value not valid';
+        this.pitchBendValue = value;
+        this.operators.forEach(op => {
+            let noteDelta = this.pitchBendRange * value;
+            let freq = frequencyFromMidi(this.note + noteDelta) * (1 + this.detune);
+            let f = op.source.parameters.get('frequency');
+            f.linearRampToValueAtTime(freq, this.audioContext.currentTime);
+        });
     }
 }
 
