@@ -248,12 +248,6 @@ class FmSynth {
             this.voices[i].setDetune(value * detuneScale[i]);
         }
     }
-
-    destroy() {
-        this.voices.forEach(voice => {
-            voice.destroy();
-        });
-    }
 }
 
 

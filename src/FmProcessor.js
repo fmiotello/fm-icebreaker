@@ -33,12 +33,6 @@ class FmProcessor extends AudioWorkletProcessor {
                 max: 12,
                 min: 0.1
             },
-            {
-                name: 'destruction',
-                defaultValue: 0,
-                max: 1,
-                min: 0
-            },
         ]
     }
 
@@ -56,16 +50,8 @@ class FmProcessor extends AudioWorkletProcessor {
         const output = outputs[0][0];
         const ratio = parameters.ratio;
         const freq = parameters.frequency;
-        const destruction = parameters.destruction;
         const nChannels = output.length;
         const modulator = input ? input : this._emptyModulationArray;
-
-
-        //polyphony change
-        if (destruction === 1) {
-            parameters.destruction = 0;
-            return false;
-        }
 
         if (nChannels > 0) {
             for (let i = 0; i < output.length; i++) {

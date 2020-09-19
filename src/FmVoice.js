@@ -224,22 +224,6 @@ class FmVoice {
     setDetune(value) {
         this.detune = value;
     }
-
-    destroy() {
-        this.operators.forEach(op => {
-            op.source.disconnect();
-            op.gain.disconnect();
-            let destruction = op.source.parameters.get('destruction');
-            destruction.setValueAtTime(1, this.audioContext.currentTime);
-        });
-        this.feedbackNodes.forEach(op => {
-            op.delay.disconnect();
-            op.gain.disconnect();
-            //let destruction = op.delay.parameters.get('destruction');
-            //destruction.setValueAtTime(1, this.audioContext.currentTime);
-        });
-        this.outputBusses.forEach(bus => bus.disconnect());
-    }
 }
 
 export default FmVoice;

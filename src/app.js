@@ -7,7 +7,7 @@ import Midi from "./Midi.js";
 const audioContext = new AudioContext();
 let fmSynth = undefined;
 let midi = undefined;
-let polyphony = 4;
+let polyphony = 5;
 
 // Operator A
 let ratioASlider = document.getElementById('ratioA');
@@ -53,7 +53,6 @@ let detuneSlider = document.getElementById('detune');
 let midiInputSelect = document.getElementById('midiInput');
 let savePresetLink = document.getElementById('savePreset');
 let presetInputText = document.getElementById('presetInputText');
-let polyphonyValue = document.getElementById('polyphony');
 
 // Utilities
 let componentList = [];
@@ -139,7 +138,6 @@ let bindEventsToGui = function () {
     busMixSlider.onchange = busMixSliderOnChange;
     glideTimeSlider.onchange = glideTimeSliderOnChange;
     detuneSlider.onchange = detuneSliderOnChange;
-    polyphonyValue.onchange = polyphonyValueOnChange;
 
     presetInputText.onchange = presetInputTextOnChange;
 }
@@ -322,15 +320,6 @@ let detuneSliderOnChange = function (ev) {
 let presetInputTextOnChange = function (ev) {
     let presetName = presetInputText.value;
     savePresetLink.href = generatePresetUrl(presetName + ".sasp");
-}
-
-let polyphonyValueOnChange = async function (ev) {
-    let value = parseInt(ev.target.value);
-    fmSynth.destroy();
-    fmSynth = new FmSynth(audioContext, value);
-    fmSynth.connect(audioContext.destination);
-    await fmSynth.start();
-    midi.synth = fmSynth;
 }
 
 
