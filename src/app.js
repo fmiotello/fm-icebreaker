@@ -62,6 +62,12 @@ let maxOctave = 2;
 let minOctave = -2;
 const OUT_INDEX = 4;
 
+//Effect bus
+let delayFx = undefined;
+let reverbFx = undefined;
+let delayFxGain = new GainNode(audioContext);
+let reverbFxGain = new GainNode(audioContext);
+
 let key2notes = [
     {key: 65, note: 60}, // C
     {key: 87, note: 61}, // C#
@@ -83,8 +89,12 @@ let key2notes = [
 document.onclick = async function () {
     await audioContext.resume();
     await audioContext.audioWorklet.addModule('src/FmProcessor.js');
+    Tone.start();
+    Tone.setContext(audioContext);
+    delayFx = new Tone.FeedbackDelay();
+    reverbFx = new Tone.Freeverb();
     fmSynth = new FmSynth(audioContext, polyphony);
-    fmSynth.connect(audioContext.destination);
+    connectAll();
     await fmSynth.start();
     midi = new Midi(fmSynth, midiInputSelect);
     await midi.start();
@@ -93,6 +103,16 @@ document.onclick = async function () {
     initParametersFromGui();
 
     document.onclick = undefined;
+}
+
+let connectAll = function () {
+    fmSynth.connect(audioContext.destination);
+    Tone.connect(fmSynth.outGain, delayFx);
+    Tone.connect(fmSynth.outGain, reverbFx);
+    Tone.connect(delayFx, delayFxGain);
+    Tone.connect(reverbFx, reverbFxGain);
+    Tone.connect(reverbFx, audioContext.destination);
+    Tone.connect(delayFx, audioContext.destination);
 }
 
 let bindEventsToGui = function () {
