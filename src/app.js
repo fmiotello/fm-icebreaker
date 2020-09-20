@@ -1,4 +1,4 @@
-import {PARAM_CHANGE_TIME} from "./config.js";
+import {FILE_FORMAT, PARAM_CHANGE_TIME} from "./config.js";
 import FmSynth from "./FmSynth.js";
 import FmVoice from "./FmVoice.js";
 import Midi from "./Midi.js";
@@ -53,6 +53,7 @@ let detuneSlider = document.getElementById('detune');
 let midiInputSelect = document.getElementById('midiInput');
 let savePresetLink = document.getElementById('savePreset');
 let presetInputText = document.getElementById('presetInputText');
+let loadPreset = document.getElementById('loadPreset');
 
 // Utilities
 let componentList = [];
@@ -80,7 +81,6 @@ let key2notes = [
 ];
 
 document.onclick = async function () {
-    // TODO: scale gain in respect to the polyphony
     await audioContext.resume();
     await audioContext.audioWorklet.addModule('src/FmProcessor.js');
     fmSynth = new FmSynth(audioContext, polyphony);
@@ -91,10 +91,6 @@ document.onclick = async function () {
     fillComponentList();
     bindEventsToGui();
     initParametersFromGui();
-
-    // scaling gain, depending on voice number
-    let scaledGain = (1 / (polyphony+1)); // TODO: check value
-    outGainSlider.value = scaledGain.toString();
 
     document.onclick = undefined;
 }
@@ -140,6 +136,7 @@ let bindEventsToGui = function () {
     detuneSlider.onchange = detuneSliderOnChange;
 
     presetInputText.onchange = presetInputTextOnChange;
+    loadPreset.onchange = loadPresetOnChange;
 }
 
 let fillComponentList = function () {
@@ -180,6 +177,8 @@ let fillComponentList = function () {
         glideTimeSlider,
         midiInputSelect, // onchange handled inside Midi class
         detuneSlider,
+
+        presetInputText,
     );
 }
 
@@ -319,7 +318,36 @@ let detuneSliderOnChange = function (ev) {
 
 let presetInputTextOnChange = function (ev) {
     let presetName = presetInputText.value;
-    savePresetLink.href = generatePresetUrl(presetName + ".sasp");
+    savePresetLink.href = generatePresetUrl(presetName +  "." + FILE_FORMAT);
+    savePresetLink.download = presetName + "." + FILE_FORMAT;
+}
+
+let loadPresetOnChange = async function (ev) {
+    try {
+        let preset = loadPreset.files[0];
+        let content = await readFileAsync(preset);
+        updateSettingsFromPreset(JSON.parse(content));
+    } catch (error) {
+        console.log("error on file loading");
+    }
+}
+
+function readFileAsync(file) {
+    return new Promise((resolve, reject) => {
+        let reader = new FileReader();
+        reader.onload = () => {
+            resolve(reader.result);
+        };
+        reader.onerror = reject;
+        reader.readAsText(file);
+    })
+}
+
+let updateSettingsFromPreset = function (preset) {
+    componentList.forEach(component => {
+        component.value = preset[component.id];
+    });
+    initParametersFromGui();
 }
 
 

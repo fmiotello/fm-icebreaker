@@ -128,7 +128,7 @@
 
     <div class="input-block">
         <div class="input-entry">
-            <input id="outGain" type="range" min="0" max="0.16" value="0.16" step="0.01">
+            <input id="outGain" type="range" min="0" max="0.16" value="0.12" step="0.01">
             <label for="outGain">outGain</label>
         </div>
         <div class="input-entry">
@@ -157,8 +157,11 @@
         </div>
         <div class="input-entry">
             <input type="text" id="presetInputText" value="init_patch">
-            <label for="presetInputText">preset name</label>
-
+            <label for="presetInputText">Preset Name</label>
+        </div>
+        <div class="input-entry">
+            <input type="file" accept=".sasp" id="loadPreset"/>
+            <label for="loadPreset">Load Preset</label>
         </div>
         <div class="input-entry">
             <select id="midiInput"></select>

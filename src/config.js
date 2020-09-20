@@ -5,6 +5,8 @@ export const PARAM_CHANGE_TIME = 0.003;
 
 export const EPSILON = 1e-6;
 
+export const FILE_FORMAT = "sasp";
+
 /**
  * Computes a frequency of a given midi note.
  *
