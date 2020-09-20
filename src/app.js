@@ -63,6 +63,11 @@ let minOctave = -2;
 const OUT_INDEX = 4;
 
 //Effect bus
+let delayTimeSlider = document.getElementById('delayTime');
+let delayFeedbackSlider = document.getElementById('delayFeedback');
+let delayGainSlider = document.getElementById('delayGain');
+let reverbSizeSlider = document.getElementById('reverbSize');
+let reverbGainSlider = document.getElementById('reverbGain');
 let delayFx = undefined;
 let reverbFx = undefined;
 let delayFxGain = new GainNode(audioContext);
@@ -111,8 +116,8 @@ let connectAll = function () {
     Tone.connect(fmSynth.outGain, reverbFx);
     Tone.connect(delayFx, delayFxGain);
     Tone.connect(reverbFx, reverbFxGain);
-    Tone.connect(reverbFx, audioContext.destination);
-    Tone.connect(delayFx, audioContext.destination);
+    Tone.connect(delayFxGain, audioContext.destination);
+    Tone.connect(reverbFxGain, audioContext.destination);
 }
 
 let bindEventsToGui = function () {
@@ -155,6 +160,12 @@ let bindEventsToGui = function () {
     glideTimeSlider.onchange = glideTimeSliderOnChange;
     detuneSlider.onchange = detuneSliderOnChange;
 
+    delayTimeSlider.onchange = delayTimeSliderOnChange;
+    delayFeedbackSlider.onchange = delayFeedbackSliderOnChange;
+    delayGainSlider.onchange = delayGainSliderOnChange;
+    reverbSizeSlider.onchange = reverbSizeSliderOnChange;
+    reverbGainSlider.onchange = reverbGainSliderOnChange;
+
     presetInputText.onchange = presetInputTextOnChange;
     loadPreset.onchange = loadPresetOnChange;
 }
@@ -192,6 +203,12 @@ let fillComponentList = function () {
         envDecayOutSlider,
         envSustainOutSlider,
         envReleaseOutSlider,
+
+        delayTimeSlider,
+        delayFeedbackSlider,
+        delayGainSlider,
+        reverbSizeSlider,
+        reverbGainSlider,
 
         busMixSlider,
         glideTimeSlider,
@@ -233,7 +250,7 @@ let noteOn = function (ev) {
     let notes = key2notes.map(obj => obj.note);
     if (allowedKeys.includes(ev.keyCode)) { // A-L
         let noteIndex = allowedKeys.indexOf(ev.keyCode);
-        fmSynth.noteOn(notes[noteIndex] + 12*octaveIndex, 100);
+        fmSynth.noteOn(notes[noteIndex] + 12 * octaveIndex, 100);
     } else if (ev.keyCode === 88) { // X: octave up
         octaveIndex < maxOctave ? octaveIndex++ : octaveIndex = maxOctave;
     } else if (ev.keyCode === 90) { // Z: octave down
@@ -246,7 +263,7 @@ let noteOff = function (ev) {
     let notes = key2notes.map(obj => obj.note);
     if (allowedKeys.includes(ev.keyCode)) { // A-K
         let noteIndex = allowedKeys.indexOf(ev.keyCode);
-        fmSynth.noteOff(notes[noteIndex] + 12*octaveIndex);
+        fmSynth.noteOff(notes[noteIndex] + 12 * octaveIndex);
     }
 }
 
@@ -336,9 +353,36 @@ let detuneSliderOnChange = function (ev) {
     fmSynth.setDetune(value);
 }
 
+let delayTimeSliderOnChange = function (ev) {
+    let value = parseFloat(ev.target.value);
+    delayFx.delayTime.rampTo(value, PARAM_CHANGE_TIME);
+}
+
+let delayFeedbackSliderOnChange = function (ev) {
+    let value = parseFloat(ev.target.value);
+    delayFx.feedback.rampTo(value, PARAM_CHANGE_TIME);
+}
+
+let delayGainSliderOnChange = function (ev) {
+    let value = parseFloat(ev.target.value);
+    delayFxGain.gain.setValueAtTime(value, audioContext.currentTime);
+}
+
+let reverbSizeSliderOnChange = function (ev) {
+    let value = parseFloat(ev.target.value);
+    reverbFx.roomSize.rampTo(value, PARAM_CHANGE_TIME);
+}
+
+let reverbGainSliderOnChange = function (ev) {
+    let value = parseFloat(ev.target.value);
+    reverbFxGain.gain.setValueAtTime(value, audioContext.currentTime);
+}
+
+
 let presetInputTextOnChange = function (ev) {
+    // TODO: disable keyboard when writing
     let presetName = presetInputText.value;
-    savePresetLink.href = generatePresetUrl(presetName +  "." + FILE_FORMAT);
+    savePresetLink.href = generatePresetUrl(presetName + "." + FILE_FORMAT);
     savePresetLink.download = presetName + "." + FILE_FORMAT;
 }
 

@@ -16,6 +16,7 @@ class FmVoice {
         this.algorithm = undefined;
         this.glideTime = 0.2;
         this.detune = 0;
+        this.detuneScale = [0, -1, 0.4, 0.6]; // multiplies the detune value for each operator
         this.pitchBendRange = 2; //TODO: pitch bend bug note on
         this.pitchBendValue = 0;
         this.note = undefined;
@@ -176,8 +177,8 @@ class FmVoice {
 
         // setting the frequency
         let noteDelta = this.pitchBendRange * this.pitchBendValue;
-        let freq = frequencyFromMidi(note + noteDelta) * (1 + this.detune);
-        this.operators.forEach(op => {
+        this.operators.forEach((op, index) => {
+            let freq = frequencyFromMidi(note + noteDelta) * (1 + this.detune * this.detuneScale[index]);
             let f = op.source.parameters.get('frequency');
             f.linearRampToValueAtTime(freq, this.audioContext.currentTime + this.glideTime);
         });

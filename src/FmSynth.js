@@ -81,7 +81,7 @@ class FmSynth {
     setOutGain(value) {
         if (value < 0) throw 'gain not valid';
         let now = this.audioContext.currentTime;
-        this.outGain.gain.setTargetAtTime(value, now, PARAM_CHANGE_TIME)
+        this.outGain.gain.setTargetAtTime(value, now, PARAM_CHANGE_TIME);
     }
 
     /**
@@ -245,9 +245,8 @@ class FmSynth {
     setDetune(value) {
         value = (value < 0)? 0 : value;
 
-        let detuneScale = [0, -1, 0.4, 0.6]; // multiplies the detune value for each operator
         for (let i = 0; i < 4; i++) {
-            this.voices[i].setDetune(value * detuneScale[i]);
+            this.voices[i].setDetune(value);
         }
     }
 
