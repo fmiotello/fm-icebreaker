@@ -19,7 +19,15 @@ let envAttackBSlider = document.getElementById('envAttackB');
 let envDecayBSlider = document.getElementById('envDecayB');
 let envSustainBSlider = document.getElementById('envSustainB');
 let envReleaseBSlider = document.getElementById('envReleaseB');
-let ratioBSlider = document.getElementById('ratioB');
+let ratioBSlider = document.getElementById('ratioBValue');
+
+let envAmtBSliderValue = document.getElementById('envAmtBValue');
+let envDelayBSliderValue = document.getElementById('envDelayBValue');
+let envAttackBSliderValue = document.getElementById('envAttackBValue');
+let envDecayBSliderValue = document.getElementById('envDecayBValue');
+let envSustainBSliderValue = document.getElementById('envSustainBValue');
+let envReleaseBSliderValue = document.getElementById('envReleaseBValue');
+let ratioBSliderValue = document.getElementById('ratioB');
 
 // Operator C
 let envAmtCSlider = document.getElementById('envAmtC');

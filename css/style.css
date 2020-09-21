@@ -111,7 +111,6 @@ input[type=range]::-webkit-slider-thumb {
     background: linear-gradient(to right, var(--start-gradient-color) 1%, var(--final-gradient-color) 100%);
     cursor: pointer;
     margin-top: -12px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
-    /*box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;*/
 }
 
 input[type=range]::-webkit-slider-runnable-track {

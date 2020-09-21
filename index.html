@@ -11,6 +11,13 @@
 <!-- EXTERNAL CONTAINER -->
 <div id="container">
 
+    <!-- TOP ROW -->
+    <div class="input-row">
+        <div class="input-block">
+            <img src="" width="130" height="130">
+        </div>
+    </div>
+
     <!-- MIDDLE ROW -->
     <div class="input-row">
 
@@ -19,12 +26,25 @@
             <span class="input-block-name">B</span>
             <div class="input-block-labels">
                 <label for="envAmtB">AMT</label>
+                <label id="envAmtBValue" style="display: none">---</label>
+
                 <label for="envDelayB">DLY</label>
+                <label id="envDelayBValue" style="display: none">---</label>
+
                 <label for="envAttackB">ATK</label>
+                <label id="envAttackBValue" style="display: none">---</label>
+
                 <label for="envDecayB">DEC</label>
+                <label id="envDecayBValue" style="display: none">---</label>
+
                 <label for="envSustainB">SUS</label>
+                <label id="envSustainBValue" style="display: none">---</label>
+
                 <label for="envReleaseB">REL</label>
+                <label id="envReleaseBValue" style="display: none">---</label>
+
                 <label for="ratioB">RTO</label>
+                <label id="ratioBValue" style="display: none">---</label>
             </div>
             <div class="input-block-sliders">
                 <div class="input-entry">
@@ -216,7 +236,7 @@
                     <a href="" id="savePreset" class="synth-button">SAVE PRESET</a>
                     <label class="synth-button">
                         LOAD PRESET
-                    <input type="file" accept=".sasp" id="loadPreset"/>
+                        <input type="file" accept=".sasp" id="loadPreset"/>
                     </label>
                 </div>
                 <div class="config-block">
