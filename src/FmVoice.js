@@ -65,7 +65,7 @@ class FmVoice {
             bus.connect(this.outputGain);
         });
 
-        this.selectAlgorithm(0);
+        this.setAlgorithm(0);
     }
 
     /**
@@ -86,7 +86,7 @@ class FmVoice {
      *
      * @param index of the algorithm
      */
-    selectAlgorithm(index) {
+    setAlgorithm(index) {
         if (index > algorithms.length || index < 0) throw 'algorithm not valid';
 
         this._initRouting();
@@ -111,6 +111,8 @@ class FmVoice {
                 }
             });
         });
+
+        console.log(index);
     }
 
     /**

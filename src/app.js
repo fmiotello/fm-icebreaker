@@ -54,6 +54,9 @@ let midiInputSelect = document.getElementById('midiInput');
 let savePresetLink = document.getElementById('savePreset');
 let presetInputText = document.getElementById('presetInputText');
 let loadPreset = document.getElementById('loadPreset');
+let algorithmButtonUp = document.getElementById('algorithmButtonUp');
+let algorithmButtonDown = document.getElementById('algorithmButtonDown');
+let algorithmSelect = document.getElementById('algorithmSelect');
 
 // Utilities
 let componentList = [];
@@ -212,6 +215,8 @@ let bindEventsToGui = function () {
 
     presetInputText.onchange = presetInputTextOnChange;
     loadPreset.onchange = loadPresetOnChange;
+
+    algorithmSelect.onchange = algorithmSelectOnChange;
 }
 
 let fillComponentList = function () {
@@ -494,6 +499,11 @@ let updateSettingsFromPreset = function (preset) {
         component.value = preset[component.id];
     });
     initParametersFromGui();
+}
+
+let algorithmSelectOnChange = function (ev) {
+    let value = parseInt(ev.target.value);
+    fmSynth.setAlgorithm(value - 1);
 }
 
 

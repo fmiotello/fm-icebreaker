@@ -253,6 +253,12 @@ class FmSynth {
     setPitchBend(value) {
         this.voices.forEach(voice => voice.setPitchBend(value));
     }
+
+    setAlgorithm(index) {
+        if (index < 0) throw 'algorithm index not valid';
+        this.voices.forEach(voice => voice.setAlgorithm(index));
+    }
+
 }
 
 
