@@ -1,54 +1,88 @@
 @import "reset.css";
-
 :root {
-    --block-bg-color: #403E43;
-    --block-bg-light-color: #7d7981;
-    --block-main-color: #FB4655;
-    --block-secondary-color: #210E10;
-    --block-main-deactivated-color: #AC313D;
+    --container-bg: #ffffff;
+    --bg-color: #403E43;
+    --bg-light-color: #7d7981;
+    --main-color: #FB4655;
+    --secondary-color: #210E10;
+    --secondary-darker-color: #130b0b;
+    --main-deactivated-color: #ac313d;
+    --start-gradient-color: #4a4a4a;
+    --final-gradient-color: #7d7981;
+    --white-color1: #f8f4eb;
+    --white-color2: #e0d1c9;
 
 }
 
 body, html {
     width: 100%;
     margin: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 10px;
+    text-align: center;
+    color: var(--main-color);
+    font-weight: 200;
+    background: var(--container-bg);
 }
 
 #container {
-    width: 70%;
     margin: 0 auto;
 }
 
 .input-row {
     display: flex;
     justify-content: space-around;
+    margin: 20px 0;
 }
 
 .input-block {
-    width: 250px;
-    padding: 10px 20px;
+    width: 270px;
+    padding: 40px 20px 25px 20px;
+    border: 1px solid var(--bg-color);
+    border-radius: 8px;
+    background: var(--bg-color);
+    position: relative;
+}
 
+.input-block-name {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--bg-light-color);
+    border: 1px solid var(--main-deactivated-color);
+    border-radius: 2px;
+    padding: 3px 5px;
 }
 
 .input-block-sliders {
     display: flex;
     justify-content: space-around;
-    border: 1px solid var(--block-bg-color);
-}
-
-.input-block-labels {
-    display: flex;
-    justify-content: space-around;
-    border: 1px solid var(--block-bg-color);
-    height: 40px;
+    border: 1px solid var(--bg-color);
+    padding: 0 10px;
 }
 
 .input-entry {
     display: inline-block;
-    border: 1px solid var(--block-bg-color);
-    height: 130px;
+    border: 1px solid var(--bg-color);
+    height: 100px;
     width: 35px;
 }
+
+/* Labels */
+
+.input-block-labels {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: var(--secondary-color);
+    border-radius: 5px;
+    height: 40px;
+    margin: 0 2px;
+}
+
+
 
 label {
     display: inline-block;
@@ -61,7 +95,7 @@ input[type="range"] {
     /*-webkit-appearance: slider-vertical;*/
     display: inline-block;
     background: transparent;
-    transform: rotate(270deg) translateY(-30px) translateX(-55px);
+    transform: rotate(270deg) translateY(-30px) translateX(-40px);
     width: 90px;
     height: 20px;
     /*margin-left: -55px;*/
@@ -74,7 +108,7 @@ input[type=range]::-webkit-slider-thumb {
     height: 32px;
     width: 14px;
     border-radius: 3px;
-    background: linear-gradient(to right, #5d5a60 1%, #7d7981 100%);
+    background: linear-gradient(to right, var(--start-gradient-color) 1%, var(--final-gradient-color) 100%);
     cursor: pointer;
     margin-top: -12px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
     /*box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;*/
@@ -85,10 +119,77 @@ input[type=range]::-webkit-slider-runnable-track {
     height: 8px;
     cursor: pointer;
     /*box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;*/
-    background: var(--block-secondary-color);
+    background: var(--secondary-darker-color);
     border-radius: 8px;
 }
 
 input[type=range]:focus {
     outline: none; /* Removes the blue border. */
+}
+
+/* Config */
+.config-flex {
+    display: flex;
+    width: 100%;
+    padding-top: 20px;
+}
+
+.config-block {
+    display: inline-block;
+    width: 40%;
+    margin-right: 10%;
+}
+
+#presetInputText {
+    width: 90%;
+    background: transparent;
+    border: none;
+    color: var(--main-color);
+    font-family: 'Roboto', sans-serif;
+    font-weight: 200;
+}
+
+#presetInputText:focus {
+    outline: none;
+}
+
+#loadPreset {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+}
+
+.synth-button {
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    background: linear-gradient(to bottom, var(--white-color1) 1%, var(--white-color2) 100%);
+    color: var(--secondary-darker-color);
+    width: 100%;
+    padding: 10px 8px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    border: 1px solid var(--secondary-darker-color);
+    border-radius: 5px;
+    text-decoration: none;
+    margin-bottom: 10px;
+}
+
+#midiInput {
+    display: inline-block;
+    background-color: var(--white-color1);
+    width: 100%;
+}
+
+label[for="midiInput"] {
+    text-align: left;
+    display: inline-block;
+    width: 100%;
+    font-size: 14px;
+    font-weight: normal;
+    color: var(--bg-light-color);
+    border-radius: 2px;
+    margin-top: 35px;
+    margin-bottom: 3px;
 }

@@ -2,24 +2,29 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" type="text/css" href="css/style.css">
-
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;900&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <title>Fm Synth</title>
 </head>
 <body>
 
+<!-- EXTERNAL CONTAINER -->
 <div id="container">
 
+    <!-- MIDDLE ROW -->
     <div class="input-row">
+
+        <!-- OPERATOR B -->
         <div class="input-block">
+            <span class="input-block-name">B</span>
             <div class="input-block-labels">
-                <label for="envAmtB">EnvAmtB</label>
-                <label for="envDelayB">envDelayB</label>
-                <label for="envAttackB">envAttackB</label>
-                <label for="envDecayB">envDecayB</label>
-                <label for="envSustainB">envSustainB</label>
-                <label for="envReleaseB">envReleaseB</label>
-                <label for="ratioB">ratioB</label>
+                <label for="envAmtB">AMT</label>
+                <label for="envDelayB">DLY</label>
+                <label for="envAttackB">ATK</label>
+                <label for="envDecayB">DEC</label>
+                <label for="envSustainB">SUS</label>
+                <label for="envReleaseB">REL</label>
+                <label for="ratioB">RTO</label>
             </div>
             <div class="input-block-sliders">
                 <div class="input-entry">
@@ -46,15 +51,17 @@
             </div>
         </div>
 
+        <!-- OPERATOR C -->
         <div class="input-block">
+            <span class="input-block-name">C</span>
             <div class="input-block-labels">
-                <label for="envAmtC">EnvAmtC</label>
-                <label for="envDelayC">envDelayC</label>
-                <label for="envAttackC">envAttackC</label>
-                <label for="envDecayC">envDecayC</label>
-                <label for="envSustainC">envSustainC</label>
-                <label for="envReleaseC">envReleaseC</label>
-                <label for="ratioC">ratioC</label>
+                <label for="envAmtC">AMT</label>
+                <label for="envDelayC">DLY</label>
+                <label for="envAttackC">ATK</label>
+                <label for="envDecayC">DEC</label>
+                <label for="envSustainC">SUS</label>
+                <label for="envReleaseC">REL</label>
+                <label for="ratioC">RTO</label>
             </div>
             <div class="input-block-sliders">
                 <div class="input-entry">
@@ -81,15 +88,17 @@
             </div>
         </div>
 
+        <!-- OPERATOR D -->
         <div class="input-block">
+            <span class="input-block-name">D</span>
             <div class="input-block-labels">
-                <label for="envAmtD">EnvAmtD</label>
-                <label for="envDelayD">envDelayD</label>
-                <label for="envAttackD">envAttackD</label>
-                <label for="envDecayD">envDecayD</label>
-                <label for="envSustainD">envSustainD</label>
-                <label for="envReleaseD">envReleaseD</label>
-                <label for="ratioD">ratioD</label>
+                <label for="envAmtD">AMT</label>
+                <label for="envDelayD">DLY</label>
+                <label for="envAttackD">ATK</label>
+                <label for="envDecayD">DEC</label>
+                <label for="envSustainD">SUS</label>
+                <label for="envReleaseD">REL</label>
+                <label for="ratioD">RTO</label>
             </div>
             <div class="input-block-sliders">
                 <div class="input-entry">
@@ -116,99 +125,107 @@
                 </div>
             </div>
         </div>
-
     </div>
 
+    <!-- BOTTOM ROW -->
+    <div class="input-row">
+        <!-- OPERATOR A - OUTPUT -->
+        <div class="input-block">
+            <span class="input-block-name">A - OUTENV</span>
+            <div class="input-block-labels">
+                <label for="ratioA">RTO</label>
+                <label for="envAttackOut">ATK</label>
+                <label for="envDecayOut">DEC</label>
+                <label for="envSustainOut">SUS</label>
+                <label for="envReleaseOut">REL</label>
+                <label for="detune">DET</label>
+                <label for="busMix">MIX</label>
+            </div>
 
-    <div class="input-block">
+            <div class="input-block-sliders">
+                <div class="input-entry">
+                    <input id="ratioA" type="range" min="0.5" max="12" value="1" step="0.5">
+                </div>
+                <div class="input-entry">
+                    <input id="envAttackOut" type="range" min="0" max="1" value="0.01" step="0.01">
+                </div>
+                <div class="input-entry">
+                    <input id="envDecayOut" type="range" min="0.03" max="1" value="0.3" step="0.01">
+                </div>
+                <div class="input-entry">
+                    <input id="envSustainOut" type="range" min="0" max="1" value="0.3" step="0.01">
+                </div>
+                <div class="input-entry">
+                    <input id="envReleaseOut" type="range" min="0.03" max="1.3" value="0.1" step="0.01">
+                </div>
+                <div class="input-entry">
+                    <input id="detune" type="range" min="0" max="0.2" value="0" step="0.01">
+                </div>
+                <div class="input-entry">
+                    <input id="busMix" type="range" min="0" max="1" value="0" step="0.01">
+                </div>
+            </div>
+        </div>
 
-        <div class="input-entry">
-            <input id="ratioA" type="range" min="0.5" max="12" value="1" step="0.5">
-            <label for="ratioA">ratioA</label>
+        <!-- FX AND MORE -->
+        <div class="input-block">
+            <span class="input-block-name">GLOBAL - FX</span>
+            <div class="input-block-labels">
+                <label for="glideTime">GLD</label>
+                <label for="delayTime">TIM</label>
+                <label for="delayFeedback">FBK</label>
+                <label for="delayGain">DLY</label>
+                <label for="reverbSize">SIZ</label>
+                <label for="reverbGain">REV</label>
+                <label for="outGain">VOL</label>
+            </div>
+
+            <div class="input-block-sliders">
+                <div class="input-entry">
+                    <input id="glideTime" type="range" min="0.01" max="1.5" value="0.01" step="0.01">
+                </div>
+                <div class="input-entry">
+                    <input id="delayTime" type="range" min="0" max="1.4" value="0.4" step="0.01">
+                </div>
+                <div class="input-entry">
+                    <input id="delayFeedback" type="range" min="0" max="1" value="0.4" step="0.01">
+                </div>
+                <div class="input-entry">
+                    <input id="delayGain" type="range" min="0" max="1" value="0" step="0.01">
+                </div>
+                <div class="input-entry">
+                    <input id="reverbSize" type="range" min="0.4" max="1" value="0.8" step="0.01">
+                </div>
+                <div class="input-entry">
+                    <input id="reverbGain" type="range" min="0" max="1" value="0" step="0.01">
+                </div>
+                <div class="input-entry">
+                    <input id="outGain" type="range" min="0" max="0.12" value="0.06" step="0.001">
+                </div>
+            </div>
         </div>
-        <div class="input-entry">
-            <input id="busMix" type="range" min="0" max="1" value="0" step="0.01">
-            <label for="busMix">busMix</label>
-        </div>
-        <div class="input-entry">
-            <input id="glideTime" type="range" min="0.01" max="1.5" value="0.01" step="0.01">
-            <label for="glideTime">glideTime</label>
-        </div>
-        <div class="input-entry">
-            <input id="detune" type="range" min="0" max="0.2" value="0" step="0.01">
-            <label for="detune">detune</label>
+
+        <!-- CONFIGURATIONS -->
+        <div class="input-block">
+            <div class="input-block-labels">
+                <input type="text" id="presetInputText" value="init_patch">
+            </div>
+            <span class="input-block-name">CONFIG</span>
+            <div class="config-flex">
+                <div class="config-block">
+                    <a href="" id="savePreset" class="synth-button">SAVE PRESET</a>
+                    <label class="synth-button">
+                        LOAD PRESET
+                    <input type="file" accept=".sasp" id="loadPreset"/>
+                    </label>
+                </div>
+                <div class="config-block">
+                    <label for="midiInput">MIDI</label>
+                    <select id="midiInput"></select>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="h-separator"> -------------</div>
-
-    <div class="input-block">
-        <div class="input-entry">
-            <input id="outGain" type="range" min="0" max="0.12" value="0.06" step="0.001">
-            <label for="outGain">outGain</label>
-        </div>
-        <div class="input-entry">
-            <input id="envAttackOut" type="range" min="0" max="1" value="0.01" step="0.01">
-            <label for="envAttackOut">envAttackOut</label>
-        </div>
-        <div class="input-entry">
-            <input id="envDecayOut" type="range" min="0.03" max="1" value="0.3" step="0.01">
-            <label for="envDecayOut">envDecayOut</label>
-        </div>
-        <div class="input-entry">
-            <input id="envSustainOut" type="range" min="0" max="1" value="0.3" step="0.01">
-            <label for="envSustainOut">envSustainOut</label>
-        </div>
-        <div class="input-entry">
-            <input id="envReleaseOut" type="range" min="0.03" max="1.3" value="0.1" step="0.01">
-            <label for="envReleaseOut">envReleaseOut</label>
-        </div>
-    </div>
-
-    <div class="input-block">
-        <div class="input-entry">
-            <input id="delayTime" type="range" min="0" max="1.4" value="0.4" step="0.01">
-            <label for="delayTime">delayTime</label>
-        </div>
-        <div class="input-entry">
-            <input id="delayFeedback" type="range" min="0" max="1" value="0.4" step="0.01">
-            <label for="delayFeedback">delayFeedback</label>
-        </div>
-        <div class="input-entry">
-            <input id="delayGain" type="range" min="0" max="1" value="0" step="0.01">
-            <label for="delayGain">delayGain</label>
-        </div>
-
-        <div class="input-entry">
-            <input id="reverbSize" type="range" min="0.4" max="1" value="0.8" step="0.01">
-            <label for="reverbSize">reverbSize</label>
-        </div>
-        <div class="input-entry">
-            <input id="reverbGain" type="range" min="0" max="1" value="0" step="0.01">
-            <label for="reverbGain">reverbGain</label>
-        </div>
-    </div>
-
-    <div class="h-separator"> -------------</div>
-
-    <div class="input-block">
-        <div class="input-entry">
-            <a href="" id="savePreset">Download Preset</a>
-        </div>
-        <div class="input-entry">
-            <input type="text" id="presetInputText" value="init_patch">
-            <label for="presetInputText">Preset Name</label>
-        </div>
-        <div class="input-entry">
-            <input type="file" accept=".sasp" id="loadPreset"/>
-            <label for="loadPreset">Load Preset</label>
-        </div>
-        <div class="input-entry">
-            <select id="midiInput"></select>
-            <label for="midiInput">midiInput</label>
-        </div>
-    </div>
-
 
 </div>
 </body>
