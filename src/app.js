@@ -2,6 +2,8 @@ import {FILE_FORMAT, PARAM_CHANGE_TIME} from "./config.js";
 import FmSynth from "./FmSynth.js";
 import FmVoice from "./FmVoice.js";
 import Midi from "./Midi.js";
+import DelayFx from "./DelayFx.js";
+import ReverbFx from "./ReverbFx.js";
 
 // Core Components
 const audioContext = new AudioContext();
@@ -54,6 +56,15 @@ let midiInputSelect = document.getElementById('midiInput');
 let savePresetLink = document.getElementById('savePreset');
 let presetInputText = document.getElementById('presetInputText');
 let loadPreset = document.getElementById('loadPreset');
+let delayTime = document.getElementById('delayTime');
+let delayFeedback = document.getElementById('delayFeedback');
+let delayWet = document.getElementById('delayWet');
+let delayGain = document.getElementById('delayGain');
+let revRoomSize = document.getElementById('revRoomSize');
+let revWet = document.getElementById('revWet');
+let revGain = document.getElementById('revGain');
+let fxParallel = document.getElementById('fxParallel');
+let fxSeries = document.getElementById('fxSeries');
 
 // Utilities
 let componentList = [];
@@ -62,11 +73,9 @@ let maxOctave = 2;
 let minOctave = -2;
 const OUT_INDEX = 4;
 
-//Effect bus
+// Effect bus
 let delayFx = undefined;
 let reverbFx = undefined;
-let delayFxGain = new GainNode(audioContext);
-let reverbFxGain = new GainNode(audioContext);
 
 let key2notes = [
     {key: 65, note: 60}, // C
@@ -89,12 +98,14 @@ let key2notes = [
 document.onclick = async function () {
     await audioContext.resume();
     await audioContext.audioWorklet.addModule('src/FmProcessor.js');
+    fmSynth = new FmSynth(audioContext, polyphony);
+    //fmSynth.connect(audioContext.destination); //TODO: needed?
+
     Tone.start();
     Tone.setContext(audioContext);
-    delayFx = new Tone.FeedbackDelay();
-    reverbFx = new Tone.Freeverb();
-    fmSynth = new FmSynth(audioContext, polyphony);
-    connectAll();
+    delayFx = new DelayFx(audioContext);
+    reverbFx = new ReverbFx(audioContext);
+
     await fmSynth.start();
     midi = new Midi(fmSynth, midiInputSelect);
     await midi.start();
@@ -105,14 +116,20 @@ document.onclick = async function () {
     document.onclick = undefined;
 }
 
-let connectAll = function () {
-    fmSynth.connect(audioContext.destination);
-    Tone.connect(fmSynth.outGain, delayFx);
-    Tone.connect(fmSynth.outGain, reverbFx);
-    Tone.connect(delayFx, delayFxGain);
-    Tone.connect(reverbFx, reverbFxGain);
-    Tone.connect(reverbFx, audioContext.destination);
-    Tone.connect(delayFx, audioContext.destination);
+let fxConnectOnChange = function (ev) {
+    if (ev.target.value === 'fxParallel') {
+        fmSynth.outGain.disconnect();
+        delayFx.fxGain.disconnect();
+        reverbFx.fxGain.disconnect();
+        delayFx.setInputOutput(fmSynth.outGain, audioContext.destination);
+        reverbFx.setInputOutput(fmSynth.outGain, audioContext.destination);
+    } else {
+        fmSynth.outGain.disconnect();
+        delayFx.fxGain.disconnect();
+        reverbFx.fxGain.disconnect();
+        delayFx.setInputOutput(fmSynth.outGain, reverbFx.fx);
+        reverbFx.setInputOutput(delayFx.fxGain, audioContext.destination);
+    }
 }
 
 let bindEventsToGui = function () {
@@ -157,6 +174,16 @@ let bindEventsToGui = function () {
 
     presetInputText.onchange = presetInputTextOnChange;
     loadPreset.onchange = loadPresetOnChange;
+
+    delayTime.onchange = delayTimeOnChange;
+    delayFeedback.onchange = delayFeedbackOnChange;
+    delayWet.onchange = delayWetOnChange;
+    delayGain.onchange = delayGainOnChange;
+    revRoomSize.onchange = revRoomSizeOnChange;
+    revWet.onchange = revWetOnChange;
+    revGain.onchange = revGainOnChange;
+    fxParallel.onchange = fxConnectOnChange;
+    fxSeries.onchange = fxConnectOnChange;
 }
 
 let fillComponentList = function () {
@@ -199,6 +226,16 @@ let fillComponentList = function () {
         detuneSlider,
 
         presetInputText,
+
+        delayTime,
+        delayFeedback,
+        delayWet,
+        delayGain,
+        revRoomSize,
+        revWet,
+        revGain,
+        fxParallel,
+        fxSeries,
     );
 }
 
@@ -368,6 +405,41 @@ let updateSettingsFromPreset = function (preset) {
         component.value = preset[component.id];
     });
     initParametersFromGui();
+}
+
+let delayTimeOnChange = function (ev) {
+    let time = parseFloat(ev.target.value);
+    delayFx.setDelayTime(time);
+}
+
+let delayFeedbackOnChange = function (ev) {
+    let value = parseFloat(ev.target.value);
+    delayFx.setFeedback(value);
+}
+
+let delayWetOnChange = function (ev) {
+    let value = parseFloat(ev.target.value);
+    delayFx.setWet(value);
+}
+
+let delayGainOnChange = function (ev) {
+    let value = parseFloat(ev.target.value);
+    delayFx.setGain(value);
+}
+
+let revRoomSizeOnChange = function (ev) {
+    let value = parseFloat(ev.target.value);
+    reverbFx.setRoomSize(value);
+}
+
+let revWetOnChange = function (ev) {
+    let value = parseFloat(ev.target.value);
+    reverbFx.setWet(value);
+}
+
+let revGainOnChange = function (ev) {
+    let value = parseFloat(ev.target.value);
+    reverbFx.setGain(value);
 }
 
 
