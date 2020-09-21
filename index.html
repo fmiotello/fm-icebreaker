@@ -24,34 +24,25 @@
         <!-- OPERATOR B -->
         <div class="input-block">
             <span class="input-block-name">B</span>
+            <div class="input-block-labels" style="display: none">
+                <label class="block-label-detail-name">---</label>
+                <label class="block-label-detail-value">---</label>
+            </div>
             <div class="input-block-labels">
                 <label for="envAmtB">AMT</label>
-                <label id="envAmtBValue" style="display: none">---</label>
-
                 <label for="envDelayB">DLY</label>
-                <label id="envDelayBValue" style="display: none">---</label>
-
                 <label for="envAttackB">ATK</label>
-                <label id="envAttackBValue" style="display: none">---</label>
-
                 <label for="envDecayB">DEC</label>
-                <label id="envDecayBValue" style="display: none">---</label>
-
                 <label for="envSustainB">SUS</label>
-                <label id="envSustainBValue" style="display: none">---</label>
-
                 <label for="envReleaseB">REL</label>
-                <label id="envReleaseBValue" style="display: none">---</label>
-
                 <label for="ratioB">RTO</label>
-                <label id="ratioBValue" style="display: none">---</label>
             </div>
             <div class="input-block-sliders">
                 <div class="input-entry">
-                    <input id="envAmtB" type="range" min="0" max="5" value="2" step="0.01">
+                    <input id="envAmtB" data-fullname="AMOUNT (AMT)" type="range" min="0" max="5" value="2" step="0.01">
                 </div>
                 <div class="input-entry">
-                    <input id="envDelayB" type="range" min="0" max="1.5" value="0" step="0.01">
+                    <input id="envDelayB" data-fullname="ENV B DELAY (DLY)" type="range" min="0" max="1.5" value="0" step="0.01">
                 </div>
                 <div class="input-entry">
                     <input id="envAttackB" type="range" min="0" max="0.8" value="0" step="0.01">

@@ -19,15 +19,7 @@ let envAttackBSlider = document.getElementById('envAttackB');
 let envDecayBSlider = document.getElementById('envDecayB');
 let envSustainBSlider = document.getElementById('envSustainB');
 let envReleaseBSlider = document.getElementById('envReleaseB');
-let ratioBSlider = document.getElementById('ratioBValue');
-
-let envAmtBSliderValue = document.getElementById('envAmtBValue');
-let envDelayBSliderValue = document.getElementById('envDelayBValue');
-let envAttackBSliderValue = document.getElementById('envAttackBValue');
-let envDecayBSliderValue = document.getElementById('envDecayBValue');
-let envSustainBSliderValue = document.getElementById('envSustainBValue');
-let envReleaseBSliderValue = document.getElementById('envReleaseBValue');
-let ratioBSliderValue = document.getElementById('ratioB');
+let ratioBSlider = document.getElementById('ratioB');
 
 // Operator C
 let envAmtCSlider = document.getElementById('envAmtC');
@@ -144,6 +136,14 @@ let bindEventsToGui = function () {
     envSustainBSlider.onchange = envSustainClosure(1);
     envReleaseBSlider.onchange = envReleaseClosure(1);
     ratioBSlider.onchange = ratioClosure(1);
+
+    envAmtBSlider.oninput = displayValue;
+    envDelayBSlider.oninput = displayValue;
+    envAttackBSlider.oninput = displayValue;
+    envDecayBSlider.oninput = displayValue;
+    envSustainBSlider.oninput = displayValue;
+    envReleaseBSlider.oninput = displayValue;
+    ratioBSlider.oninput = displayValue;
 
     envAmtCSlider.onchange = envAmtClosure(2);
     envDelayCSlider.onchange = envDelayClosure(2);
@@ -278,11 +278,33 @@ let noteOff = function (ev) {
     }
 }
 
+let displayValue = function (ev) {
+    let inputBlock = ev.target.closest(".input-block");
+    let nameLabel = inputBlock.querySelector(".block-label-detail-name");
+    let valueLabel = inputBlock.querySelector(".block-label-detail-value");
+    let inputBlockLabelsArray = inputBlock.querySelectorAll(".input-block-labels");
+    inputBlockLabelsArray[0].style.display = "flex";
+    inputBlockLabelsArray[1].style.display = "none";
+    let value = ev.target.value;
+    let name = ev.target.getAttribute("data-fullname");
+    valueLabel.innerHTML = value;
+    nameLabel.innerHTML = name;
+
+
+}
+
+let hideValue = function (ev) {
+    let inputBlock = ev.target.closest(".input-block");
+    let inputBlockLabelsArray = inputBlock.querySelectorAll(".input-block-labels");
+    inputBlockLabelsArray[0].style.display = "none";
+    inputBlockLabelsArray[1].style.display = "flex";
+}
 
 let envAmtClosure = function (envIndex) {
     return function (ev) {
         let value = parseFloat(ev.target.value);
         fmSynth.setModEnvAmount(envIndex, value);
+        hideValue(ev);
     }
 }
 
@@ -290,6 +312,7 @@ let envDelayClosure = function (opIndex) {
     return function (ev) {
         let value = parseFloat(ev.target.value);
         fmSynth.setModDelay(opIndex, value);
+        hideValue(ev);
     }
 }
 
@@ -301,6 +324,7 @@ let envAttackClosure = function (envIndex) {
         } else {
             fmSynth.setModAttack(envIndex, value);
         }
+        hideValue(ev);
     }
 }
 
@@ -312,6 +336,7 @@ let envDecayClosure = function (envIndex) {
         } else {
             fmSynth.setModDecay(envIndex, value);
         }
+        hideValue(ev);
     }
 }
 
@@ -323,6 +348,7 @@ let envSustainClosure = function (envIndex) {
         } else {
             fmSynth.setModSustain(envIndex, value);
         }
+        hideValue(ev);
     }
 }
 
@@ -334,6 +360,7 @@ let envReleaseClosure = function (envIndex) {
         } else {
             fmSynth.setModRelease(envIndex, value);
         }
+        hideValue(ev);
     }
 }
 
@@ -341,52 +368,62 @@ let ratioClosure = function (opIndex) {
     return function (ev) {
         let value = parseFloat(ev.target.value);
         fmSynth.setRatio(opIndex, value);
+        hideValue(ev);
     }
 }
 
 let outGainOnChange = function (ev) {
     let value = parseFloat(ev.target.value);
     fmSynth.setOutGain(value);
+    hideValue(ev);
 }
 
 let busMixSliderOnChange = function (ev) {
     let value = parseFloat(ev.target.value);
     fmSynth.setBusMix(value);
+    hideValue(ev);
 }
 
 let glideTimeSliderOnChange = function (ev) {
     let value = parseFloat(ev.target.value);
     fmSynth.setGlide(value);
+    hideValue(ev);
 }
 
 let detuneSliderOnChange = function (ev) {
     let value = parseFloat(ev.target.value);
     fmSynth.setDetune(value);
+    hideValue(ev);
 }
 
 let delayTimeSliderOnChange = function (ev) {
     let value = parseFloat(ev.target.value);
     delayFx.delayTime.rampTo(value, PARAM_CHANGE_TIME);
+    hideValue(ev);
 }
 
 let delayFeedbackSliderOnChange = function (ev) {
     let value = parseFloat(ev.target.value);
     delayFx.feedback.rampTo(value, PARAM_CHANGE_TIME);
+    hideValue(ev);
 }
 
 let delayGainSliderOnChange = function (ev) {
     let value = parseFloat(ev.target.value);
     delayFxGain.gain.setValueAtTime(value, audioContext.currentTime);
+    hideValue(ev);
 }
 
 let reverbSizeSliderOnChange = function (ev) {
     let value = parseFloat(ev.target.value);
     reverbFx.roomSize.rampTo(value, PARAM_CHANGE_TIME);
+    hideValue(ev);
 }
 
 let reverbGainSliderOnChange = function (ev) {
     let value = parseFloat(ev.target.value);
     reverbFxGain.gain.setValueAtTime(value, audioContext.currentTime);
+    hideValue(ev);
 }
 
 
