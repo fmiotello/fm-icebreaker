@@ -127,7 +127,6 @@ let bindEventsToGui = function () {
     document.onkeydown = noteOn;
     document.onkeyup = noteOff;
 
-    ratioASlider.onchange = ratioClosure(0);
 
     envAmtBSlider.onchange = envAmtClosure(1);
     envDelayBSlider.onchange = envDelayClosure(1);
@@ -153,6 +152,14 @@ let bindEventsToGui = function () {
     envReleaseCSlider.onchange = envReleaseClosure(2);
     ratioCSlider.onchange = ratioClosure(2);
 
+    envAmtCSlider.oninput = displayValue;
+    envDelayCSlider.oninput = displayValue;
+    envAttackCSlider.oninput = displayValue;
+    envDecayCSlider.oninput = displayValue;
+    envSustainCSlider.oninput = displayValue;
+    envReleaseCSlider.oninput = displayValue;
+    ratioCSlider.oninput = displayValue;
+
     envAmtDSlider.onchange = envAmtClosure(3);
     envDelayDSlider.onchange = envDelayClosure(3);
     envAttackDSlider.onchange = envAttackClosure(3);
@@ -161,21 +168,47 @@ let bindEventsToGui = function () {
     envReleaseDSlider.onchange = envReleaseClosure(3);
     ratioDSlider.onchange = ratioClosure(3);
 
-    outGainSlider.onchange = outGainOnChange;
+    envAmtDSlider.oninput = displayValue;
+    envDelayDSlider.oninput = displayValue;
+    envAttackDSlider.oninput = displayValue;
+    envDecayDSlider.oninput = displayValue;
+    envSustainDSlider.oninput = displayValue;
+    envReleaseDSlider.oninput = displayValue;
+    ratioDSlider.oninput = displayValue;
+
+    ratioASlider.onchange = ratioClosure(0);
     envAttackOutSlider.onchange = envAttackClosure(4);
     envDecayOutSlider.onchange = envDecayClosure(4);
     envSustainOutSlider.onchange = envSustainClosure(4);
     envReleaseOutSlider.onchange = envReleaseClosure(4);
-
-    busMixSlider.onchange = busMixSliderOnChange;
-    glideTimeSlider.onchange = glideTimeSliderOnChange;
     detuneSlider.onchange = detuneSliderOnChange;
+    busMixSlider.onchange = busMixSliderOnChange;
 
+    ratioASlider.oninput = displayValue;
+    envAttackOutSlider.oninput = displayValue;
+    envDecayOutSlider.oninput = displayValue;
+    envSustainOutSlider.oninput = displayValue;
+    envReleaseOutSlider.oninput = displayValue;
+    detuneSlider.oninput = displayValue;
+    busMixSlider.oninput = displayValue;
+
+
+    glideTimeSlider.onchange = glideTimeSliderOnChange;
+    outGainSlider.onchange = outGainOnChange;
     delayTimeSlider.onchange = delayTimeSliderOnChange;
     delayFeedbackSlider.onchange = delayFeedbackSliderOnChange;
     delayGainSlider.onchange = delayGainSliderOnChange;
     reverbSizeSlider.onchange = reverbSizeSliderOnChange;
     reverbGainSlider.onchange = reverbGainSliderOnChange;
+
+
+    glideTimeSlider.oninput = displayValue;
+    outGainSlider.oninput = displayValue;
+    delayTimeSlider.oninput = displayValue;
+    delayFeedbackSlider.oninput = displayValue;
+    delayGainSlider.oninput = displayValue;
+    reverbSizeSlider.oninput = displayValue;
+    reverbGainSlider.oninput = displayValue;
 
     presetInputText.onchange = presetInputTextOnChange;
     loadPreset.onchange = loadPresetOnChange;
@@ -286,8 +319,9 @@ let displayValue = function (ev) {
     inputBlockLabelsArray[0].style.display = "flex";
     inputBlockLabelsArray[1].style.display = "none";
     let value = ev.target.value;
+    let formattedValue = parseFloat(value);
     let name = ev.target.getAttribute("data-fullname");
-    valueLabel.innerHTML = value;
+    valueLabel.innerHTML = formattedValue.toFixed(2);
     nameLabel.innerHTML = name;
 
 
