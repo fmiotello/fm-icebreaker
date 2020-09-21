@@ -112,7 +112,6 @@ class FmVoice {
             });
         });
 
-        console.log(index);
     }
 
     /**

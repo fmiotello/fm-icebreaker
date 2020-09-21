@@ -217,6 +217,8 @@ let bindEventsToGui = function () {
     loadPreset.onchange = loadPresetOnChange;
 
     algorithmSelect.onchange = algorithmSelectOnChange;
+    algorithmButtonUp.onclick = algorithmButtonUpOnClick;
+    algorithmButtonDown.onclick = algorithmButtonDownOnClick;
 }
 
 let fillComponentList = function () {
@@ -504,6 +506,22 @@ let updateSettingsFromPreset = function (preset) {
 let algorithmSelectOnChange = function (ev) {
     let value = parseInt(ev.target.value);
     fmSynth.setAlgorithm(value - 1);
+}
+
+let algorithmButtonUpOnClick = function (ev) {
+    let value = parseInt(algorithmSelect.value);
+    if (value >= 8) return;
+    value += 1;
+    algorithmSelect.value = value.toString();
+    algorithmSelect.dispatchEvent(new Event('change'));
+}
+
+let algorithmButtonDownOnClick = function (ev) {
+    let value = parseInt(algorithmSelect.value);
+    if (value <= 1) return;
+    value -= 1;
+    algorithmSelect.value = value.toString();
+    algorithmSelect.dispatchEvent(new Event('change'));
 }
 
 

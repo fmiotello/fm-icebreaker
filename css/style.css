@@ -1,6 +1,6 @@
 @import "reset.css";
 :root {
-    --container-bg: #ffffff;
+    --container-bg: #79272e;
     --bg-color: #403E43;
     --bg-light-color: #7d7981;
     --main-color: #FB4655;
@@ -16,23 +16,32 @@
 
 body, html {
     width: 100%;
+    height: 100%;
     margin: 0;
     font-family: 'Roboto', sans-serif;
     font-size: 10px;
     text-align: center;
     color: var(--main-color);
     font-weight: 200;
-    background: var(--container-bg);
+    background: var(--white-color2);
 }
 
-#container {
-    margin: 0 auto;
+#synthContainer {
+    background-color: var(--container-bg);
+    width: 1200px;
+    padding: 16px 0;
+    border-radius: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 14px 10px 36px -1px rgba(0,0,0,0.3);
 }
 
 .input-row {
     display: flex;
-    justify-content: space-around;
-    margin: 20px 0;
+    justify-content: space-evenly;
+    margin: 32px 0;
 }
 
 .input-block {
