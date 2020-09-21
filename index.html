@@ -10,100 +10,118 @@
 
 <div id="container">
 
-    <div class="input-block">
-        <div class="input-entry">
-            <input id="envAmtB" type="range" min="0" max="5" value="2" step="0.01">
-            <label for="envAmtB">EnvAmtB</label>
-        </div>
-        <div class="input-entry">
-            <input id="envDelayB" type="range" min="0" max="1.5" value="0" step="0.01">
-            <label for="envDelayB">envDelayB</label>
-        </div>
-        <div class="input-entry">
-            <input id="envAttackB" type="range" min="0" max="0.8" value="0" step="0.01">
-            <label for="envAttackB">envAttackB</label>
-        </div>
-        <div class="input-entry">
-            <input id="envDecayB" type="range" min="0.03" max="1" value="0.2" step="0.01">
-            <label for="envDecayB">envDecayB</label>
-        </div>
-        <div class="input-entry">
-            <input id="envSustainB" type="range" min="0" max="1" value="0.2" step="0.01">
-            <label for="envSustainB">envSustainB</label>
-        </div>
-        <div class="input-entry">
-            <input id="envReleaseB" type="range" min="0.03" max="1.3" value="0.6" step="0.01">
-            <label for="envReleaseB">envReleaseB</label>
-        </div>
-        <div class="input-entry">
-            <input id="ratioB" type="range" min="0.5" max="12" value="1" step="0.5">
-            <label for="ratioB">ratioB</label>
-        </div>
-    </div>
-
-    <div class="input-block">
-        <div class="input-entry">
-            <input id="envAmtC" type="range" min="0" max="5" value="0" step="0.01">
-            <label for="envAmtC">EnvAmtC</label>
-        </div>
-        <div class="input-entry">
-            <input id="envDelayC" type="range" min="0" max="1.5" value="0" step="0.01">
-            <label for="envDelayC">envDelayC</label>
-        </div>
-        <div class="input-entry">
-            <input id="envAttackC" type="range" min="0" max="0.8" value="0" step="0.01">
-            <label for="envAttackC">envAttackC</label>
-        </div>
-        <div class="input-entry">
-            <input id="envDecayC" type="range" min="0.03" max="1" value="0.2" step="0.01">
-            <label for="envDecayC">envDecayC</label>
-        </div>
-        <div class="input-entry">
-            <input id="envSustainC" type="range" min="0" max="1" value="0.2" step="0.01">
-            <label for="envSustainC">envSustainC</label>
-        </div>
-        <div class="input-entry">
-            <input id="envReleaseC" type="range" min="0.03" max="1.3" value="0.6" step="0.01">
-            <label for="envReleaseC">envReleaseC</label>
-        </div>
-        <div class="input-entry">
-            <input id="ratioC" type="range" min="0.5" max="12" value="1" step="0.5">
-            <label for="ratioC">ratioC</label>
-        </div>
-    </div>
-
-    <div class="input-block">
-        <div class="input-entry">
-            <input id="envAmtD" type="range" min="0" max="5" value="0" step="0.01">
-            <label for="envAmtD">EnvAmtD</label>
-        </div>
-        <div class="input-entry">
-            <input id="envDelayD" type="range" min="0" max="1.5" value="0" step="0.01">
-            <label for="envDelayD">envDelayD</label>
-        </div>
-        <div class="input-entry">
-            <input id="envAttackD" type="range" min="0" max="0.8" value="0" step="0.01">
-            <label for="envAttackD">envAttackD</label>
-        </div>
-        <div class="input-entry">
-            <input id="envDecayD" type="range" min="0.03" max="1" value="1" step="0.01">
-            <label for="envDecayD">envDecayD</label>
-        </div>
-        <div class="input-entry">
-            <input id="envSustainD" type="range" min="0" max="1" value="0.2" step="0.01">
-            <label for="envSustainD">envSustainD</label>
-        </div>
-        <div class="input-entry">
-            <input id="envReleaseD" type="range" min="0.03" max="1.3" value="0.6" step="0.01">
-            <label for="envReleaseD">envReleaseD</label>
-            <div class="input-entry">
-                <input id="ratioD" type="range" min="0.5" max="12" value="1" step="0.5">
-                <label for="ratioD">ratioD</label>
+    <div class="input-row">
+        <div class="input-block">
+            <div class="input-block-labels">
+                <label for="envAmtB">EnvAmtB</label>
+                <label for="envDelayB">envDelayB</label>
+                <label for="envAttackB">envAttackB</label>
+                <label for="envDecayB">envDecayB</label>
+                <label for="envSustainB">envSustainB</label>
+                <label for="envReleaseB">envReleaseB</label>
+                <label for="ratioB">ratioB</label>
+            </div>
+            <div class="input-block-sliders">
+                <div class="input-entry">
+                    <input id="envAmtB" type="range" min="0" max="5" value="2" step="0.01">
+                </div>
+                <div class="input-entry">
+                    <input id="envDelayB" type="range" min="0" max="1.5" value="0" step="0.01">
+                </div>
+                <div class="input-entry">
+                    <input id="envAttackB" type="range" min="0" max="0.8" value="0" step="0.01">
+                </div>
+                <div class="input-entry">
+                    <input id="envDecayB" type="range" min="0.03" max="1" value="0.2" step="0.01">
+                </div>
+                <div class="input-entry">
+                    <input id="envSustainB" type="range" min="0" max="1" value="0.2" step="0.01">
+                </div>
+                <div class="input-entry">
+                    <input id="envReleaseB" type="range" min="0.03" max="1.3" value="0.6" step="0.01">
+                </div>
+                <div class="input-entry">
+                    <input id="ratioB" type="range" min="0.5" max="12" value="1" step="0.5">
+                </div>
             </div>
         </div>
+
+        <div class="input-block">
+            <div class="input-block-labels">
+                <label for="envAmtC">EnvAmtC</label>
+                <label for="envDelayC">envDelayC</label>
+                <label for="envAttackC">envAttackC</label>
+                <label for="envDecayC">envDecayC</label>
+                <label for="envSustainC">envSustainC</label>
+                <label for="envReleaseC">envReleaseC</label>
+                <label for="ratioC">ratioC</label>
+            </div>
+            <div class="input-block-sliders">
+                <div class="input-entry">
+                    <input id="envAmtC" type="range" min="0" max="5" value="0" step="0.01">
+                </div>
+                <div class="input-entry">
+                    <input id="envDelayC" type="range" min="0" max="1.5" value="0" step="0.01">
+                </div>
+                <div class="input-entry">
+                    <input id="envAttackC" type="range" min="0" max="0.8" value="0" step="0.01">
+                </div>
+                <div class="input-entry">
+                    <input id="envDecayC" type="range" min="0.03" max="1" value="0.2" step="0.01">
+                </div>
+                <div class="input-entry">
+                    <input id="envSustainC" type="range" min="0" max="1" value="0.2" step="0.01">
+                </div>
+                <div class="input-entry">
+                    <input id="envReleaseC" type="range" min="0.03" max="1.3" value="0.6" step="0.01">
+                </div>
+                <div class="input-entry">
+                    <input id="ratioC" type="range" min="0.5" max="12" value="1" step="0.5">
+                </div>
+            </div>
+        </div>
+
+        <div class="input-block">
+            <div class="input-block-labels">
+                <label for="envAmtD">EnvAmtD</label>
+                <label for="envDelayD">envDelayD</label>
+                <label for="envAttackD">envAttackD</label>
+                <label for="envDecayD">envDecayD</label>
+                <label for="envSustainD">envSustainD</label>
+                <label for="envReleaseD">envReleaseD</label>
+                <label for="ratioD">ratioD</label>
+            </div>
+            <div class="input-block-sliders">
+                <div class="input-entry">
+                    <input id="envAmtD" type="range" min="0" max="5" value="0" step="0.01">
+                </div>
+                <div class="input-entry">
+                    <input id="envDelayD" type="range" min="0" max="1.5" value="0" step="0.01">
+                </div>
+                <div class="input-entry">
+                    <input id="envAttackD" type="range" min="0" max="0.8" value="0" step="0.01">
+                </div>
+                <div class="input-entry">
+                    <input id="envDecayD" type="range" min="0.03" max="1" value="1" step="0.01">
+                </div>
+                <div class="input-entry">
+                    <input id="envSustainD" type="range" min="0" max="1" value="0.2" step="0.01">
+                </div>
+                <div class="input-entry">
+                    <input id="envReleaseD" type="range" min="0.03" max="1.3" value="0.6" step="0.01">
+
+                </div>
+                <div class="input-entry">
+                    <input id="ratioD" type="range" min="0.5" max="12" value="1" step="0.5">
+                </div>
+            </div>
+        </div>
+
     </div>
 
+
     <div class="input-block">
+
         <div class="input-entry">
             <input id="ratioA" type="range" min="0.5" max="12" value="1" step="0.5">
             <label for="ratioA">ratioA</label>
@@ -122,7 +140,7 @@
         </div>
     </div>
 
-    <div class="h-separator"> ------------- </div>
+    <div class="h-separator"> -------------</div>
 
     <div class="input-block">
         <div class="input-entry">
@@ -171,7 +189,7 @@
         </div>
     </div>
 
-    <div class="h-separator"> ------------- </div>
+    <div class="h-separator"> -------------</div>
 
     <div class="input-block">
         <div class="input-entry">
@@ -192,10 +210,11 @@
     </div>
 
 
-
 </div>
 </body>
 <script src="src/app.js" type="module"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/13.8.25/Tone.js" integrity="sha512-+sgRE8eSi+yyva4H1D0XZCTqL9PI10FU1ti9XMM3qZQhH1EKKQnS3bvCcCQ3OYkIc7Zzq17Hvegu2SOda47v+Q==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/13.8.25/Tone.js"
+        integrity="sha512-+sgRE8eSi+yyva4H1D0XZCTqL9PI10FU1ti9XMM3qZQhH1EKKQnS3bvCcCQ3OYkIc7Zzq17Hvegu2SOda47v+Q=="
+        crossorigin="anonymous"></script>
 
 </html>
