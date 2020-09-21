@@ -91,6 +91,9 @@ let key2notes = [
     {key: 76, note: 74}, // D
 ];
 
+let allowedKeys = key2notes.map(obj => obj.key);
+let notes = key2notes.map(obj => obj.note);
+
 document.onclick = async function () {
     await audioContext.resume();
     await audioContext.audioWorklet.addModule('src/FmProcessor.js');
@@ -246,24 +249,24 @@ let generatePresetUrl = function (presetName) {
 }
 
 let noteOn = function (ev) {
-    let allowedKeys = key2notes.map(obj => obj.key);
-    let notes = key2notes.map(obj => obj.note);
-    if (allowedKeys.includes(ev.keyCode)) { // A-L
-        let noteIndex = allowedKeys.indexOf(ev.keyCode);
-        fmSynth.noteOn(notes[noteIndex] + 12 * octaveIndex, 100);
-    } else if (ev.keyCode === 88) { // X: octave up
-        octaveIndex < maxOctave ? octaveIndex++ : octaveIndex = maxOctave;
-    } else if (ev.keyCode === 90) { // Z: octave down
-        octaveIndex > minOctave ? octaveIndex-- : octaveIndex = minOctave;
+    if (presetInputText !== document.activeElement) {
+        if (allowedKeys.includes(ev.keyCode)) { // A-L
+            let noteIndex = allowedKeys.indexOf(ev.keyCode);
+            fmSynth.noteOn(notes[noteIndex] + 12 * octaveIndex, 100);
+        } else if (ev.keyCode === 88) { // X: octave up
+            octaveIndex < maxOctave ? octaveIndex++ : octaveIndex = maxOctave;
+        } else if (ev.keyCode === 90) { // Z: octave down
+            octaveIndex > minOctave ? octaveIndex-- : octaveIndex = minOctave;
+        }
     }
 }
 
 let noteOff = function (ev) {
-    let allowedKeys = key2notes.map(obj => obj.key);
-    let notes = key2notes.map(obj => obj.note);
-    if (allowedKeys.includes(ev.keyCode)) { // A-K
-        let noteIndex = allowedKeys.indexOf(ev.keyCode);
-        fmSynth.noteOff(notes[noteIndex] + 12 * octaveIndex);
+    if (presetInputText !== document.activeElement) {
+        if (allowedKeys.includes(ev.keyCode)) { // A-K
+            let noteIndex = allowedKeys.indexOf(ev.keyCode);
+            fmSynth.noteOff(notes[noteIndex] + 12 * octaveIndex);
+        }
     }
 }
 
