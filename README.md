@@ -89,10 +89,8 @@ The feature descriptors are four:
 
 #### Manca un modulo??
 
-
-
 | ID | Val Min  | Val Max | Default | Function |
-| :--- | :--- | :--- | :--- | :--- | :--- |
+| :--- | :--- | :--- | :--- | :--- | 
 | *envAmtA*   | 0 | 5 | 0.4 | Change the amouny of operator A |
 | *envDelayA*   | 0 | 1.5 | 0 | Change the delay of operator A |
 | *envAttackA*    | 0.03 | 0.8 | 1 | Change the attack of operator A |
