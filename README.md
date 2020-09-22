@@ -89,6 +89,19 @@ The feature descriptors are four:
 
 #### Manca un modulo??
 
+### Architecture
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/57997005/93921052-51173180-fd10-11ea-9ff9-eb3ed1ad3bd5.png" width="90%"//>
+</p>
+
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/57997005/93921057-52485e80-fd10-11ea-9b0a-afe248b4c8ad.png" width="90%"//>
+</p>
+
+
+
 | ID | Val Min  | Val Max | Default | Function |
 | :--- | :--- | :--- | :--- | :--- | 
 | *envAmtA*   | 0 | 5 | 0.4 | Change the amouny of operator A |
