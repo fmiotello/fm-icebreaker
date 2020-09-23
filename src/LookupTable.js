@@ -1,5 +1,8 @@
 import {PI2} from "./config.js";
 
+/**
+ * Implements a LUT.
+ */
 class LookupTable {
     constructor(resolution, func) {
         this.func = func || Math.sin;

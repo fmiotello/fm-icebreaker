@@ -7,7 +7,15 @@ import Midi from "./Midi.js";
 const audioContext = new AudioContext();
 let fmSynth = undefined;
 let midi = undefined;
+let featureAnalizer = undefined;
+
+// Utilities
 let polyphony = 5;
+let componentList = []; // store the references of the html tags, that contain useful data for the synth
+let octaveIndex = 0;
+let maxOctave = 2;
+let minOctave = -2;
+const OUT_INDEX = 4; // used for referencing the out-env on the closures
 
 // Operator A
 let ratioASlider = document.getElementById('ratioA');
@@ -58,13 +66,6 @@ let algorithmButtonUp = document.getElementById('algorithmButtonUp');
 let algorithmButtonDown = document.getElementById('algorithmButtonDown');
 let algorithmSelect = document.getElementById('algorithmSelect');
 
-// Utilities
-let componentList = [];
-let octaveIndex = 0;
-let maxOctave = 2;
-let minOctave = -2;
-const OUT_INDEX = 4;
-
 //Effect bus
 let delayTimeSlider = document.getElementById('delayTime');
 let delayFeedbackSlider = document.getElementById('delayFeedback');
@@ -76,6 +77,7 @@ let reverbFx = undefined;
 let delayFxGain = new GainNode(audioContext);
 let reverbFxGain = new GainNode(audioContext);
 
+// keyboard mapping to play the synth without a midi keyboard
 let key2notes = [
     {key: 65, note: 60}, // C
     {key: 87, note: 61}, // C#
@@ -97,6 +99,11 @@ let key2notes = [
 let allowedKeys = key2notes.map(obj => obj.key);
 let notes = key2notes.map(obj => obj.note);
 
+/**
+ * Main function, executed after the user clicked the screen.
+ *
+ * @returns {Promise<void>}
+ */
 document.onclick = async function () {
     await audioContext.resume();
     await audioContext.audioWorklet.addModule('src/FmProcessor.js');
@@ -116,6 +123,9 @@ document.onclick = async function () {
     document.onclick = undefined;
 }
 
+/**
+ * Does all the audio routing.
+ */
 let connectAll = function () {
     fmSynth.connect(audioContext.destination);
     Tone.connect(fmSynth.outGain, delayFx);
@@ -126,6 +136,9 @@ let connectAll = function () {
     Tone.connect(reverbFxGain, audioContext.destination);
 }
 
+/**
+ * Event binding for the html elements.
+ */
 let bindEventsToGui = function () {
     document.onkeydown = noteOn;
     document.onkeyup = noteOff;
@@ -221,6 +234,11 @@ let bindEventsToGui = function () {
     algorithmButtonDown.onclick = algorithmButtonDownOnClick;
 }
 
+/**
+ * Pushes all the html of interest inside the componentList.
+ * ComponentList is used for preset saving/loading, and to update
+ * the model after view modifications.
+ */
 let fillComponentList = function () {
     componentList.push(
         ratioASlider,
@@ -270,6 +288,9 @@ let fillComponentList = function () {
     );
 }
 
+/**
+ * Uses the componentList to update the model.
+ */
 let initParametersFromGui = function () {
     let changeEvent = new Event('change');
     componentList.forEach(component => {
@@ -277,6 +298,10 @@ let initParametersFromGui = function () {
     });
 }
 
+/**
+ * builds a JSON object from the model.
+ * @returns {string}
+ */
 let jsonFromParameters = function () {
     let parameterObj = {};
     componentList.forEach(component => {
@@ -286,6 +311,12 @@ let jsonFromParameters = function () {
     return JSON.stringify(parameterObj);
 }
 
+/**
+ * Generated the url used to dowload the preset.
+ *
+ * @param presetName
+ * @returns {string}
+ */
 let generatePresetUrl = function (presetName) {
     let blob = new Blob(
         [jsonFromParameters()],
@@ -296,6 +327,10 @@ let generatePresetUrl = function (presetName) {
     return URL.createObjectURL(blob);
 }
 
+/**
+ * This is the noteOn function used for the computer keyboard.
+ * @param ev
+ */
 let noteOn = function (ev) {
     if (presetInputText !== document.activeElement) {
         if (allowedKeys.includes(ev.keyCode)) { // A-L
@@ -309,6 +344,10 @@ let noteOn = function (ev) {
     }
 }
 
+/**
+ * This is the noteOff function used for the computer keyboard.
+ * @param ev
+ */
 let noteOff = function (ev) {
     if (presetInputText !== document.activeElement) {
         if (allowedKeys.includes(ev.keyCode)) { // A-K
@@ -318,6 +357,12 @@ let noteOff = function (ev) {
     }
 }
 
+/**
+ * Renders the full name and the value of a parameter,
+ * when the user moves a slider.
+ *
+ * @param ev
+ */
 let displayValue = function (ev) {
     let inputBlock = ev.target.closest(".input-block");
     let nameLabel = inputBlock.querySelector(".block-label-detail-name");
@@ -330,10 +375,14 @@ let displayValue = function (ev) {
     let name = ev.target.getAttribute("data-fullname");
     valueLabel.innerHTML = formattedValue.toFixed(2);
     nameLabel.innerHTML = name;
-
-
 }
 
+/**
+ * Complementary function of displayValue, executed when the user ends
+ * the modifications.
+ *
+ * @param ev
+ */
 let hideValue = function (ev) {
     let inputBlock = ev.target.closest(".input-block");
     let inputBlockLabelsArray = inputBlock.querySelectorAll(".input-block-labels");
@@ -341,6 +390,12 @@ let hideValue = function (ev) {
     inputBlockLabelsArray[1].style.display = "flex";
 }
 
+/**
+ * Closure for the env amount callbacks.
+ *
+ * @param envIndex
+ * @returns {function(*=): void}
+ */
 let envAmtClosure = function (envIndex) {
     return function (ev) {
         let value = parseFloat(ev.target.value);
@@ -349,6 +404,12 @@ let envAmtClosure = function (envIndex) {
     }
 }
 
+/**
+ * Closure for the env delay  callbacks.
+ *
+ * @param opIndex
+ * @returns {function(*=): void}
+ */
 let envDelayClosure = function (opIndex) {
     return function (ev) {
         let value = parseFloat(ev.target.value);
@@ -357,6 +418,13 @@ let envDelayClosure = function (opIndex) {
     }
 }
 
+
+/**
+ * Closure for the env attack callbacks.
+ *
+ * @param envIndex
+ * @returns {function(*=): void}
+ */
 let envAttackClosure = function (envIndex) {
     return function (ev) {
         let value = parseFloat(ev.target.value);
@@ -369,6 +437,12 @@ let envAttackClosure = function (envIndex) {
     }
 }
 
+/**
+ * Closure for the env decay callbacks.
+ *
+ * @param envIndex
+ * @returns {function(*=): void}
+ */
 let envDecayClosure = function (envIndex) {
     return function (ev) {
         let value = parseFloat(ev.target.value);
@@ -381,6 +455,12 @@ let envDecayClosure = function (envIndex) {
     }
 }
 
+/**
+ * Closure for the env sustain callbacks.
+ *
+ * @param envIndex
+ * @returns {function(*=): void}
+ */
 let envSustainClosure = function (envIndex) {
     return function (ev) {
         let value = parseFloat(ev.target.value);
@@ -393,6 +473,12 @@ let envSustainClosure = function (envIndex) {
     }
 }
 
+/**
+ * Closure for the env release callbacks.
+ *
+ * @param envIndex
+ * @returns {function(*=): void}
+ */
 let envReleaseClosure = function (envIndex) {
     return function (ev) {
         let value = parseFloat(ev.target.value);
@@ -405,6 +491,12 @@ let envReleaseClosure = function (envIndex) {
     }
 }
 
+/**
+ * Closure for the ratio callbacks.
+ *
+ * @param opIndex
+ * @returns {function(*=): void}
+ */
 let ratioClosure = function (opIndex) {
     return function (ev) {
         let value = parseFloat(ev.target.value);
@@ -413,61 +505,107 @@ let ratioClosure = function (opIndex) {
     }
 }
 
+/**
+ * Callback for out gain.
+ *
+ * @param ev
+ */
 let outGainOnChange = function (ev) {
     let value = parseFloat(ev.target.value);
     fmSynth.setOutGain(value);
     hideValue(ev);
 }
 
+/**
+ * Callback for bus mix.
+ * @param ev
+ */
 let busMixSliderOnChange = function (ev) {
     let value = parseFloat(ev.target.value);
     fmSynth.setBusMix(value);
     hideValue(ev);
 }
 
+/**
+ * Callback for glide time.
+ *
+ * @param ev
+ */
 let glideTimeSliderOnChange = function (ev) {
     let value = parseFloat(ev.target.value);
     fmSynth.setGlide(value);
     hideValue(ev);
 }
 
+/**
+ * Callback for detune.
+ *
+ * @param ev
+ */
 let detuneSliderOnChange = function (ev) {
     let value = parseFloat(ev.target.value);
     fmSynth.setDetune(value);
     hideValue(ev);
 }
 
+/**
+ * Callback for delay time.
+ *
+ * @param ev
+ */
 let delayTimeSliderOnChange = function (ev) {
     let value = parseFloat(ev.target.value);
     delayFx.delayTime.rampTo(value, PARAM_CHANGE_TIME);
     hideValue(ev);
 }
 
+/**
+ *  Callback for delay feedback.
+ * @param ev
+ */
 let delayFeedbackSliderOnChange = function (ev) {
     let value = parseFloat(ev.target.value);
     delayFx.feedback.rampTo(value, PARAM_CHANGE_TIME);
     hideValue(ev);
 }
 
+/**
+ * Callback for delay send.
+ *
+ * @param ev
+ */
 let delayGainSliderOnChange = function (ev) {
     let value = parseFloat(ev.target.value);
     delayFxGain.gain.setValueAtTime(value, audioContext.currentTime);
     hideValue(ev);
 }
 
+/**
+ * Callback for reverb size.
+ *
+ * @param ev
+ */
 let reverbSizeSliderOnChange = function (ev) {
     let value = parseFloat(ev.target.value);
     reverbFx.roomSize.rampTo(value, PARAM_CHANGE_TIME);
     hideValue(ev);
 }
 
+/**
+ * Callback for reverb send.
+ *
+ * @param ev
+ */
 let reverbGainSliderOnChange = function (ev) {
     let value = parseFloat(ev.target.value);
     reverbFxGain.gain.setValueAtTime(value, audioContext.currentTime);
     hideValue(ev);
 }
 
-
+/**
+ * Callback for the preset name's input field.
+ * @param ev
+ */
 let presetInputTextOnChange = function (ev) {
     // TODO: disable keyboard when writing
     let presetName = presetInputText.value;
@@ -475,6 +613,11 @@ let presetInputTextOnChange = function (ev) {
     savePresetLink.download = presetName + "." + FILE_FORMAT;
 }
 
+/**
+ * Callback for load preset button.
+ * @param ev
+ * @returns {Promise<void>}
+ */
 let loadPresetOnChange = async function (ev) {
     try {
         let preset = loadPreset.files[0];
@@ -485,6 +628,12 @@ let loadPresetOnChange = async function (ev) {
     }
 }
 
+/**
+ * Reads a text file with a FileReader.
+ *
+ * @param file
+ * @returns {Promise<unknown>}
+ */
 function readFileAsync(file) {
     return new Promise((resolve, reject) => {
         let reader = new FileReader();
@@ -496,6 +645,11 @@ function readFileAsync(file) {
     })
 }
 
+/**
+ * Updates the view and the model from a preset.
+ *
+ * @param preset
+ */
 let updateSettingsFromPreset = function (preset) {
     componentList.forEach(component => {
         component.value = preset[component.id];
@@ -503,11 +657,21 @@ let updateSettingsFromPreset = function (preset) {
     initParametersFromGui();
 }
 
+/**
+ * Callback for algorithm select.
+ *
+ * @param ev
+ */
 let algorithmSelectOnChange = function (ev) {
     let value = parseInt(ev.target.value);
     fmSynth.setAlgorithm(value - 1);
 }
 
+/**
+ * Callback for algorithm up button.
+ *
+ * @param ev
+ */
 let algorithmButtonUpOnClick = function (ev) {
     let value = parseInt(algorithmSelect.value);
     if (value >= 8) return;
@@ -515,6 +679,12 @@ let algorithmButtonUpOnClick = function (ev) {
     algorithmSelect.value = value.toString();
     algorithmSelect.dispatchEvent(new Event('change'));
 }
+
+/**
+ * Callback for algorithm down button.
+ *
+ * @param ev
+ */
 
 let algorithmButtonDownOnClick = function (ev) {
     let value = parseInt(algorithmSelect.value);

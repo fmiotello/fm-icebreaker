@@ -2,6 +2,9 @@ import FmVoice from "./FmVoice.js";
 import {PARAM_CHANGE_TIME} from "./config.js";
 import Midi from "./Midi.js";
 
+/**
+ * This class implements the polyphonic synth.
+ */
 class FmSynth {
     constructor(audioContext, polyphony) {
         this.audioContext = audioContext;
@@ -11,7 +14,6 @@ class FmSynth {
         this._midiEventQueue = [];
         this._noteOnStack = [];
         this.outGain = new GainNode(audioContext);
-        this.detune = 0;
 
         for (let i = 0; i < this.polyphony; i++) {
             this.voices.push(new FmVoice(audioContext));
@@ -22,7 +24,6 @@ class FmSynth {
      * Pushes a midi event in the midiEventQueue.
      *
      * @param midiEvent
-     *
      */
     queueMidiEvent(midiEvent) {
         this._midiEventQueue.push(midiEvent);
@@ -30,7 +31,6 @@ class FmSynth {
 
     /**
      * Extract the information from a midi event.
-     *
      */
     processMidiEvent() {
         if (this._midiEventQueue.length === 0) return;
@@ -39,9 +39,6 @@ class FmSynth {
         let command = midiEvent.data[0] >> 4;
         let note = midiEvent.data[1];
         let velocity = midiEvent.data[2];
-
-        // TODO: just for debug
-        // console.log(note, velocity);
 
         if (command === 8 || (command === 9 && velocity === 0)) { // note off
             this.noteOff(note);
@@ -59,7 +56,6 @@ class FmSynth {
      * Starts all the voices and connects them to the output node.
      *
      * @return {Promise}
-     *
      */
     async start() {
         let now = this.audioContext.currentTime;
@@ -75,8 +71,8 @@ class FmSynth {
 
     /**
      * Sets the output gain.
-     * @param value
      *
+     * @param value
      */
     setOutGain(value) {
         if (value < 0) throw 'gain not valid';
@@ -89,7 +85,6 @@ class FmSynth {
      *
      * @param note
      * @param velocity
-     *
      */
     noteOn(note, velocity) {
         // if the note is already in the stack, do nothing
@@ -111,7 +106,6 @@ class FmSynth {
      * Calls the noteOff function of the voice which is playing a certain note.
      *
      * @param note
-     *
      */
     noteOff(note) {
         let noteStack = this._noteOnStack.map(x => x.note);
@@ -124,47 +118,82 @@ class FmSynth {
     }
 
     /**
-     * Connects two nodes.
-     * @param node
+     * Connects to a node.
      *
+     * @param node
      */
     connect(node) {
         this.outGain.connect(node);
     }
 
     /**
-     * Disconnects two nodes.
-     *
+     * Disconnects the synth.
      */
     disconnect() {
         this.outGain.disconnect();
     }
 
+    /**
+     * Sets the env amount of an operator.
+     *
+     * @param opIndex
+     * @param amount
+     */
     setModEnvAmount(opIndex, amount) {
         if (opIndex < 0 || opIndex > 3) throw 'opIndex not valid';
         this.voices.forEach(voice => voice.setModEnvAmount(opIndex, amount));
     }
 
+    /**
+     * Sets the delay for the env of an operator.
+     *
+     * @param opIndex
+     * @param time
+     */
     setModDelay(opIndex, time) {
         if (opIndex < 0 || opIndex > 3) throw 'opIndex not valid';
         this.voices.forEach(voice => voice.operatorsEnv[opIndex].setDelay(time));
     }
 
+    /**
+     * Sets the attack for the env of an operator.
+     *
+     * @param opIndex
+     * @param time
+     */
     setModAttack(opIndex, time) {
         if (opIndex < 0 || opIndex > 3) throw 'opIndex not valid';
         this.voices.forEach(voice => voice.operatorsEnv[opIndex].setAttack(time));
     }
 
+    /**
+     * Sets the decay for the env of an operator.
+     *
+     * @param opIndex
+     * @param time
+     */
     setModDecay(opIndex, time) {
         if (opIndex < 0 || opIndex > 3) throw 'opIndex not valid';
         this.voices.forEach(voice => voice.operatorsEnv[opIndex].setDecay(time));
     }
-    
+
+    /**
+     * Sets the sustain for the env of an operator.
+     *
+     * @param opIndex
+     * @param value
+     */
     setModSustain(opIndex, value) {
         if (opIndex < 0 || opIndex > 3) throw 'opIndex not valid';
         this.voices.forEach(voice => voice.operatorsEnv[opIndex].setSustain(value));
     }
 
+    /**
+     * Sets the release for the env of an operator.
+     *
+     * @param opIndex
+     * @param time
+     */
     setModRelease(opIndex, time) {
         if (opIndex < 0 || opIndex > 3) throw 'opIndex not valid';
         this.voices.forEach(voice => voice.operatorsEnv[opIndex].setRelease(time));
@@ -174,7 +203,6 @@ class FmSynth {
      * Sets the output attack time.
      *
      * @parameter time
-     *
      */
     setAmpAttack(time) {
         this.voices.forEach(voice => voice.outEnv.setAttack(time));
@@ -184,7 +212,6 @@ class FmSynth {
      * Sets the output decay time.
      *
      * @parameter time
-     *
      */
     setAmpDecay(time) {
         this.voices.forEach(voice => voice.outEnv.setDecay(time));
@@ -194,7 +221,6 @@ class FmSynth {
      * Sets the output sustain level.
      *
      * @parameter value
-     *
      */
     setAmpSustain(value) {
         this.voices.forEach(voice => voice.outEnv.setSustain(value));
@@ -204,18 +230,16 @@ class FmSynth {
      * Sets the output release time.
      *
      * @parameter time
-     *
      */
     setAmpRelease(time) {
         this.voices.forEach(voice => voice.outEnv.setRelease(time));
     }
 
     /**
-     * Sets the ratio of each voice.
+     * Sets the ratio of an operator.
      *
      * @parameter opIndex
      * @parameter ratio
-     *
      */
     setRatio(opIndex, ratio) {
         if (opIndex < 0 || opIndex > 3) throw 'opIndex not valid';
@@ -223,25 +247,28 @@ class FmSynth {
     }
 
     /**
-     * Sets the output bus mix of each voice.
+     * Sets the output bus mix.
      *
      * @parameter time
-     *
      */
     setBusMix(value) {
         this.voices.forEach(voice => voice.setBusMix(value));
     }
 
     /**
-     * Sets the glide time of each voice.
+     * Sets the glide time.
      *
      * @parameter time
-     *
      */
     setGlide(time) {
         this.voices.forEach(voice => voice.setGlide(time));
     }
 
+    /**
+     * Sets the detune.
+     *
+     * @param value
+     */
     setDetune(value) {
         value = (value < 0)? 0 : value;
 
@@ -250,15 +277,24 @@ class FmSynth {
         }
     }
 
+    /**
+     * Sets the pitch bend.
+     *
+     * @param value
+     */
     setPitchBend(value) {
         this.voices.forEach(voice => voice.setPitchBend(value));
     }
 
+    /**
+     * Sets the algorithm.
+     *
+     * @param index
+     */
     setAlgorithm(index) {
         if (index < 0) throw 'algorithm index not valid';
         this.voices.forEach(voice => voice.setAlgorithm(index));
     }
-
 }
 
 

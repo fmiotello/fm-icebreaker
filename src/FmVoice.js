@@ -1,6 +1,10 @@
 import {frequencyFromMidi, algorithms, PARAM_CHANGE_TIME} from "./config.js";
 import Envelope from "./Envelope.js";
 
+/**
+ * This class is used to implement a single voice of
+ * the synth.
+ */
 class FmVoice {
     constructor(audioContext) {
         this.audioContext = audioContext;
@@ -17,9 +21,9 @@ class FmVoice {
         this.glideTime = 0.2;
         this.detune = 0;
         this.detuneScale = [0, -1, 0.4, 0.6]; // multiplies the detune value for each operator
-        this.pitchBendRange = 2; //TODO: pitch bend bug note on
+        this.pitchBendRange = 2;
         this.pitchBendValue = 0;
-        this.note = undefined;
+        this.note = undefined; // last note
     }
 
     /**
@@ -227,10 +231,20 @@ class FmVoice {
         return this.outEnv.isRunning();
     }
 
+    /**
+     * Sets the detune.
+     *
+     * @param value
+     */
     setDetune(value) {
         this.detune = value;
     }
 
+    /**
+     * Sets the pitch bend, updating the pitch.
+     *
+     * @param value
+     */
     setPitchBend(value) {
         if (value < -1 || value > 1) throw 'pitch bend value not valid';
         this.pitchBendValue = value;

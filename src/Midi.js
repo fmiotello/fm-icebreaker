@@ -1,3 +1,7 @@
+
+/**
+ * Class used to handle MIDI interactions.
+ */
 class Midi {
     constructor(synth, midiSelect) {
         this.synth = synth;
@@ -12,7 +16,6 @@ class Midi {
      * Looks for the midi input devices.
      *
      * @return {Promise}
-     *
      */
     async start() {
         try {
@@ -32,7 +35,6 @@ class Midi {
      * Links a new midi input device, if it changes.
      *
      * @param ev midi event
-     *
      */
     midiSelectOnChange(ev) {
         let index = ev.target.selectedIndex;
@@ -48,10 +50,9 @@ class Midi {
     }
 
     /**
-     * Receives the new midi events.
+     * Receives the new midi events, and passes them to the synth.
      *
      * @param midi
-     *
      */
     midiMessageReceived(midi) {
         this.synth.queueMidiEvent(midi);

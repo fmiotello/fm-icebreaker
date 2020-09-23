@@ -3,8 +3,8 @@ import Adsr from "./fastidious-envelope-generator.js";
 
 /**
  * Custom ADSR envelope implementation with initial delay.
+ * It's based on fastidious-envelope-generator.
  */
-
 class Envelope {
     constructor(audioContext, parameter) {
         this.adsr = new Adsr(audioContext, parameter);
