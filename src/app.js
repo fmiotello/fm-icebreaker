@@ -7,7 +7,7 @@ import Midi from "./Midi.js";
 const audioContext = new AudioContext();
 let fmSynth = undefined;
 let midi = undefined;
-let featureAnalizer = undefined;
+let featureAnalyzer = undefined;
 
 // Utilities
 let polyphony = 5;
@@ -16,6 +16,11 @@ let octaveIndex = 0;
 let maxOctave = 2;
 let minOctave = -2;
 const OUT_INDEX = 4; // used for referencing the out-env on the closures
+const featureUpdateRate = 1; // in seconds TODO: choice a right value
+
+// Visualizers
+let featureVisualizer = undefined;
+let featureVisualizerContext = document.getElementById('featureCanvas').getContext("2d");
 
 // Operator A
 let ratioASlider = document.getElementById('ratioA');
@@ -112,6 +117,14 @@ document.onclick = async function () {
     delayFx = new Tone.FeedbackDelay();
     reverbFx = new Tone.Freeverb();
     fmSynth = new FmSynth(audioContext, polyphony);
+    featureAnalyzer = Meyda.createMeydaAnalyzer({
+        "audioContext": audioContext,
+        "source": fmSynth.outGain,
+        "bufferSize": 512,
+        "featureExtractors": ["spectralCentroid", "spectralKurtosis", "spectralSpread"],
+    });
+    featureAnalyzer.start();
+    setupFeatureVisualizer();
     connectAll();
     await fmSynth.start();
     midi = new Midi(fmSynth, midiInputSelect);
@@ -121,6 +134,29 @@ document.onclick = async function () {
     initParametersFromGui();
 
     document.onclick = undefined;
+}
+
+let setupFeatureVisualizer = function () {
+    featureVisualizer = new Chart(featureVisualizerContext, {
+        type: 'radar',
+        // The data for our dataset
+        data: {
+            labels: ['Spectral Centroid', 'Spectral Kurtosis', 'spectralSpread'],
+            datasets: [{
+                label: 'My First dataset',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: [0, 0, 0]
+            }]
+        },
+
+        // Configuration options go here
+        options: {
+            legend: {
+                display:false,
+            }
+        }
+    });
 }
 
 /**
@@ -143,6 +179,7 @@ let bindEventsToGui = function () {
     document.onkeydown = noteOn;
     document.onkeyup = noteOff;
 
+    setInterval(displayFeatures, featureUpdateRate * 1000);
 
     envAmtBSlider.onchange = envAmtClosure(1);
     envDelayBSlider.onchange = envDelayClosure(1);
@@ -692,6 +729,21 @@ let algorithmButtonDownOnClick = function (ev) {
     value -= 1;
     algorithmSelect.value = value.toString();
     algorithmSelect.dispatchEvent(new Event('change'));
+}
+
+let displayFeatures = function () {
+    let features = featureAnalyzer.get();
+    let featuresValues =Object.values(features);
+    // exits from the function if no sound is playing
+    if (featuresValues.some(x => isNaN(x))) return;
+
+    console.log(features);
+
+    featureVisualizer.data.datasets[0].data[0] = featuresValues[0] / 4; // TODO: choose a right normalization
+    featureVisualizer.data.datasets[0].data[2] = featuresValues[1] / 700;
+    featureVisualizer.data.datasets[0].data[2] = featuresValues[2] / 7;
+
+    featureVisualizer.update();
 }
 
 
