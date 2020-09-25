@@ -80,6 +80,9 @@ There are eight algorithms available for this synth:
 
 ![Algorithms_new](https://user-images.githubusercontent.com/57997005/91165597-36ca4380-e6d1-11ea-8e99-bf1ce79b3cd6.jpeg)
 
+The solid lines represent the modulations between the operators (feedback is allowed too), while the dotted ones represent the output signal path.
+
+
 ### Config
 IMMAGINE MODULO PRESETS
 
@@ -109,20 +112,22 @@ IMMAGINE MODULO SPETTRO
 Together with the features of the obtained sound, it's possible to visualize a real time spectrum as well. This is a further hint on how to tune the fm parameters longing for a certain sound.
 
 ## Architecture
-The synth has 5 voices 
 
-
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/57997005/93921057-52485e80-fd10-11ea-9b0a-afe248b4c8ad.png" width="90%"//>
-</p>
+The synth has the following structure:
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/57997005/93921052-51173180-fd10-11ea-9ff9-eb3ed1ad3bd5.png" width="90%"//>
+  <img src="https://user-images.githubusercontent.com/57997005/93921057-52485e80-fd10-11ea-9b0a-afe248b4c8ad.png" width="75%"//>
+</p>
+
+The audio engine has a polyphony of 5 voices, each one of them has a particular structure based on the chosen algorithm. The following one refers to the first algorithm: 
+  
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/57997005/93921052-51173180-fd10-11ea-9ff9-eb3ed1ad3bd5.png" width="75%"//>
 </p>
 
 
 
-
+## Parameters Range
 
 | ID | Val Min  | Val Max | Default | Function |
 | :--- | :--- | :--- | :--- | :--- | 
