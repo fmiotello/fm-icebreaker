@@ -1,5 +1,5 @@
 # FM Icebreaker
-###### A MIDI FM synth web application inspired by Elektron Digitone and Yamaha DX7
+###### A polyphonic FM synth web application inspired by Elektron Digitone and Yamaha DX7
 
 FOTO DEL SYNTH
 
@@ -30,8 +30,9 @@ The synth has four default operators <img src="https://user-images.githubusercon
 
 ### Keyboard
 
-It is possible to control the synth using a Midi keyboard connected to your computer
+It is possible to control the synth using a Midi keyboard connected to your computer. You can expand the sound control capabilities using *aftertouch* and *pitch-wheel*.
 
+In addition to this it's also possible to control the synth by using the computer's keyboard which is mapped in the following way:
 <p align="center">
   <img src="https://user-images.githubusercontent.com/57997005/94257744-17bb0d80-ff2c-11ea-8c27-f224885c5dc8.png" width="90%"//>
 </p>
@@ -108,15 +109,18 @@ IMMAGINE MODULO SPETTRO
 Together with the features of the obtained sound, it's possible to visualize a real time spectrum as well. This is a further hint on how to tune the fm parameters longing for a certain sound.
 
 ## Architecture
+The synth has 5 voices 
+
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/57997005/93921057-52485e80-fd10-11ea-9b0a-afe248b4c8ad.png" width="90%"//>
+</p>
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/57997005/93921052-51173180-fd10-11ea-9ff9-eb3ed1ad3bd5.png" width="90%"//>
 </p>
 
 
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/57997005/93921057-52485e80-fd10-11ea-9b0a-afe248b4c8ad.png" width="90%"//>
-</p>
 
 
 
