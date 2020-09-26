@@ -135,7 +135,7 @@ It is obtained by performing a 512 samples long FFT over the frames exctracted u
 The structure of the synth can be described by the following block diagram:
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/57997005/93921057-52485e80-fd10-11ea-9b0a-afe248b4c8ad.png" width="75%"//>
+  <img src="https://user-images.githubusercontent.com/57997005/94343748-a3ab6300-001a-11eb-9397-099439993367.png" width="85%"//>
 </p>
 
 The audio engine is made of the operators arranged accordingly to the chosen algorithm. Then they are summed and their amplitude is controlled by a single output envelope. At this point the signal is forked to two effect busses (*delay* and *reverb*) which are finally summed to the main one to obtain the output.
