@@ -211,7 +211,7 @@ Adsr.prototype.gate = function(on, time) {
             if (this._mode === 'AD') {
                 decayTargetLevel = INITIAL_LEVEL;
             } else {
-                decayTargetLevel = this._sustainLevel;
+                decayTargetLevel = this._sustainLevel * this.attackLevel;
             }
 
             // Schedule decay

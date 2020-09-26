@@ -2,6 +2,7 @@ import {FILE_FORMAT, PARAM_CHANGE_TIME} from "./config.js";
 import FmSynth from "./FmSynth.js";
 import FmVoice from "./FmVoice.js";
 import Midi from "./Midi.js";
+import Spectrogram from "./Spectrogram.js";
 
 // Core Components
 const audioContext = new AudioContext();
@@ -10,17 +11,20 @@ let midi = undefined;
 let featureAnalyzer = undefined;
 
 // Utilities
-let polyphony = 5;
+let polyphony = 4;
 let componentList = []; // store the references of the html tags, that contain useful data for the synth
 let octaveIndex = 0;
 let maxOctave = 2;
 let minOctave = -2;
 const OUT_INDEX = 4; // used for referencing the out-env on the closures
-const featureUpdateRate = 1; // in seconds TODO: choice a right value
+const featureUpdateRate = 0.5; // in seconds
+const fftSize = 2048;
 
 // Visualizers
 let featureVisualizer = undefined;
 let featureVisualizerContext = document.getElementById('featureCanvas').getContext("2d");
+let spectrogramVisualizer = undefined;
+let spectrogramVisualizerContext = document.getElementById('spectrogramCanvas').getContext("2d");
 
 // Operator A
 let ratioASlider = document.getElementById('ratioA');
@@ -120,8 +124,8 @@ document.onclick = async function () {
     featureAnalyzer = Meyda.createMeydaAnalyzer({
         "audioContext": audioContext,
         "source": fmSynth.outGain,
-        "bufferSize": 512,
-        "featureExtractors": ["spectralCentroid", "spectralKurtosis", "spectralSpread"],
+        "bufferSize": fftSize,
+        "featureExtractors": ["perceptualSharpness", "spectralFlatness", "rms"],
     });
     featureAnalyzer.start();
     setupFeatureVisualizer();
@@ -129,6 +133,7 @@ document.onclick = async function () {
     await fmSynth.start();
     midi = new Midi(fmSynth, midiInputSelect);
     await midi.start();
+    spectrogramVisualizerContext = new Spectrogram(spectrogramVisualizerContext, audioContext, fmSynth.outGain, fftSize);
     fillComponentList();
     bindEventsToGui();
     initParametersFromGui();
@@ -141,11 +146,10 @@ let setupFeatureVisualizer = function () {
         type: 'radar',
         // The data for our dataset
         data: {
-            labels: ['Spectral Centroid', 'Spectral Kurtosis', 'spectralSpread'],
+            labels: ["INARMONICITY", "RICHNESS", 'NOISINESS'],
             datasets: [{
-                label: 'My First dataset',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgba(255,99,132,0)',
+                borderColor: 'rgb(251,70,85)',
                 data: [0, 0, 0]
             }]
         },
@@ -153,7 +157,24 @@ let setupFeatureVisualizer = function () {
         // Configuration options go here
         options: {
             legend: {
-                display:false,
+                display: false,
+            },
+            tooltips: {
+                enabled: false,
+            },
+            scale: {
+                ticks: {
+                    display: false,
+                    maxTicksLimit: 2,
+                    min: 0,
+                    max: 1,
+                },
+                gridLines: {
+                    color: 'rgb(172,49,61)',
+                },
+                pointLabels: {
+                    fontColor: 'rgb(251,70,85)',
+                },
             }
         }
     });
@@ -644,7 +665,6 @@ let reverbGainSliderOnChange = function (ev) {
  * @param ev
  */
 let presetInputTextOnChange = function (ev) {
-    // TODO: disable keyboard when writing
     let presetName = presetInputText.value;
     savePresetLink.href = generatePresetUrl(presetName + "." + FILE_FORMAT);
     savePresetLink.download = presetName + "." + FILE_FORMAT;
@@ -733,15 +753,45 @@ let algorithmButtonDownOnClick = function (ev) {
 
 let displayFeatures = function () {
     let features = featureAnalyzer.get();
-    let featuresValues =Object.values(features);
-    // exits from the function if no sound is playing
-    if (featuresValues.some(x => isNaN(x))) return;
+    let featuresValues = Object.values(features);
 
-    console.log(features);
+    // resets the values to zero with no notes
+    if (featuresValues[2] < 0.01) return;
 
-    featureVisualizer.data.datasets[0].data[0] = featuresValues[0] / 4; // TODO: choose a right normalization
-    featureVisualizer.data.datasets[0].data[2] = featuresValues[1] / 700;
-    featureVisualizer.data.datasets[0].data[2] = featuresValues[2] / 7;
+
+    // inharmonicity calculation
+    let inharmonicity = parseFloat(detuneSlider.value);
+    let ratios = [];
+    ratios.push(parseFloat(ratioASlider.value));
+    ratios.push(parseFloat(ratioBSlider.value));
+    ratios.push(parseFloat(ratioCSlider.value));
+    ratios.push(parseFloat(ratioDSlider.value));
+    let envAmts = [];
+    envAmts.push(1);
+    envAmts.push(parseFloat(envAmtBSlider.value) / 5);
+    envAmts.push(parseFloat(envAmtCSlider.value) / 5);
+    envAmts.push(parseFloat(envAmtDSlider.value) / 5);
+
+    ratios.forEach((r,i) => {
+        let addDissonance = 0;
+        if (r % 1 !== 0) inharmonicity += 0.1 * envAmts[i];
+    });
+    inharmonicity /= 0.6;
+
+    // noisiness
+    let noisiness = featuresValues[1] * 3;
+    noisiness = (noisiness > 1)? 1 : noisiness;
+
+    // richness
+    let richness = featuresValues[0];
+
+    featureVisualizer.data.datasets[0].data[1] = richness;
+    featureVisualizer.data.datasets[0].data[2] = noisiness;
+    featureVisualizer.data.datasets[0].data[0] = inharmonicity;
+
+    // TODO: remove console log
+    // console.log(features);
+    // console.log(richness, noisiness, inharmonicity);
 
     featureVisualizer.update();
 }

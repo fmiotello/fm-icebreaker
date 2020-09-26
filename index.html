@@ -8,15 +8,21 @@
 </head>
 <body>
 
-    <!-- EXTERNAL CONTAINER -->
+<!-- EXTERNAL CONTAINER -->
+<div id="scaling-container">
     <div id="synthContainer">
 
         <!-- TOP ROW -->
         <div class="input-row">
             <div class="input-block">
+                <div id="spectrogramContainer" class="visualizerContainer">
+                    <canvas id="spectrogramCanvas"></canvas>
+                </div>
             </div>
             <div class="input-block">
-                <canvas id="featureCanvas" width="200" height="120"></canvas>
+                <div id="featureCanvasContainer" class="visualizerContainer">
+                    <canvas id="featureCanvas"></canvas>
+                </div>
             </div>
             <div class="input-block">
                 <button id="algorithmButtonDown">down</button>
@@ -56,7 +62,7 @@
                 </div>
                 <div class="input-block-sliders">
                     <div class="input-entry">
-                        <input id="envAmtB" data-fullname="ENV B AMOUNT (AMT)" type="range" min="0" max="5" value="2"
+                        <input id="envAmtB" data-fullname="ENV B AMOUNT (AMT)" type="range" min="0" max="3" value="1"
                                step="0.01">
                     </div>
                     <div class="input-entry">
@@ -107,7 +113,7 @@
                 </div>
                 <div class="input-block-sliders">
                     <div class="input-entry">
-                        <input id="envAmtC" data-fullname="ENV C AMOUNT (AMT)" type="range" min="0" max="5" value="0"
+                        <input id="envAmtC" data-fullname="ENV C AMOUNT (AMT)" type="range" min="0" max="3" value="0"
                                step="0.01">
                     </div>
                     <div class="input-entry">
@@ -158,7 +164,7 @@
                 </div>
                 <div class="input-block-sliders">
                     <div class="input-entry">
-                        <input id="envAmtD" data-fullname="ENV D AMOUNT (AMT)" type="range" min="0" max="5" value="0"
+                        <input id="envAmtD" data-fullname="ENV D AMOUNT (AMT)" type="range" min="0" max="3" value="0"
                                step="0.01">
                     </div>
                     <div class="input-entry">
@@ -316,12 +322,14 @@
         </div>
 
     </div>
+</div>
 </body>
 
 <!-- JS Libraries -->
 <script src="src/app.js" type="module"></script>
 <script src="https://unpkg.com/meyda/dist/web/meyda.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="src/spectrogram.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/13.8.25/Tone.js"
         integrity="sha512-+sgRE8eSi+yyva4H1D0XZCTqL9PI10FU1ti9XMM3qZQhH1EKKQnS3bvCcCQ3OYkIc7Zzq17Hvegu2SOda47v+Q=="
         crossorigin="anonymous"></script>
