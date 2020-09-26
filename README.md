@@ -115,12 +115,21 @@ FM synthesis in fact is as powerful as difficult to master: being able to obtain
 To achive this goal audio features analysis is involved: an audio feature is a measurement of a particular characteristic of an audio signal, and it gives insight into what the signal contains. Audio features can be measured by running an algorithm on an audio signal that will return a number, or a set of numbers that quantify the characteristic that the specific algorithm is intended to measure.
 
 Before exctracting the features, the audio needs to be windowed and divided into frames of the same lenght using a *hanning* window. Then a 512 samples long FFT is performed for each frame and the descriptors are extracted through a specific algorithm.
-The feature descriptors are four:
+The feature descriptors are three:
+ (dire se sono time o frequency domain feature)
+1) **Noisiness
 
-* Sharpness (dire se sono time o frequency domain feature)
-* Harmonicity
-* Percussivity
-* Spectral Richness
+2) **Harmonicity
+The descriptor used to get this audio feature is the *Harmonic Spectral Deviation* which computes the
+deviation of the amplitude harmonic peaks from a global spectral envelope.
+
+FORMULA
+
+* *H* is the total number of considered harmonics
+* *a(h)* is the amplitude of the *hth* harmonic
+* *SE(h)* is the amplitude of the spectral envelope evaluated at the frequency *f(h)*
+
+3) **Spectral Richness
 
 [Meyda](https://meyda.js.org/), which implements a selection of standardized audio features, was used for this purpose.
 
@@ -135,7 +144,7 @@ It is obtained by performing a 512 samples long FFT over the frames exctracted u
 The structure of the synth can be described by the following block diagram:
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/57997005/94343748-a3ab6300-001a-11eb-9397-099439993367.png" width="85%"//>
+  <img src="https://user-images.githubusercontent.com/57997005/94343748-a3ab6300-001a-11eb-9397-099439993367.png" width="80%"//>
 </p>
 
 The audio engine is made of the operators arranged accordingly to the chosen algorithm. Then they are summed and their amplitude is controlled by a single output envelope. At this point the signal is forked to two effect busses (*delay* and *reverb*) which are finally summed to the main one to obtain the output.
@@ -143,7 +152,7 @@ The audio engine is made of the operators arranged accordingly to the chosen alg
 The audio engine has a polyphony of 5 voices, each one of them has a particular structure based on the chosen algorithm. The following one refers to the first algorithm: 
   
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/57997005/93921052-51173180-fd10-11ea-9ff9-eb3ed1ad3bd5.png" width="75%"//>
+  <img src="https://user-images.githubusercontent.com/57997005/94344025-9c855480-001c-11eb-8344-f24b27c34ed5.png" width="80%"//>
 </p>
 
 # La sezione che scriverà fede miotello
