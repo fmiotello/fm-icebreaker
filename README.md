@@ -40,8 +40,8 @@ In addition to this it's also possible to control the synth by using the compute
 
 ### Operators B/C/D
 
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/57997005/94342950-17e30800-0015-11eb-99b3-abef7a204f4f.png" width="50%"//>
+<p>
+  <img src="https://user-images.githubusercontent.com/57997005/94342950-17e30800-0015-11eb-99b3-abef7a204f4f.png" width="35%"//>
 </p>
 
 Operators are the core of an FM synth. An envelope can be connected to each operator in order to modify the modulation index *I* and thus alter the spectrum.
@@ -57,8 +57,8 @@ Their parameters can be changed from this module:
 
 ### Operator A - Outenv
 
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/57997005/94342952-19143500-0015-11eb-8ce7-2cb36ece8c42.png" width="50%"//>
+<p>
+  <img src="https://user-images.githubusercontent.com/57997005/94342952-19143500-0015-11eb-8ce7-2cb36ece8c42.png" width="35%"//>
 </p>
 
 * RTO: Changes the ratio of the frequency of the operator A with respect to the fundamental
@@ -71,8 +71,8 @@ Their parameters can be changed from this module:
 
 ### Global - FX
 
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/57997005/94342948-16b1db00-0015-11eb-99c0-a150eac6b19e.png" width="50%"//>
+<p>
+  <img src="https://user-images.githubusercontent.com/57997005/94342948-16b1db00-0015-11eb-99c0-a150eac6b19e.png" width="35%"//>
 </p>
 
 It's possible to change some global parameters and add *reverb* and *delay* to the obtained sound:
@@ -86,8 +86,8 @@ It's possible to change some global parameters and add *reverb* and *delay* to t
 
 ### Config
 
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/57997005/94342949-174a7180-0015-11eb-906a-7fc3ee6519ed.png" width="50%"//>
+<p>
+  <img src="https://user-images.githubusercontent.com/57997005/94342949-174a7180-0015-11eb-906a-7fc3ee6519ed.png" width="35%"//>
 </p>
 
 The synth allows you to save the sound you have achieved as a preset and reload it whenever you want:
@@ -146,7 +146,7 @@ The audio engine has a polyphony of 5 voices, each one of them has a particular 
   <img src="https://user-images.githubusercontent.com/57997005/93921052-51173180-fd10-11ea-9ff9-eb3ed1ad3bd5.png" width="75%"//>
 </p>
 
-### La sezione che scriverà fede miotello
+# La sezione che scriverà fede miotello
 
 ## Parameters Range
 
