@@ -39,7 +39,10 @@ In addition to this it's also possible to control the synth by using the compute
 
 
 ### Operators B/C/D
-IMMAGINE SINGOLO OPERATORE
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/57997005/94342950-17e30800-0015-11eb-99b3-abef7a204f4f.png" width="50%"//>
+</p>
 
 Operators are the core of an FM synth. An envelope can be connected to each operator in order to modify the modulation index *I* and thus alter the spectrum.
 Their parameters can be changed from this module:
@@ -53,7 +56,10 @@ Their parameters can be changed from this module:
 * RTO: Changes the ratio of the frequency of the operator with respect to the fundamental
 
 ### Operator A - Outenv
-IMMAGINE OUTENV
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/57997005/94342952-19143500-0015-11eb-8ce7-2cb36ece8c42.png" width="50%"//>
+</p>
 
 * RTO: Changes the ratio of the frequency of the operator A with respect to the fundamental
 * ATK: Changes the attack of the output envelope
@@ -64,7 +70,10 @@ IMMAGINE OUTENV
 * MIX: Changes the crossfade mix between channels X and Y
 
 ### Global - FX
-IMMAGINE GLOBAL FX
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/57997005/94342948-16b1db00-0015-11eb-99c0-a150eac6b19e.png" width="50%"//>
+</p>
 
 It's possible to change some global parameters and add *reverb* and *delay* to the obtained sound:
 * GLD: Changes the glide time
@@ -76,7 +85,10 @@ It's possible to change some global parameters and add *reverb* and *delay* to t
 * VOL: Changes the output volume
 
 ### Config
-IMMAGINE MODULO PRESETS
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/57997005/94342949-174a7180-0015-11eb-906a-7fc3ee6519ed.png" width="50%"//>
+</p>
 
 The synth allows you to save the sound you have achieved as a preset and reload it whenever you want:
 1) To save the preset click on *save preset* after having specified its name: this locally downloads a file with the values of the parameters
