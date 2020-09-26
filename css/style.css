@@ -1,4 +1,5 @@
 @import "reset.css";
+
 :root {
     --container-bg: #79272e;
     --bg-color: #403E43;
@@ -36,13 +37,14 @@ body, html {
 #synthContainer {
     background-color: var(--container-bg);
     width: 80%;
+    max-width: 1200px;
     padding: 16px 0;
     border-radius: 10px;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    box-shadow: 14px 10px 36px -1px rgba(0,0,0,0.3);
+    box-shadow: 14px 10px 36px -1px rgba(0, 0, 0, 0.3);
 }
 
 .input-row {
@@ -53,6 +55,7 @@ body, html {
 
 .input-block {
     width: 270px;
+    min-height: 145px;
     padding: 40px 20px 25px 20px;
     border: 1px solid var(--bg-color);
     border-radius: 8px;
@@ -98,7 +101,18 @@ body, html {
     margin: 0 2px;
 }
 
+.glow {
+    animation: neon .9s ease-in-out infinite alternate;
+}
 
+@keyframes neon {
+    from {
+        text-shadow: 0 0 5px rgba(246, 91, 104, 0.7)
+    }
+    to {
+        text-shadow: 0 0 6px rgba(245, 126, 134, 0.3)
+    }
+}
 
 label {
     display: inline-block;
@@ -250,4 +264,47 @@ label[for="midiInput"] {
 
 #spectrogramCanvas {
     transform: scaleX(-1);
+}
+
+#algorithmSelect {
+    display: none;
+}
+
+#algorithmContainer {
+    padding-top: 16px;
+}
+
+.algorithmButtonCommon {
+    position: absolute;
+    background-color: rgba(0,0,0,0);
+    border: 2px solid var(--main-color);
+    border-radius: 4px;
+    width:30px;
+    height:30px;
+    font-size: 20px;
+    color: var(--main-color);
+    top:68px;
+    outline: none;
+}
+
+.algorithmButtonCommon:hover {
+    background-color: var(--main-color);
+    color: var(--secondary-color);
+}
+
+
+#algorithmButtonUp {
+    right: 30px;
+}
+
+#algorithmButtonDown {
+    left: 30px;
+}
+
+#algorithmImg {
+
+}
+
+.color-image {
+    filter: invert(33%) sepia(56%) saturate(2696%) hue-rotate(334deg) brightness(113%) contrast(97%);
 }

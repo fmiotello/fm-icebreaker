@@ -20,24 +20,28 @@
                 </div>
             </div>
             <div class="input-block">
-                <div id="featureCanvasContainer" class="visualizerContainer">
+                <div id="featureCanvasContainer" class="visualizerContainer glow">
                     <canvas id="featureCanvas"></canvas>
                 </div>
             </div>
             <div class="input-block">
-                <button id="algorithmButtonDown">down</button>
-                <button id="algorithmButtonUp">up</button>
-                <select id="algorithmSelect">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                    <option>6</option>
-                    <option>7</option>
-                    <option>8</option>
-                </select>
-                <img src="" width="130" height="130">
+                <div id="algorithmContainer" class="visualizerContainer">
+                    <div id="algorithmButtons">
+                        <button id="algorithmButtonDown" class="algorithmButtonCommon"><</button>
+                        <button id="algorithmButtonUp" class="algorithmButtonCommon">></button>
+                        <select id="algorithmSelect">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                            <option>8</option>
+                        </select>
+                    </div>
+                    <img id="algorithmImg" src="img/algorithm1.png" width="130" height="130" class="color-image">
+                </div>
             </div>
         </div>
 
@@ -47,11 +51,11 @@
             <!-- OPERATOR B -->
             <div class="input-block">
                 <span class="input-block-name">B</span>
-                <div class="input-block-labels" style="display: none">
+                <div class="input-block-labels glow" style="display: none">
                     <label class="block-label-detail-name">---</label>
                     <label class="block-label-detail-value">---</label>
                 </div>
-                <div class="input-block-labels">
+                <div class="input-block-labels glow">
                     <label for="envAmtB">AMT</label>
                     <label for="envDelayB">DLY</label>
                     <label for="envAttackB">ATK</label>
@@ -98,11 +102,11 @@
             <!-- OPERATOR C -->
             <div class="input-block">
                 <span class="input-block-name">C</span>
-                <div class="input-block-labels" style="display: none">
+                <div class="input-block-labels glow" style="display: none">
                     <label class="block-label-detail-name">---</label>
                     <label class="block-label-detail-value">---</label>
                 </div>
-                <div class="input-block-labels">
+                <div class="input-block-labels glow">
                     <label for="envAmtC">AMT</label>
                     <label for="envDelayC">DLY</label>
                     <label for="envAttackC">ATK</label>
@@ -149,11 +153,11 @@
             <!-- OPERATOR D -->
             <div class="input-block">
                 <span class="input-block-name">D</span>
-                <div class="input-block-labels" style="display: none">
+                <div class="input-block-labels glow" style="display: none">
                     <label class="block-label-detail-name">---</label>
                     <label class="block-label-detail-value">---</label>
                 </div>
-                <div class="input-block-labels">
+                <div class="input-block-labels glow">
                     <label for="envAmtD">AMT</label>
                     <label for="envDelayD">DLY</label>
                     <label for="envAttackD">ATK</label>
@@ -204,11 +208,11 @@
             <!-- OPERATOR A - OUTPUT -->
             <div class="input-block">
                 <span class="input-block-name">A - OUTENV</span>
-                <div class="input-block-labels" style="display: none">
+                <div class="input-block-labels glow" style="display: none">
                     <label class="block-label-detail-name">---</label>
                     <label class="block-label-detail-value">---</label>
                 </div>
-                <div class="input-block-labels">
+                <div class="input-block-labels glow">
                     <label for="ratioA">RTO</label>
                     <label for="envAttackOut">ATK</label>
                     <label for="envDecayOut">DEC</label>
@@ -253,11 +257,11 @@
             <!-- FX AND MORE -->
             <div class="input-block">
                 <span class="input-block-name">GLOBAL - FX</span>
-                <div class="input-block-labels" style="display: none">
+                <div class="input-block-labels glow" style="display: none">
                     <label class="block-label-detail-name">---</label>
                     <label class="block-label-detail-value">---</label>
                 </div>
-                <div class="input-block-labels">
+                <div class="input-block-labels glow">
                     <label for="glideTime">GLD</label>
                     <label for="delayTime">TIM</label>
                     <label for="delayFeedback">FBK</label>
@@ -301,7 +305,7 @@
 
             <!-- CONFIGURATIONS -->
             <div class="input-block">
-                <div class="input-block-labels">
+                <div class="input-block-labels glow">
                     <input type="text" id="presetInputText" value="init_patch">
                 </div>
                 <span class="input-block-name">CONFIG</span>

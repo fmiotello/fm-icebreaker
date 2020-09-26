@@ -25,6 +25,8 @@ let featureVisualizer = undefined;
 let featureVisualizerContext = document.getElementById('featureCanvas').getContext("2d");
 let spectrogramVisualizer = undefined;
 let spectrogramVisualizerContext = document.getElementById('spectrogramCanvas').getContext("2d");
+let algorithmImg = document.getElementById('algorithmImg');
+let imgPath = 'img/';
 
 // Operator A
 let ratioASlider = document.getElementById('ratioA');
@@ -341,6 +343,7 @@ let fillComponentList = function () {
         glideTimeSlider,
         midiInputSelect, // onchange handled inside Midi class
         detuneSlider,
+        algorithmSelect,
 
         presetInputText,
     );
@@ -722,6 +725,7 @@ let updateSettingsFromPreset = function (preset) {
 let algorithmSelectOnChange = function (ev) {
     let value = parseInt(ev.target.value);
     fmSynth.setAlgorithm(value - 1);
+    algorithmImg.src= imgPath + "algorithm" + value + ".png";
 }
 
 /**
