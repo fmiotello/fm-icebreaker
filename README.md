@@ -26,44 +26,56 @@ The generated sound is affected as well by the envelope of each modulator, which
 
 ## Usage
 
-The synth has four default operators <img src="https://user-images.githubusercontent.com/57997005/91181243-fd9dcd80-e6e8-11ea-932f-4704ca88cd5d.jpg" alt="operator_A" width="23"/>  <img src="https://user-images.githubusercontent.com/57997005/91182726-d516d300-e6ea-11ea-99cf-3bd222320334.jpg" width="23"/>  <img src="https://user-images.githubusercontent.com/57997005/91182774-e52eb280-e6ea-11ea-8b01-62994754c548.jpg" alt="operator_C" width="23"/>  <img src="https://user-images.githubusercontent.com/57997005/91182760-e069fe80-e6ea-11ea-9cd0-26354f276780.jpg" alt="operator_D" width="23"/> , and two output busses  <img src="https://user-images.githubusercontent.com/57997005/91295067-c7b92180-e79a-11ea-8701-080a95665bf9.jpg" alt="output_x" width="18"/> &  <img src="https://user-images.githubusercontent.com/57997005/91295070-c8ea4e80-e79a-11ea-83d8-39013da6c53c.jpg" alt="output_y" width="18"/> that can be differently mixed with a crossfade to obtain the output.
-
+The synth has four default operators <img src="https://user-images.githubusercontent.com/57997005/91181243-fd9dcd80-e6e8-11ea-932f-4704ca88cd5d.jpg" alt="operator_A" width="23"/>  <img src="https://user-images.githubusercontent.com/57997005/91182726-d516d300-e6ea-11ea-99cf-3bd222320334.jpg" width="23"/>  <img src="https://user-images.githubusercontent.com/57997005/91182774-e52eb280-e6ea-11ea-8b01-62994754c548.jpg" alt="operator_C" width="23"/>  <img src="https://user-images.githubusercontent.com/57997005/91182760-e069fe80-e6ea-11ea-9cd0-26354f276780.jpg" alt="operator_D" width="23"/> , and two output busses  <img src="https://user-images.githubusercontent.com/57997005/91295067-c7b92180-e79a-11ea-8701-080a95665bf9.jpg" alt="output_x" width="18"/> &  <img src="https://user-images.githubusercontent.com/57997005/91295070-c8ea4e80-e79a-11ea-83d8-39013da6c53c.jpg" alt="output_y" width="18"/> that can be differently mixed with a crossfade to obtain the output. 
 ### Keyboard
 
-It is possible to control the synth using a Midi keyboard connected to your computer. You can expand the sound control capabilities using *aftertouch* and *pitch-wheel*.
+It is possible to control the synth using a Midi keyboard connected to your computer. You can expand the sound control capabilities using the *pitch-wheel*.
 
 In addition to this it's also possible to control the synth by using the computer's keyboard which is mapped in the following way:
 <p align="center">
   <img src="https://user-images.githubusercontent.com/57997005/94257744-17bb0d80-ff2c-11ea-8c27-f224885c5dc8.png" width="90%"//>
 </p>
 
-### Operators
-IMMAGINE SINGOLO OPERATORE
 
-Operators are the core of an FM synth, their parameters can be changed from this module:
-* AMT: Changes the amount of the operator
-* DLY: Changes the delay of envelope of the operator
-* ATK: Changes the attack of the envelope of the operator
-* DEC: Changes the decay of the envelope of the operator
-* SUS: Changes the sustain of the envelope of the operator
-* REL: Changes the release of the envelope of the operator
-* RTO: Changes the ratio of the frequency of the operator
 
-### Output Envelope
-IMMAGINE OUTENV
+### Operators B/C/D
 
-* RTO: Changes the ratio of the frequency of the operator A
+<p>
+  <img src="https://user-images.githubusercontent.com/57997005/94342950-17e30800-0015-11eb-99b3-abef7a204f4f.png" width="35%"//>
+</p>
+
+Operators are the core of an FM synth. An envelope can be connected to each operator in order to modify the modulation index *I* and thus alter the spectrum.
+Their parameters can be changed from this module:
+
+* AMT: Changes the modulation amount of the operator
+* DLY: Changes the delay of moudlation envelope of the operator
+* ATK: Changes the attack of the modulation envelope of the operator
+* DEC: Changes the decay of the modulation envelope of the operator
+* SUS: Changes the sustain of the modulation envelope of the operator
+* REL: Changes the release of the modulation envelope of the operator
+* RTO: Changes the ratio of the frequency of the operator with respect to the fundamental
+
+### Operator A - Outenv
+
+<p>
+  <img src="https://user-images.githubusercontent.com/57997005/94342952-19143500-0015-11eb-8ce7-2cb36ece8c42.png" width="35%"//>
+</p>
+
+* RTO: Changes the ratio of the frequency of the operator A with respect to the fundamental
 * ATK: Changes the attack of the output envelope
 * DEC: Changes the decay of the output envelope
 * SUS: Changes the sustain of the output envelope
 * REL: Changes the release of the output envelope
-* DET: Changes the detune amount
+* DET: Changes the frequency deviation of all the operators
 * MIX: Changes the crossfade mix between channels X and Y
 
-### Global Effects
-IMMAGINE GLOBAL FX
+### Global - FX
 
-It's possible to add *reverb* and *delay* to the obtained sound and to change their parameters:
+<p>
+  <img src="https://user-images.githubusercontent.com/57997005/94342948-16b1db00-0015-11eb-99c0-a150eac6b19e.png" width="35%"//>
+</p>
+
+It's possible to change some global parameters and add *reverb* and *delay* to the obtained sound:
 * GLD: Changes the glide time
 * TIM: Changes the delay time
 * FBK: Changes the delay feedback
@@ -71,6 +83,18 @@ It's possible to add *reverb* and *delay* to the obtained sound and to change th
 * SIZ: Changes the reverb size
 * REV: Changes the reverb send
 * VOL: Changes the output volume
+
+### Config
+
+<p>
+  <img src="https://user-images.githubusercontent.com/57997005/94342949-174a7180-0015-11eb-906a-7fc3ee6519ed.png" width="35%"//>
+</p>
+
+The synth allows you to save the sound you have achieved as a preset and reload it whenever you want:
+1) To save the preset click on *save preset* after having specified its name: this locally downloads a file with the values of the parameters
+2) To load one of your presets click on *load preset* and choose between the ones you saved locally
+
+From the drop down menu of this module you can choose among the conneced Midi devices to control the synth.
 
 ### Algorithms
 IMMAGINE SEZIONE ALGORITMI
@@ -82,50 +106,56 @@ There are eight algorithms available for this synth:
 
 The solid lines represent the modulations between the operators (feedback is allowed too), while the dotted ones represent the output signal path.
 
-
-### Config
-IMMAGINE MODULO PRESETS
-
-The synth allows you to save the sound you have achieved as a preset and reload it whenever you want:
-1) To save the preset click on *save preset* after having specified its name: this downloads a file with the values of the parameters
-2) To load one of your presets click on *load preset* and choose between the ones you saved
-
-You can select from the drop down menu on this module one of the connected Midi devices to control the synth.
-
-
 ### Sound Features
 IMMAGINE MODULO FEATURES
 
-From the graph above it's possible to see in real time what are the features of the sound obtained from the FM synthesis. In this way it is possible to understand how to tune the parameters in order to achieve a specific sound quality.
-The feature descriptors are four:
+From the graph above it's possible to see in real time what are the attributes of the sound obtained from the FM synthesis. In this way it is possible to understand how to tune the parameters in order to achieve a specific sound quality.
+FM synthesis in fact is as powerful as difficult to master: being able to obtain a very high variety of sounds with such a low number of parameters, it is often hard to predict the output's timbre. This module of the synth is ment to simplify this process.
 
-* Sharpness
-* Harmonicity
-* Percussivity
-* Spectral Richness
+To achive this goal audio features analysis is involved: an audio feature is a measurement of a particular characteristic of an audio signal, and it gives insight into what the signal contains. Audio features can be measured by running an algorithm on an audio signal that will return a number, or a set of numbers that quantify the characteristic that the specific algorithm is intended to measure.
 
-Machine learning and feature extraction are involved in this task: [Meyda](https://meyda.js.org/) was used for this purpose.
+Before exctracting the features, the audio needs to be windowed and divided into frames of the same lenght using a *hanning* window. Then a 512 samples long FFT is performed for each frame and the descriptors are extracted through a specific algorithm.
+The feature descriptors are three:
+ (dire se sono time o frequency domain feature)
+1) **Noisiness
+
+2) **Harmonicity
+The descriptor used to get this audio feature is the *Harmonic Spectral Deviation* which computes the
+deviation of the amplitude harmonic peaks from a global spectral envelope.
+
+FORMULA
+
+* *H* is the total number of considered harmonics
+* *a(h)* is the amplitude of the *hth* harmonic
+* *SE(h)* is the amplitude of the spectral envelope evaluated at the frequency *f(h)*
+
+3) **Spectral Richness
+
+[Meyda](https://meyda.js.org/), which implements a selection of standardized audio features, was used for this purpose.
 
 ### Spectrogram
 IMMAGINE MODULO SPETTRO
 
-Together with the features of the obtained sound, it's possible to visualize a real time spectrum as well. This is a further hint on how to tune the fm parameters longing for a certain sound.
+Together with the features of the obtained sound, it's possible to visualize a real time spectrum as well. This is a further hint on how to tune the FM parameters longing for a certain sound.
+It is obtained by performing a 512 samples long FFT over the frames exctracted using an *hanning* window.
 
 ## Architecture
 
-The synth has the following structure:
+The structure of the synth can be described by the following block diagram:
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/57997005/93921057-52485e80-fd10-11ea-9b0a-afe248b4c8ad.png" width="75%"//>
+  <img src="https://user-images.githubusercontent.com/57997005/94343748-a3ab6300-001a-11eb-9397-099439993367.png" width="80%"//>
 </p>
+
+The audio engine is made of the operators arranged accordingly to the chosen algorithm. Then they are summed and their amplitude is controlled by a single output envelope. At this point the signal is forked to two effect busses (*delay* and *reverb*) which are finally summed to the main one to obtain the output.
 
 The audio engine has a polyphony of 5 voices, each one of them has a particular structure based on the chosen algorithm. The following one refers to the first algorithm: 
   
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/57997005/93921052-51173180-fd10-11ea-9ff9-eb3ed1ad3bd5.png" width="75%"//>
+  <img src="https://user-images.githubusercontent.com/57997005/94344025-9c855480-001c-11eb-8344-f24b27c34ed5.png" width="80%"//>
 </p>
 
-
+# La sezione che scriverà fede miotello
 
 ## Parameters Range
 
