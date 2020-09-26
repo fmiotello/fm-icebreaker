@@ -7,10 +7,15 @@ FOTO DEL SYNTH
 Video demo
 
 ## What is FM Synthesis
-*Frequency modulation synthesis* (or *FM synthesis*) is a form of non linear sound synthesis technique whereby the frequency of a waveform, the carrier, is varied according to a modulating wave, the modulator, such that the rate at which the carrier varies is the frequency of the modulating wave. Both carrier and modulator are called operators and there can be more than two of them.
+*Frequency Modulation Synthesis* (or *FM Synthesis*) is a form of non linear sound synthesis which encompasses an entire family of techniques in which the instantaneous frequency of a carrier signal is itself a modulating signal that varies at audio rate. 
 This type of synthesis can be used to obtain an extremely wide range of different sounds with a small number of parameters, since the non-linearity allows to largely enrich the input signal's spectrum.
 
-The parameters of a frequency modulated signals are:
+For the implementation of this synth the FM is intended in terms of *Phase Modulation Synthesis* in which the modulated singnal is not the frequency, but the phase. *Phase Modulation* and *Frequency Modulation* are similar, but in Phase Modulation the frequency of the carrier signal is not increased.
+Both carrier and modulator are called operators and there can be more than two of them.
+
+The expression of a modulated signal is :
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=e&space;=&space;A&space;sin&space;(\alpha&space;t&space;&plus;&space;I&space;\sin{\beta&space;t})" target="_blank"><img src="https://latex.codecogs.com/gif.latex?e&space;=&space;A&space;sin&space;(\alpha&space;t&space;&plus;&space;I&space;\sin{\beta&space;t})" title="e = A sin (\alpha t + I \sin{\beta t})" /></a>
 
 - *c* = carrier frequency
 - *m* = modulating frequency
@@ -117,19 +122,26 @@ To achive this goal audio features analysis is involved: an audio feature is a m
 Before exctracting the features, the audio needs to be windowed and divided into frames of the same lenght using a *hanning* window. Then a 512 samples long FFT is performed for each frame and the descriptors are extracted through a specific algorithm.
 The feature descriptors are three:
  (dire se sono time o frequency domain feature)
-1) **Noisiness
+ 
+**Noisiness** <br>
 
-2) **Harmonicity
+**Harmonicity** (Frequency domain feature) <br>
+It is the description
 The descriptor used to get this audio feature is the *Harmonic Spectral Deviation* which computes the
 deviation of the amplitude harmonic peaks from a global spectral envelope.
 
-FORMULA
+<p align="center">
+<a href="https://www.codecogs.com/eqnedit.php?latex=HDEV&space;=&space;\frac{1}{H}&space;\sum_h(a(h)-SE(h))" target="_blank"><img src="https://latex.codecogs.com/gif.latex?HDEV&space;=&space;\frac{1}{H}&space;\sum_h(a(h)-SE(h))" title="HDEV = \frac{1}{H} \sum_h(a(h)-SE(h))" /></a>
+ </p>
 
 * *H* is the total number of considered harmonics
-* *a(h)* is the amplitude of the *hth* harmonic
+* *a(h)* is the amplitude of the *h*<sup>*th*</sup> harmonic
 * *SE(h)* is the amplitude of the spectral envelope evaluated at the frequency *f(h)*
 
-3) **Spectral Richness
+**Spectral Richness** (Frequency domain feature) <br>
+The descriptor used to get this audio feature is the *Perceptual Spread* which computes the spread of some specific loudness coefficients over the bark scale.
+
+
 
 [Meyda](https://meyda.js.org/), which implements a selection of standardized audio features, was used for this purpose.
 
