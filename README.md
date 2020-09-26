@@ -167,7 +167,13 @@ The audio engine has a polyphony of 5 voices, each one of them has a particular 
   <img src="https://user-images.githubusercontent.com/57997005/94344025-9c855480-001c-11eb-8344-f24b27c34ed5.png" width="80%"//>
 </p>
 
-# La sezione che scriverà fede miotello
+## Implementation details
+
+This application was developed using Javscript: Web Audio APIs and Web Midi APIs are at its core. For the sake of efficiency it was decided not to use the standard *AudioNode* class to implement the operators, since this would have resulted in an unefficient computation. We instead built a custom module using the provided *AudioWorklet* interface. In particular an operator is built using an *AudioWorkletNode* and all the processing is carried out by the *AudioWorkletProcessor*. This solution allows the script to be exectuted in a separate audio thread to provide very low latency audio processing. Moreover, to reduce the latency and the complexity even lower, the *sin* function computation, used to produce the audio signals, was implemented using a lookup table.
+
+parte envelope
+
+parte organizzazione codice (matt?)
 
 ## Parameters Range
 
