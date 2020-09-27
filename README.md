@@ -236,8 +236,6 @@ Finally, the project structure and code organization was mostly influenced by th
 
 This application was developed as a project for the "Sound Analysis, Synthesis and Processing" course at [Politecnico di Milano](https://www.polimi.it/en/) (MSc in Music and Acoustic Engineering).
 
-*Luigi Attorresi*
-
-*Federico Di Marzo*
-
-*Federico Miotello*
+*[Luigi Attorresi](https://github.com/LuigiAttorresi)*<br>
+*[Federico Di Marzo](https://github.com/FedericoDiMarzo)*<br>
+*[Federico Miotello](https://github.com/fmiotello)*
