@@ -1,5 +1,12 @@
-# FM Icebreaker
-###### A polyphonic FM synth web application inspired by Elektron Digitone and Yamaha DX7
+<h1 align="center">
+FM Icebreaker
+</h1>
+
+<h6 align="center">
+A polyphonic FM synth web application inspired by Elektron Digitone and Yamaha DX7
+</h6>
+
+
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/17434626/94362856-69939d00-00be-11eb-921b-901e2dbe6b2d.png" width="85%"//>
@@ -175,13 +182,17 @@ The audio engine has a polyphony of 5 voices, each one of them has a particular 
   <img src="https://user-images.githubusercontent.com/57997005/94344025-9c855480-001c-11eb-8344-f24b27c34ed5.png" width="80%"//>
 </p>
 
-## Implementation details
+## Other details
 
-This application was developed using Javscript: Web Audio APIs and Web Midi APIs are at its core. For the sake of efficiency it was decided not to use the standard *AudioNode* class to implement the operators, since this would have resulted in an unefficient computation. We instead built a custom module using the provided *AudioWorklet* interface. In particular an operator is built using an *AudioWorkletNode* and all the processing is carried out by the *AudioWorkletProcessor*. This solution allows the script to be exectuted in a separate audio thread to provide very low latency audio processing. Moreover, to reduce the latency and the complexity even lower, the *sin* function computation, used to produce the audio signals, was implemented using a lookup table.
+This application was developed using Javscript: [Web Audio API](https://webaudio.github.io/web-audio-api/) is at its core. For the sake of efficiency it was decided not to use the standard *AudioNode* class to implement the operators, since this would have resulted in a very limiting computation. We instead built a custom module using the provided *AudioWorklet* interface.
+In particular an operator is built using an *AudioWorkletNode* and all the processing is carried out by the *AudioWorkletProcessor*. This solution allows the script to be exectuted in a separate audio thread to provide very low latency audio processing.
+Moreover, to reduce the latency and the complexity even more, the *sin* function computation, used to produce the audio signals, was implemented using a lookup table. This allowed to overcome some of the limitations of Web Audio API and thus provide the 5 voices polyphony and a quite smooth application.
 
-parte envelope
+The envelopes used throughout the application are based on the [Fastidious-envelope-generator](https://github.com/rsimmons/fastidious-envelope-generator). This is an envelope generator for the Web Audio API. Head to its linked GitHub repository for reference. In addition to the fratures it provides, we added a delay, that specifies a time amount after which the envelope is triggered.
 
-parte organizzazione codice (matt?)
+*Reverb* and *Delay* effects are implemented using [Tone.js](https://tonejs.github.io). This is a well known and widely used audio framework that wraps and expands the Web Audio API, in order to do more, writing less code. The interconnection betweend standard *AudioNode* and *ToneAudioNode* is natively allowed by Tone.js, just assigning it the same *AudioContext* used in the application.
+
+Finally, the project structure and code organization was mostly influenced by the [DX7 Synth JS](https://github.com/mmontag/dx7-synth-js). This have been the main inspiration for out project. Thank you.
 
 ## Parameters Range
 
@@ -220,3 +231,11 @@ parte organizzazione codice (matt?)
 | *envDecayOut*    | 0.03 | 1 | 0.6 | Change the decay of the output |
 | *envSustainOut*    | 0 | 1 | 0.8 | Change the sustain of the output |
 | *envReleaseOut*    | 0.03 | 1.3 | 0.1 | Change the release of the output |
+
+## Notes
+
+This application was developed as a project for "Sound Analysis, Synthesis and Processing" course at [Politecnico di Milano](https://www.polimi.it/en/) (MSc in Music and Acoustic Engineering).
+
+*Luigi Attorresi*
+*Federico Di Marzo*
+*Federico Miotello*
