@@ -48,7 +48,7 @@ In addition to this it's also possible to control the synth by using the compute
 ### Operators B/C/D
 
 <p>
-  <img src="https://user-images.githubusercontent.com/57997005/94342950-17e30800-0015-11eb-99b3-abef7a204f4f.png" width="35%"//>
+  <img src="https://user-images.githubusercontent.com/17434626/94364357-efb4e100-00c8-11eb-922d-8f1ded9e656c.png" width="35%"//>
 </p>
 
 Operators are the core of an FM synth. An envelope can be connected to each operator in order to modify the modulation index *I* and thus alter the spectrum.
@@ -65,7 +65,7 @@ Their parameters can be changed from this module:
 ### Operator A - Outenv
 
 <p>
-  <img src="https://user-images.githubusercontent.com/57997005/94342952-19143500-0015-11eb-8ce7-2cb36ece8c42.png" width="35%"//>
+  <img src="https://user-images.githubusercontent.com/17434626/94364364-fe02fd00-00c8-11eb-8f21-d9c90f57e47f.png" width="35%"//>
 </p>
 
 * RTO: Changes the ratio of the frequency of the operator A with respect to the fundamental
@@ -79,7 +79,7 @@ Their parameters can be changed from this module:
 ### Global - FX
 
 <p>
-  <img src="https://user-images.githubusercontent.com/57997005/94342948-16b1db00-0015-11eb-99c0-a150eac6b19e.png" width="35%"//>
+  <img src="https://user-images.githubusercontent.com/17434626/94364372-0d824600-00c9-11eb-8c0d-463d8cfd1ac6.png" width="35%"//>
 </p>
 
 It's possible to change some global parameters and add *reverb* and *delay* to the obtained sound:
@@ -94,7 +94,7 @@ It's possible to change some global parameters and add *reverb* and *delay* to t
 ### Config
 
 <p>
-  <img src="https://user-images.githubusercontent.com/57997005/94342949-174a7180-0015-11eb-906a-7fc3ee6519ed.png" width="35%"//>
+  <img src="https://user-images.githubusercontent.com/17434626/94364379-196e0800-00c9-11eb-8995-57815d78dd42.png" width="35%"//>
 </p>
 
 The synth allows you to save the sound you have achieved as a preset and reload it whenever you want:
@@ -104,7 +104,9 @@ The synth allows you to save the sound you have achieved as a preset and reload 
 From the drop down menu of this module you can choose among the conneced Midi devices to control the synth.
 
 ### Algorithms
-IMMAGINE SEZIONE ALGORITMI
+<p>
+  <img src="https://user-images.githubusercontent.com/17434626/94364426-5df9a380-00c9-11eb-862d-fd21ee6e0dcc.png" width="35%"//>
+</p>
 
 The way the operators are arranged is called the *algorithm* and it defines, together with the parameters' values, the type of sound generated.
 There are eight algorithms available for this synth:
@@ -114,7 +116,9 @@ There are eight algorithms available for this synth:
 The solid lines represent the modulations between the operators (feedback is allowed too), while the dotted ones represent the output signal path.
 
 ### Sound Features
-IMMAGINE MODULO FEATURES
+<p>
+  <img src="https://user-images.githubusercontent.com/17434626/94364402-37d40380-00c9-11eb-9a26-8b75befefc66.png" width="35%"//>
+</p>
 
 From the graph above it's possible to see in real time what are the attributes of the sound obtained from the FM synthesis. In this way it is possible to understand how to tune the parameters in order to achieve a specific sound quality.
 FM synthesis in fact is as powerful as difficult to master: being able to obtain a very high variety of sounds with such a low number of parameters, it is often hard to predict the output's timbre. This module of the synth is ment to simplify this process.
@@ -148,7 +152,9 @@ The descriptor used to get this audio feature is the *Perceptual Spread* which c
 [Meyda](https://meyda.js.org/), which implements a selection of standardized audio features, was used for this purpose.
 
 ### Spectrogram
-IMMAGINE MODULO SPETTRO
+<p>
+  <img src="https://user-images.githubusercontent.com/17434626/94364409-4ae6d380-00c9-11eb-8f21-81c5f78c3bd6.png" width="35%"//>
+</p>
 
 Together with the features of the obtained sound, it's possible to visualize a real time spectrum as well. This is a further hint on how to tune the FM parameters longing for a certain sound.
 It is obtained by performing a 512 samples long FFT over the frames exctracted using an *hanning* window.
