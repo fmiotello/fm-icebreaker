@@ -1,7 +1,9 @@
 # FM Icebreaker
 ###### A polyphonic FM synth web application inspired by Elektron Digitone and Yamaha DX7
 
-FOTO DEL SYNTH
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/17434626/94362856-69939d00-00be-11eb-921b-901e2dbe6b2d.png" width="85%"//>
+</p>
 
 #### Demo
 Video demo
