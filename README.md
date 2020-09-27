@@ -184,8 +184,8 @@ The audio engine has a polyphony of 5 voices, each one of them has a particular 
 
 ## Other details
 
-This application was developed using Javscript: [Web Audio API](https://webaudio.github.io/web-audio-api/) is at its core. For the sake of efficiency it was decided not to use the standard *AudioNode* class to implement the operators, since this would have resulted in a very limiting computation. We instead built a custom module using the provided *AudioWorklet* interface.
-In particular an operator is built using an *AudioWorkletNode* and all the processing is carried out by the *AudioWorkletProcessor*. This solution allows the script to be exectuted in a separate audio thread to provide very low latency audio processing.
+This application was developed using Javscript: [Web Audio API](https://webaudio.github.io/web-audio-api/) is at its core. For the sake of efficiency it was decided not to use the standard *AudioNode* class to implement the operators, since this would have resulted in a very limiting computation. We instead built a custom module using the provided *AudioWorklet* interface.<br>
+In particular an operator is built using an *AudioWorkletNode* and all the processing is carried out by the *AudioWorkletProcessor*. This solution allows the script to be exectuted in a separate audio thread to provide very low latency audio processing.<br>
 Moreover, to reduce the latency and the complexity even more, the *sin* function computation, used to produce the audio signals, was implemented using a lookup table. This allowed to overcome some of the limitations of Web Audio API and thus provide the 5 voices polyphony and a quite smooth application.
 
 The envelopes used throughout the application are based on the [Fastidious-envelope-generator](https://github.com/rsimmons/fastidious-envelope-generator). This is an envelope generator for the Web Audio API. Head to its linked GitHub repository for reference. In addition to the fratures it provides, we added a delay, that specifies a time amount after which the envelope is triggered.
@@ -234,8 +234,10 @@ Finally, the project structure and code organization was mostly influenced by th
 
 ## Notes
 
-This application was developed as a project for "Sound Analysis, Synthesis and Processing" course at [Politecnico di Milano](https://www.polimi.it/en/) (MSc in Music and Acoustic Engineering).
+This application was developed as a project for the "Sound Analysis, Synthesis and Processing" course at [Politecnico di Milano](https://www.polimi.it/en/) (MSc in Music and Acoustic Engineering).
 
 *Luigi Attorresi*
+
 *Federico Di Marzo*
+
 *Federico Miotello*
