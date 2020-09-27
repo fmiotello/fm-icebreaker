@@ -198,7 +198,6 @@ Finally, the project structure and code organization was mostly influenced by th
 
 | ID | Val Min  | Val Max | Default | 
 | :--- | :--- | :--- | :--- |
-
 | *envAmtB*   | 0 | 5 | 0.4 |
 | *envDelayB*   | 0 | 1.5 | 0 |
 | *envAttackB*    | 0.03 | 0.8 | 1 |
