@@ -196,7 +196,7 @@ The envelopes used throughout the application are based on the [Fastidious-envel
 
 *Reverb* and *Delay* effects are implemented using [Tone.js](https://tonejs.github.io). This is a well known and widely used audio framework that wraps and expands the Web Audio API, in order to do more, writing less code. The interconnection betweend standard *AudioNode* and *ToneAudioNode* is natively allowed by Tone.js, just assigning it the same *AudioContext* used in the application.
 
-Finally, the project structure and code organization was mostly influenced by the [DX7 Synth JS](https://github.com/mmontag/dx7-synth-js). This have been the main inspiration for out project. Thank you.
+Finally, the project structure and code organization was mostly influenced by the [DX7 Synth JS](https://github.com/mmontag/dx7-synth-js). This have been the main inspiration for our work. Thank you.
 
 ## Parameters Range
 
