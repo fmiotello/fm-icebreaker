@@ -3,13 +3,17 @@ FM Icebreaker
 </h1>
 
 <h6 align="center">
-A polyphonic FM synth web application inspired by Elektron Digitone and Yamaha DX7
+A polyphonic FM synth web application inspired by <i>Elektron Digitone</i> and <i>Yamaha DX7</i>
 </h6>
 
 
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/17434626/94362856-69939d00-00be-11eb-921b-901e2dbe6b2d.png" width="85%"//>
+</p>
+
+<p align="center">
+To use the synth connect to this <a href="https://fmiotello.github.io/fm-icebreaker">website</a> using Google Chrome or Firefox.
 </p>
 
 #### Demo
@@ -233,6 +237,17 @@ Finally, the project structure and code organization was mostly influenced by th
 | *reverbSize* | 0.4 | 1 | 0.8 |
 | *reverbGain* | 0 | 1 | 0 |
 | *outGain*   | 0 | 0.12 | 0.06 |
+
+## References
+
+Some meanungful research material used for this project:
+
+* Chowning, J. (1973, September 01). "The Synthesis of Complex Audio Spectra by Means of Frequency Modulation". Retrieved September 27, 2020, from https://www.aes.org/e-lib/browse.cfm?elib=1954
+
+* Chowning, J. M., &amp; Bristow, D. (1986). "FM theory &amp; applications: By musicians for musicians". Tokyo: Yamaha Music Foundation.
+
+* Avanzini, F., &amp; De Poli, G. (2012). "Algorithms for Sound and Music Computing".
+
 
 
 ## Notes
