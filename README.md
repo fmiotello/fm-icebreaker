@@ -240,7 +240,7 @@ Finally, the project structure and code organization was mostly influenced by th
 
 ## References
 
-Some meanungful material used for this project:
+Some reference material used for this project:
 
 * Chowning, J. (1973, September 01). "The Synthesis of Complex Audio Spectra by Means of Frequency Modulation". Retrieved September 27, 2020, from https://www.aes.org/e-lib/browse.cfm?elib=1954
 
