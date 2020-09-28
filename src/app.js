@@ -1,4 +1,4 @@
-import {FILE_FORMAT, PARAM_CHANGE_TIME} from "./config.js";
+import {FILE_FORMAT, frequencyFromMidi, mapRange, PARAM_CHANGE_TIME} from "./config.js";
 import FmSynth from "./FmSynth.js";
 import FmVoice from "./FmVoice.js";
 import Midi from "./Midi.js";
@@ -17,7 +17,7 @@ let octaveIndex = 0;
 let maxOctave = 2;
 let minOctave = -2;
 const OUT_INDEX = 4; // used for referencing the out-env on the closures
-const featureUpdateRate = 0.5; // in seconds
+const featureUpdateRate = 1; // in seconds
 const fftSize = 2048;
 
 // Visualizers
@@ -130,7 +130,7 @@ document.onclick = async function () {
         "audioContext": audioContext,
         "source": fmSynth.outGain,
         "bufferSize": fftSize,
-        "featureExtractors": ["perceptualSharpness", "spectralFlatness", "rms"],
+        "featureExtractors": ["spectralCentroid", "spectralFlatness"],
     });
     featureAnalyzer.start();
     setupFeatureVisualizer();
@@ -733,7 +733,7 @@ let updateSettingsFromPreset = function (preset) {
 let algorithmSelectOnChange = function (ev) {
     let value = parseInt(ev.target.value);
     fmSynth.setAlgorithm(value - 1);
-    algorithmImg.src= imgPath + "algorithm" + value + ".png";
+    algorithmImg.src = imgPath + "algorithm" + value + ".png";
 }
 
 /**
@@ -767,11 +767,12 @@ let displayFeatures = function () {
     let features = featureAnalyzer.get();
     let featuresValues = Object.values(features);
 
-    // resets the values to zero with no notes
-    if (featuresValues[2] < 0.01) return;
+    // checks if a note is playing
+    let noteOnStack = fmSynth.getNoteOnStack();
+    if (noteOnStack.length === 0) return;
 
 
-    // inharmonicity calculation
+    // inharmonicity
     let inharmonicity = parseFloat(detuneSlider.value);
     let ratios = [];
     ratios.push(parseFloat(ratioASlider.value));
@@ -784,26 +785,33 @@ let displayFeatures = function () {
     envAmts.push(parseFloat(envAmtCSlider.value) / 5);
     envAmts.push(parseFloat(envAmtDSlider.value) / 5);
 
-    ratios.forEach((r,i) => {
+    ratios.forEach((r, i) => {
         let addDissonance = 0;
         if (r % 1 !== 0) inharmonicity += 0.1 * envAmts[i];
     });
     inharmonicity /= 0.6;
 
     // noisiness
-    let noisiness = featuresValues[1] * 3;
-    noisiness = (noisiness > 1)? 1 : noisiness;
+    let noisiness = featuresValues[1] * 50;
+    noisiness = (noisiness > 1) ? 1 : noisiness;
 
-    // richness
-    let richness = featuresValues[0];
+    // richness (using unitless centroid)
+    let Fs = audioContext.sampleRate;
+    let richness = featuresValues[0] / fftSize * Fs;
+    let highestNoteMidi = noteOnStack
+        .map(x => x.note)
+        .sort((a, b) => b - a)[0];
+    let highestNoteFreq = frequencyFromMidi(highestNoteMidi);
+    richness /= highestNoteFreq;
+    richness /= 10;
+    richness = (richness > 1) ? 1 : richness;
+
+    if ([richness, noisiness, inharmonicity].some(x => isNaN(x))) return;
 
     featureVisualizer.data.datasets[0].data[1] = richness;
     featureVisualizer.data.datasets[0].data[2] = noisiness;
     featureVisualizer.data.datasets[0].data[0] = inharmonicity;
 
-    // TODO: remove console log
-    // console.log(features);
-    // console.log(richness, noisiness, inharmonicity);
 
     featureVisualizer.update();
 }

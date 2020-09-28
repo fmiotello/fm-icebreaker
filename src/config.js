@@ -32,4 +32,10 @@ export function frequencyFromMidi(midiNote) {
     return 440 * Math.pow(2,(midiNote-69)/12);
 }
 
+export function mapRange (value, startMin, startMax, endMin, endMax) {
+    // first map value from (a..b) to (0..1)
+    value = (value - startMin) / (startMax - startMin);
+    return endMin + value * (endMax - endMin);
+}
+
 

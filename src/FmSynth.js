@@ -29,6 +29,10 @@ class FmSynth {
         this._midiEventQueue.push(midiEvent);
     }
 
+    getNoteOnStack() {
+        return this._noteOnStack;
+    }
+
     /**
      * Extract the information from a midi event.
      */
@@ -295,6 +299,8 @@ class FmSynth {
         if (index < 0) throw 'algorithm index not valid';
         this.voices.forEach(voice => voice.setAlgorithm(index));
     }
+
+
 }
 
 

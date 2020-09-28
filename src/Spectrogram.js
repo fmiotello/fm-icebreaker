@@ -1,5 +1,5 @@
 class Spectrogram {
-    constructor(canvasCtx, audioCtx, node, fftSize, updateRate = 0.05) {
+    constructor(canvasCtx, audioCtx, node, fftSize, updateRate = 0.1) {
         this.canvasCtx = canvasCtx;
         this.audioCtx = audioCtx;
         this.node = node;
@@ -90,7 +90,6 @@ class Spectrogram {
         for (let i = 5; i < this.fftSize / 2; i++) {
             visualizerData.data[i].y = this.analyzerDataArray[i];
         }
-        console.log(this.analyzerDataArray);
 
         this.visualizer.update();
     }

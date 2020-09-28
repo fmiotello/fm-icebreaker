@@ -375,3 +375,11 @@ label[for="midiInput"] {
 .color-image {
     filter: invert(33%) sepia(56%) saturate(2696%) hue-rotate(334deg) brightness(113%) contrast(97%);
 }
+
+
+/* Responsive */
+@media only screen and (max-width: 1200px) {
+    #scalingContainer {
+        transform: scale(0.7);
+    }
+}
