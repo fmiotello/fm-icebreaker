@@ -13,7 +13,7 @@ A polyphonic FM synth web application inspired by <i>Elektron Digitone</i> and <
 </p>
 
 <p align="center">
-To use the synth connect to this <a href="https://fmiotello.github.io/fm-icebreaker">website</a> using Google Chrome or Firefox.
+To use the synth connect to this <a href="https://fmiotello.github.io/fm-icebreaker">website</a> using Google Chrome.
 </p>
 
 #### Demo
@@ -28,7 +28,7 @@ Both carrier and modulator are called operators and there can be more than two o
 
 The expression of a modulated signal is :
 
-<a href="https://www.codecogs.com/eqnedit.php?latex=e&space;=&space;A&space;sin&space;(\alpha&space;t&space;&plus;&space;I&space;\sin{\beta&space;t})" target="_blank"><img src="https://latex.codecogs.com/gif.latex?e&space;=&space;A&space;sin&space;(\alpha&space;t&space;&plus;&space;I&space;\sin{\beta&space;t})" title="s = A sin (\alpha t + I \sin{\beta t})" /></a>
+<a href="https://www.codecogs.com/eqnedit.php?latex=s&space;=&space;A&space;sin&space;(\alpha&space;t&space;&plus;&space;I&space;\sin{\beta&space;t})" target="_blank"><img src="https://latex.codecogs.com/gif.latex?s&space;=&space;A&space;sin&space;(\alpha&space;t&space;&plus;&space;I&space;\sin{\beta&space;t})" title="s = A sin (\alpha t + I \sin{\beta t})" /></a>
 
 - *s*: output signal
 - *A*: amplitude of the modulated signal
@@ -123,9 +123,10 @@ From the drop down menu of this module you can choose among the conneced Midi de
 
 Since in FM synthesis, a small change of the parameters can radically affect the spectrum, a visual reference is useful to sculpt the wanted sound. For this reason we provided the interface with a spectrogram, to visualize the real time spectral content of the output signal (taken before the fx bus). This is a further hint on how to tune the FM parameters longing for a certain sound.
 In order to fill the spectrogram data, an *FFT* of 2048 samples is performed the over the frames exctracted using an *hanning* window. It is possible to calculate the resolution of the spectrogram, i.e. the minimum frequency difference needed to discriminate two synusoyds. In particular: 
+
 <a href="https://www.codecogs.com/eqnedit.php?latex=\Delta&space;f&space;=&space;L&space;\frac{F_s}{M}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\Delta&space;f&space;=&space;L&space;\frac{F_s}{M}" title="\Delta f = L \frac{F_s}{M}" /></a>
 
-- *F_s*: samplimg frequency
+- *F<sub>s</sub>*: sampling frequency
 - *L*: shaping factor of the window (4 in the case of *hanning* window)
 - *M*: window length
 
@@ -256,7 +257,7 @@ Finally, the project structure and code organization was mostly influenced by th
 
 Some reference material used for this project:
 
-* Chowning, J. (1973, September 01). "The Synthesis of Complex Audio Spectra by Means of Frequency Modulation". Retrieved September 27, 2020, from https://www.aes.org/e-lib/browse.cfm?elib=1954
+* Chowning, J. (1973, September 1). "The Synthesis of Complex Audio Spectra by Means of Frequency Modulation". Retrieved September 27, 2020, from https://www.aes.org/e-lib/browse.cfm?elib=1954
 
 * Chowning, J. M., &amp; Bristow, D. (1986). "FM Theory &amp; Applications: By Musicians For Musicians". Tokyo: Yamaha Music Foundation.
 
