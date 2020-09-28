@@ -1,5 +1,6 @@
 @import "reset.css";
 
+/* Variables */
 :root {
     --container-bg: #79272e;
     --bg-color: #403E43;
@@ -12,9 +13,9 @@
     --final-gradient-color: #7d7981;
     --white-color1: #f8f4eb;
     --white-color2: #e0d1c9;
-
 }
 
+/* Fonts and global settings */
 body, html {
     width: 100%;
     height: 100%;
@@ -27,26 +28,93 @@ body, html {
     background: var(--white-color2);
 }
 
-#scaling-container {
+.titleFont {
+    font-family: 'Teko', sans-serif;
+    font-size: 80px;
+    font-style: italic;
+    text-decoration: underline;
+}
+
+.subtitleFont {
+    font-size: 20px;
+    transform: translateX(33px);
+}
+
+/* Containers */
+
+#scalingContainer {
     width: 100%;
     height: 100%;
     position: relative;
     transform: scale(0.8);
 }
 
-#synthContainer {
-    background-color: var(--container-bg);
+.containerClass {
     width: 80%;
     max-width: 1200px;
-    padding: 16px 0;
-    border-radius: 10px;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    background-color: var(--container-bg);
+    border-radius: 10px;
     box-shadow: 14px 10px 36px -1px rgba(0, 0, 0, 0.3);
 }
 
+#introContainer {
+    box-sizing: border-box;
+    height: 748px;
+    padding: 70px;
+}
+
+#introContainerBorder {
+    box-sizing: border-box;
+    border-radius: 10px;
+    background-color: var(--bg-color);
+    width: 100%;
+    height: 100%;
+    padding: 40px;
+}
+
+#introContainerScreen {
+    border-radius: 10px;
+    box-sizing: border-box;
+    display: flex;
+    background-color: var(--secondary-color);
+    width: 100%;
+    height: 100%;
+    padding-top: 175px;
+    flex-direction: column;
+    font-size: 14px;
+}
+
+#introContainerScreen  span {
+    display: inline-block;
+    width: 100%;
+    padding-bottom: 3px;
+}
+
+.introTextBlock {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    transform: translateX(173px);
+}
+
+.introTextBlock > span {
+    font-size: 14px;
+    width: 100%;
+    text-align: right;
+}
+
+.extraBottomPadding {
+    padding-bottom: 70px!important;
+}
+
+#synthContainer {
+    padding: 16px 0;
+}
+/* Row and blocks*/
 .input-row {
     display: flex;
     justify-content: space-evenly;
@@ -172,7 +240,7 @@ input[type=range]:focus {
     outline: none; /* Removes the blue border. */
 }
 
-/* Config */
+/* Config block */
 .config-flex {
     display: flex;
     width: 100%;
@@ -291,7 +359,6 @@ label[for="midiInput"] {
     background-color: var(--main-color);
     color: var(--secondary-color);
 }
-
 
 #algorithmButtonUp {
     right: 30px;

@@ -76,6 +76,8 @@ let loadPreset = document.getElementById('loadPreset');
 let algorithmButtonUp = document.getElementById('algorithmButtonUp');
 let algorithmButtonDown = document.getElementById('algorithmButtonDown');
 let algorithmSelect = document.getElementById('algorithmSelect');
+let synthContainer = document.getElementById('synthContainer');
+let introContainer = document.getElementById('introContainer');
 
 //Effect bus
 let delayTimeSlider = document.getElementById('delayTime');
@@ -110,6 +112,7 @@ let key2notes = [
 let allowedKeys = key2notes.map(obj => obj.key);
 let notes = key2notes.map(obj => obj.note);
 
+
 /**
  * Main function, executed after the user clicked the screen.
  *
@@ -140,6 +143,11 @@ document.onclick = async function () {
     bindEventsToGui();
     initParametersFromGui();
 
+    // Show the GUI
+    introContainer.style.display = "none";
+    synthContainer.style.display = "block";
+
+    // removing this function event handler
     document.onclick = undefined;
 }
 
