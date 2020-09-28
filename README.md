@@ -217,41 +217,41 @@ Finally, the project structure and code organization was mostly influenced by th
 
 | Name | Val Min | Val Max | Default | 
 | :--- | :--- | :--- | :--- |
-| *envAmtB*   | 0 | 5 | 0.4 |
-| *envDelayB*   | 0 | 1.5 | 0 |
-| *envAttackB*    | 0.03 | 0.8 | 1 |
-| *envDecayB*    | 0.03 | 1 | 1 |
-| *envSustainB*    | 0 | 1 | 0.2 |
-| *envReleaseB*    | 0.03 | 1.3 | 0.6 | 
-| *ratioB*    | 0.5 | 12 | 1 |
-| *envAmtC*   | 0 | 5 | 0.4 |
-| *envDelayC*   | 0 | 1.5 | 0 | 
-| *envAttackC*    | 0.03 | 0.8 | 1 | 
-| *envDecayC*    | 0.03 | 1 | 1 |
-| *envSustainC*    | 0 | 1 | 0.2 |
-| *envReleaseC*    | 0.03 | 1.3 | 0.6 | 
-| *ratioC*    | 0.5 | 12 | 1 | 
-| *envAmtD*   | 0 | 5 | 0.4 |
-| *envDelayD*   | 0 | 1.5 | 0 | 
-| *envAttackD*    | 0.03 | 0.8 | 1 |
-| *envDecayD*    | 0.03 | 1 | 1 | 
-| *envSustainD*    | 0 | 1 | 0.2 | 
-| *envReleaseD*    | 0.03 | 1.3 | 0.6 | 
-| *ratioD*    | 0.5 | 12 | 1 | 
-| *ratioA*    | 0.5 | 12 | 1 |
-| *envAttackOut*   | 0 | 0.8 | 0.01 | 
-| *envDecayOut*    | 0.03 | 1 | 0.6 | 
-| *envSustainOut*    | 0 | 1 | 0.8 | 
-| *envReleaseOut*    | 0.03 | 1.3 | 0.1 | 
-| *detune* | 0 | 2 | 0 |
-| *busMix* | 0 | 1 | 0 |
-| *glideTime* | 0.01 | 1.5 | 0.01 |
-| *delayTime* | 0 | 1.4 | 0.4 |
-| *delayFeedback* | 0 | 1 | 0.4 |
-| *delayGain* | 0 | 1 | 0 |
-| *reverbSize* | 0.4 | 1 | 0.8 |
-| *reverbGain* | 0 | 1 | 0 |
-| *outGain*   | 0 | 0.12 | 0.06 |
+| *Env B Amount (AMT)* | 0 | 5 | 0.4 |
+| *Env B Delay (DLY)* | 0 | 1.5 | 0 |
+| *Env B Attack (ATK)* | 0.03 | 0.8 | 1 |
+| *Env B Decay (DEC)* | 0.03 | 1 | 1 |
+| *Env B Sustain (SUS)* | 0 | 1 | 0.2 |
+| *Env B Release (REL)* | 0.03 | 1.3 | 0.6 | 
+| *Op B Ratio (RTO)* | 0.5 | 12 | 1 |
+| *Env C Amount (AMT)* | 0 | 5 | 0.4 |
+| *Env C Delay (DLY)* | 0 | 1.5 | 0 | 
+| *Env C Attack (ATK)* | 0.03 | 0.8 | 1 | 
+| *Env C Decay (DEC)* | 0.03 | 1 | 1 |
+| *Env C Sustain (SUS)* | 0 | 1 | 0.2 |
+| *Env C Release (REL)* | 0.03 | 1.3 | 0.6 | 
+| *Op C Ratio (RTO)* | 0.5 | 12 | 1 | 
+| *Env D Amount (AMT)* | 0 | 5 | 0.4 |
+| *Env D Delay (DLY)* | 0 | 1.5 | 0 | 
+| *Env D Attack (ATK)* | 0.03 | 0.8 | 1 |
+| *Env D Decay (DEC)* | 0.03 | 1 | 1 | 
+| *Env D Sustain (SUS)* | 0 | 1 | 0.2 | 
+| *Env D Release (REL)* | 0.03 | 1.3 | 0.6 | 
+| *Op D Ratio (RTO)* | 0.5 | 12 | 1 | 
+| *Op A Ratio (RTO)* | 0.5 | 12 | 1 |
+| *Env Out Attack (ATK)*   | 0 | 0.8 | 0.01 | 
+| *Env Out Decay (DEC)*    | 0.03 | 1 | 0.6 | 
+| *Env Out Sustain (SUS)*    | 0 | 1 | 0.8 | 
+| *Env Out Release (REL)*    | 0.03 | 1.3 | 0.1 | 
+| *Detune (DET)* | 0 | 2 | 0 |
+| *Out XY Mix (MIX)* | 0 | 1 | 0 |
+| *Glide (GLD)* | 0.01 | 1.5 | 0.01 |
+| *Delay Time (TIM)* | 0 | 1.4 | 0.4 |
+| *Delay Feedback (FBK)* | 0 | 1 | 0.4 |
+| *Delay Send (DLY)* | 0 | 1 | 0 |
+| *Reverb Size (SIZ)* | 0.4 | 1 | 0.8 |
+| *Reverb Send (REV)* | 0 | 1 | 0 |
+| *Out Volume (VOL)*   | 0 | 0.12 | 0.06 |
 
 ## References
 
