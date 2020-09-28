@@ -89,6 +89,8 @@ let delayFx = undefined;
 let reverbFx = undefined;
 let delayFxGain = new GainNode(audioContext);
 let reverbFxGain = new GainNode(audioContext);
+let reverbSplitter = undefined;
+let delaySplitter = undefined;
 
 // keyboard mapping to play the synth without a midi keyboard
 let key2notes = [
@@ -199,8 +201,14 @@ let connectAll = function () {
     Tone.connect(fmSynth.outGain, reverbFx);
     Tone.connect(delayFx, delayFxGain);
     Tone.connect(reverbFx, reverbFxGain);
-    Tone.connect(delayFxGain, audioContext.destination);
-    Tone.connect(reverbFxGain, audioContext.destination);
+
+    delaySplitter = audioContext.createChannelSplitter(2);
+    reverbSplitter = audioContext.createChannelSplitter(2);
+    reverbFxGain.connect(reverbSplitter);
+    delayFxGain.connect(delaySplitter);
+
+    delaySplitter.connect(audioContext.destination);
+    reverbSplitter.connect(audioContext.destination);
 }
 
 /**
