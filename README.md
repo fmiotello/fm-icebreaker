@@ -121,7 +121,7 @@ From the drop down menu of this module you can choose among the conneced Midi de
   <img src="https://user-images.githubusercontent.com/17434626/94364409-4ae6d380-00c9-11eb-8f21-81c5f78c3bd6.png" width="35%"//>
 </p>
 
-Since in FM synthesis, a small change of the parameters can radically affect the spectrum, a visual reference is useful to sculpt the wanted sound. For this reason we provided the interface with a spectrogram, to visualize the real time spectral content of the output signal (taken before the fx bus). This is a further hint on how to tune the FM parameters longing for a certain sound.
+Since in FM synthesis, a small change of the parameters can radically affect the spectrum, a visual reference is useful to sculpt the wanted sound. For this reason we provided the interface with a spectrogram, to visualize the real time spectral content of the output signal (taken before the fx bus). This is a further hint on how to tune the FM parameters longing for a certain sound. <br>
 In order to fill the spectrogram data, an *FFT* of 2048 samples is performed the over the frames exctracted using an *hanning* window. It is possible to calculate the resolution of the spectrogram, i.e. the minimum frequency difference needed to discriminate two synusoyds. In particular: 
 
 <a href="https://www.codecogs.com/eqnedit.php?latex=\Delta&space;f&space;=&space;L&space;\frac{F_s}{M}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\Delta&space;f&space;=&space;L&space;\frac{F_s}{M}" title="\Delta f = L \frac{F_s}{M}" /></a>
@@ -147,23 +147,15 @@ The feature descriptors are three:
  (dire se sono time o frequency domain feature)
  
 **Noisiness** <br>
+It describes how noisy a sound is: the more """ are, the more noisy the sound will be.
+The descriptor used to compute this feature is the *spectral flatness* also known as *Wiener Entropy*
 
-**Harmonicity** (Frequency domain feature) <br>
-It is the description
-The descriptor used to get this audio feature is the *Harmonic Spectral Deviation* which computes the
-deviation of the amplitude harmonic peaks from a global spectral envelope.
+**Harmonicity** <br>
+It describes how DA COMPLETARE
+It is computed depending on both the *ratio* of each operator and the *detune* values: non-integer ratios contribute to the decreasing of Harmonicity since harmonics with a non-integer ratio with respect to the fundamental generate an inharmonic sound. High values of *detune* contribute to the decreasing of Harmonicity as well for obvious reasons.
 
-<p align="center">
-<a href="https://www.codecogs.com/eqnedit.php?latex=HDEV&space;=&space;\frac{1}{H}&space;\sum_h(a(h)-SE(h))" target="_blank"><img src="https://latex.codecogs.com/gif.latex?HDEV&space;=&space;\frac{1}{H}&space;\sum_h(a(h)-SE(h))" title="HDEV = \frac{1}{H} \sum_h(a(h)-SE(h))" /></a>
- </p>
-
-* *H* is the total number of considered harmonics
-* *a(h)* is the amplitude of the *h*<sup>*th*</sup> harmonic
-* *SE(h)* is the amplitude of the spectral envelope evaluated at the frequency *f(h)*
-
-**Spectral Richness** (Frequency domain feature) <br>
-The descriptor used to get this audio feature is the *Perceptual Spread* which computes the spread of some specific loudness coefficients over the bark scale.
-
+**Spectral Richness** <br>
+It describes how rich and dense is the spectrum of the sound. 
 
 
 [Meyda](https://meyda.js.org/), which implements a selection of standardized audio features, was used for this purpose.
