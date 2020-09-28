@@ -257,11 +257,13 @@ Finally, the project structure and code organization was mostly influenced by th
 
 Some reference material used for this project:
 
-* Chowning, J. (1973, September 1). "The Synthesis of Complex Audio Spectra by Means of Frequency Modulation". Retrieved September 27, 2020, from https://www.aes.org/e-lib/browse.cfm?elib=1954
+* Chowning, J. (1973, September 1). "The Synthesis of Complex Audio Spectra by Means of Frequency Modulation". Journal of the Audio Engineering Society. Volume 21 Issue 7. 526-534.
 
 * Chowning, J. M., &amp; Bristow, D. (1986). "FM Theory &amp; Applications: By Musicians For Musicians". Tokyo: Yamaha Music Foundation.
 
 * Avanzini, F., &amp; De Poli, G. (2012). "Algorithms for Sound and Music Computing".
+
+* Schubert, E., &amp; Wolfe, J. (2006). "Does Timbral Brightness Scale with Frequency and Spectral Centroid?". Acta Acustica united with Acustica. Volume 92. 820-825. 
 
 
 
