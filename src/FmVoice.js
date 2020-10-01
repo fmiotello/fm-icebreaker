@@ -77,9 +77,11 @@ class FmVoice {
      * @private
      */
     _initRouting() {
-        this.operators.forEach(node => {
+        this.operators.forEach((node, i) => {
             node.gain.disconnect();
-            // node.source.disconnect();
+            node.source.disconnect();
+            node.source.connect(node.gain);
+            node.source.connect(this.feedbackNodes[i].delay);
         });
         this.feedbackNodes.forEach(node => {
             node.gain.disconnect();
