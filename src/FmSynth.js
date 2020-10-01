@@ -300,6 +300,10 @@ class FmSynth {
         this.voices.forEach(voice => voice.setAlgorithm(index));
     }
 
+    setFeedback(value) {
+        this.voices.forEach(voice => voice.setFeedback(value));
+    }
+
 
 }
 

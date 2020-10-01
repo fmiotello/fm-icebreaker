@@ -67,7 +67,7 @@ let envReleaseOutSlider = document.getElementById('envReleaseOut');
 let busMixSlider = document.getElementById('busMix');
 
 // Other Things
-let glideTimeSlider = document.getElementById('glideTime');
+let opFeedbackSlider = document.getElementById('operatorsFeedback');
 let detuneSlider = document.getElementById('detune');
 let midiInputSelect = document.getElementById('midiInput');
 let savePresetLink = document.getElementById('savePreset');
@@ -283,7 +283,7 @@ let bindEventsToGui = function () {
     busMixSlider.oninput = displayValue;
 
 
-    glideTimeSlider.onchange = glideTimeSliderOnChange;
+    opFeedbackSlider.onchange = opFeedbackSliderOnChange;
     outGainSlider.onchange = outGainOnChange;
     delayTimeSlider.onchange = delayTimeSliderOnChange;
     delayFeedbackSlider.onchange = delayFeedbackSliderOnChange;
@@ -292,7 +292,7 @@ let bindEventsToGui = function () {
     reverbGainSlider.onchange = reverbGainSliderOnChange;
 
 
-    glideTimeSlider.oninput = displayValue;
+    opFeedbackSlider.oninput = displayValue;
     outGainSlider.oninput = displayValue;
     delayTimeSlider.oninput = displayValue;
     delayFeedbackSlider.oninput = displayValue;
@@ -354,7 +354,7 @@ let fillComponentList = function () {
         reverbGainSlider,
 
         busMixSlider,
-        glideTimeSlider,
+        opFeedbackSlider,
         midiInputSelect, // onchange handled inside Midi class
         detuneSlider,
         algorithmSelect,
@@ -602,13 +602,13 @@ let busMixSliderOnChange = function (ev) {
 }
 
 /**
- * Callback for glide time.
+ * Callback for operators feedback.
  *
  * @param ev
  */
-let glideTimeSliderOnChange = function (ev) {
+let opFeedbackSliderOnChange = function (ev) {
     let value = parseFloat(ev.target.value);
-    fmSynth.setGlide(value);
+    fmSynth.setFeedback(value);
     hideValue(ev);
 }
 

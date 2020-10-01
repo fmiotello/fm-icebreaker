@@ -18,7 +18,7 @@ class FmVoice {
         this.maxOutputGain = 1;
         this.outEnv = new Envelope(audioContext, this.outputGain.gain);
         this.algorithm = undefined;
-        this.glideTime = 0.2;
+        this.glideTime = 0;
         this.detune = 0;
         this.detuneScale = [0, -1, 0.4, 0.6]; // multiplies the detune value for each operator
         this.pitchBendRange = 2;
@@ -55,7 +55,7 @@ class FmVoice {
             let delay = new DelayNode(this.audioContext);
             let gain = new GainNode(this.audioContext);
             gain.gain.value = 0;
-            delay.connect(gain);
+            this.operators[i].source.connect(delay).connect(gain);
             this.feedbackNodes.push({
                 delay: delay,
                 gain: gain
@@ -79,6 +79,7 @@ class FmVoice {
     _initRouting() {
         this.operators.forEach(node => {
             node.gain.disconnect();
+            // node.source.disconnect();
         });
         this.feedbackNodes.forEach(node => {
             node.gain.disconnect();
@@ -107,8 +108,6 @@ class FmVoice {
         this.algorithm.modulations.forEach((modulations, i) => {
             modulations.forEach(modIndex => {
                 if (i === modIndex) { // feedback
-                    this.operators[i].source
-                        .connect(this.feedbackNodes[i].delay);
                     this.feedbackNodes[i].gain.connect(this.operators[i].source);
                 } else {
                     this.operators[i].gain.connect(this.operators[modIndex].source);
@@ -139,7 +138,7 @@ class FmVoice {
         if (value < 0 || value > 1) throw 'bus mix value not valid';
         let now = this.audioContext.currentTime;
         this.busMix = value;
-        this.outputBusses[0].gain.setTargetAtTime(1-value, now, PARAM_CHANGE_TIME);
+        this.outputBusses[0].gain.setTargetAtTime(1 - value, now, PARAM_CHANGE_TIME);
         this.outputBusses[1].gain.setTargetAtTime(value, now, PARAM_CHANGE_TIME);
     }
 
@@ -151,6 +150,15 @@ class FmVoice {
      */
     setModEnvAmount(opIndex, amount) {
         this.operatorsEnvAmount[opIndex] = amount;
+    }
+
+    setFeedback(amount) {
+        if (amount < 0) throw 'feedback gain value not valid';
+        let now = undefined;
+        this.feedbackNodes.forEach(fbNode => {
+            now =  this.audioContext.currentTime;
+            fbNode.gain.gain.setTargetAtTime(amount, now, PARAM_CHANGE_TIME);
+        });
     }
 
     /**

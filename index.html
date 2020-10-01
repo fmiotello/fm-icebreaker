@@ -15,11 +15,18 @@
     <!-- INTRO CONTAINER -->
     <div id="introContainer" class="containerClass">
         <div id="introContainerBorder">
-            <div id="introContainerScreen" class="glow">
-                <span class="titleFont">FM ICEBREAKER</span>
-                <span class="subtitleFont extraBottomPadding">A POLYPHONIC FM SYNTH WEB APPLICATION</span>
+            <div id="introContainerScreen" >
+                <span class="titleFont">
+                    <div class="wrapper">
+                        <h1 class="glitch" data-text="FM ICEBREAKER">FM ICEBREAKER</h1>
+                    </div>
+                </span>
+                <span class="subtitleFont extraBottomPadding glow">A POLYPHONIC FM SYNTH WEB APPLICATION</span>
 
-                <span>CLICK ANYWHERE TO START</span>
+                <div class="clickAnywhereDiv">
+                    <span class="clickAnywhereSpan glow">CLICK ANYWHERE TO START</span>
+                </div>
+
             </div>
         </div>
     </div>
@@ -276,9 +283,9 @@
                     <label class="block-label-detail-value">---</label>
                 </div>
                 <div class="input-block-labels glow">
-                    <label for="glideTime">GLD</label>
+                    <label for="operatorsFeedback">OFK</label>
                     <label for="delayTime">TIM</label>
-                    <label for="delayFeedback">FBK</label>
+                    <label for="delayFeedback">DFK</label>
                     <label for="delayGain">DLY</label>
                     <label for="reverbSize">SIZ</label>
                     <label for="reverbGain">REV</label>
@@ -287,7 +294,8 @@
 
                 <div class="input-block-sliders">
                     <div class="input-entry">
-                        <input id="glideTime" data-fullname="GLIDE (GLD)" type="range" min="0.01" max="1.5" value="0.01"
+                        <input id="operatorsFeedback" data-fullname="OPERATORS FEEDBACK (OFK)" type="range" min="0"
+                               max="3" value="0"
                                step="0.01">
                     </div>
                     <div class="input-entry">
@@ -295,7 +303,7 @@
                                value="0.4" step="0.01">
                     </div>
                     <div class="input-entry">
-                        <input id="delayFeedback" data-fullname="DELAY FEEDBACK (FBK)" type="range" min="0" max="1"
+                        <input id="delayFeedback" data-fullname="DELAY FEEDBACK (DFK)" type="range" min="0" max="1"
                                value="0.4" step="0.01">
                     </div>
                     <div class="input-entry">
