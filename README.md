@@ -9,7 +9,7 @@ A polyphonic FM synth web application inspired by <i>Elektron Digitone</i> and <
 
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/17434626/94362856-69939d00-00be-11eb-921b-901e2dbe6b2d.png" width="85%"//>
+  <img src="https://user-images.githubusercontent.com/17434626/94833505-7cd0a080-040f-11eb-8afe-f3ff2c552031.png" width="85%"//>
 </p>
 
 <p align="center">
@@ -92,13 +92,13 @@ An output envelope controls the overall amplitude time evolution of the sound. A
 ### Global - FX
 
 <p>
-  <img src="https://user-images.githubusercontent.com/17434626/94364372-0d824600-00c9-11eb-8c0d-463d8cfd1ac6.png" width="35%"//>
+  <img src="https://user-images.githubusercontent.com/17434626/94833557-8d811680-040f-11eb-96ae-2f6fce9050fc.png" width="35%"//>
 </p>
 
 It's possible to change some global parameters and add *reverb* and *delay* to the obtained sound:
-* GLD: Changes the glide time
+* OFK: Changes the operators feedback
 * TIM: Changes the delay time
-* FBK: Changes the delay feedback
+* DFK: Changes the delay feedback
 * DLY: Changes the delay send
 * SIZ: Changes the reverb size
 * REV: Changes the reverb send
@@ -209,41 +209,41 @@ Finally, the project structure and code organization was mostly influenced by th
 
 | Name | Val Min | Val Max | Default | 
 | :--- | :--- | :--- | :--- |
-| *Env B Amount (AMT)* | 0 | 5 | 0.4 |
+| *Env B Amount (AMT)* | 0 | 3 | 1 |
 | *Env B Delay (DLY)* | 0 | 1.5 | 0 |
-| *Env B Attack (ATK)* | 0.03 | 0.8 | 1 |
-| *Env B Decay (DEC)* | 0.03 | 1 | 1 |
+| *Env B Attack (ATK)* | 0 | 0.8 | 0 |
+| *Env B Decay (DEC)* | 0.03 | 1 | 0.2 |
 | *Env B Sustain (SUS)* | 0 | 1 | 0.2 |
 | *Env B Release (REL)* | 0.03 | 1.3 | 0.6 | 
 | *Op B Ratio (RTO)* | 0.5 | 12 | 1 |
-| *Env C Amount (AMT)* | 0 | 5 | 0.4 |
+| *Env C Amount (AMT)* | 0 | 3 | 0 |
 | *Env C Delay (DLY)* | 0 | 1.5 | 0 | 
-| *Env C Attack (ATK)* | 0.03 | 0.8 | 1 | 
-| *Env C Decay (DEC)* | 0.03 | 1 | 1 |
+| *Env C Attack (ATK)* | 0 | 0.8 | 0 | 
+| *Env C Decay (DEC)* | 0.03 | 1 | 0.2 |
 | *Env C Sustain (SUS)* | 0 | 1 | 0.2 |
 | *Env C Release (REL)* | 0.03 | 1.3 | 0.6 | 
 | *Op C Ratio (RTO)* | 0.5 | 12 | 1 | 
-| *Env D Amount (AMT)* | 0 | 5 | 0.4 |
+| *Env D Amount (AMT)* | 0 | 3 | 0 |
 | *Env D Delay (DLY)* | 0 | 1.5 | 0 | 
-| *Env D Attack (ATK)* | 0.03 | 0.8 | 1 |
-| *Env D Decay (DEC)* | 0.03 | 1 | 1 | 
+| *Env D Attack (ATK)* | 0 | 0.8 | 0 |
+| *Env D Decay (DEC)* | 0.03 | 1 | 1.2 | 
 | *Env D Sustain (SUS)* | 0 | 1 | 0.2 | 
 | *Env D Release (REL)* | 0.03 | 1.3 | 0.6 | 
 | *Op D Ratio (RTO)* | 0.5 | 12 | 1 | 
 | *Op A Ratio (RTO)* | 0.5 | 12 | 1 |
-| *Env Out Attack (ATK)*   | 0 | 0.8 | 0.01 | 
-| *Env Out Decay (DEC)*    | 0.03 | 1 | 0.6 | 
-| *Env Out Sustain (SUS)*    | 0 | 1 | 0.8 | 
-| *Env Out Release (REL)*    | 0.03 | 1.3 | 0.1 | 
-| *Detune (DET)* | 0 | 2 | 0 |
+| *Env Out Attack (ATK)* | 0 | 1 | 0.01 | 
+| *Env Out Decay (DEC)* | 0.03 | 1 | 0.3 | 
+| *Env Out Sustain (SUS)* | 0 | 1 | 0.3 | 
+| *Env Out Release (REL)* | 0.03 | 1.3 | 0.1 |
+| *Detune (DET)* | 0 | 0.2 | 0 |
 | *Out XY Mix (MIX)* | 0 | 1 | 0 |
-| *Glide (GLD)* | 0.01 | 1.5 | 0.01 |
-| *Delay Time (TIM)* | 0 | 1.4 | 0.4 |
-| *Delay Feedback (FBK)* | 0 | 1 | 0.4 |
+| *Operators Feedback (OFK)* | 0 | 3 | 0 |
+| *Delay Time (TIM)* | 0 | 1 | 0.4 |
+| *Delay Feedback (DFK)* | 0 | 1 | 0.4 |
 | *Delay Send (DLY)* | 0 | 1 | 0 |
 | *Reverb Size (SIZ)* | 0.4 | 1 | 0.8 |
 | *Reverb Send (REV)* | 0 | 1 | 0 |
-| *Out Volume (VOL)*   | 0 | 0.12 | 0.06 |
+| *Out Volume (VOL)* | 0 | 0.12 | 0.06 |
 
 ## References
 
