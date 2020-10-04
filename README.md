@@ -148,7 +148,7 @@ The descriptor used to compute this feature is the *spectral flatness* also know
 
 **Richness** <br>
 It describes how rich and dense is the spectrum of a sound: the more harmonics it has, the higher the spectral richness will be.
-The descriptor used to compute this feature is the *unitless centroid*, extracted from the *spectral centroid* scaled with the highest note, in order not to have a frequency dependence.
+The descriptor used to compute this feature is the *unitless centroid*, extracted from the *spectral centroid* scaled with the highest note, in order to reduce a frequency dependence.
 
 **Inharmonicity** <br>
 It describes how the overtones are arranged along the spectrum.
@@ -167,7 +167,7 @@ There are eight algorithms available for this synth:
 ![Algorithms_new](https://user-images.githubusercontent.com/57997005/91165597-36ca4380-e6d1-11ea-8e99-bf1ce79b3cd6.jpeg)
 
 The solid lines represent the modulations between the operators, while the dotted ones represent the output signal path. A line which loops on a operator represents feedback:
-it is used to add, together with an high modulation index *I*, a stochastic component resulting into a percussive sound. This is done by adding a node which delays the signal by at least one sample and its amount can be controlled.
+it can be used to add, together with an high modulation index *I* and a short envelope, a stochastic component. This is implemented by adding a delay node in the self modulation path and all the operators in a feedback configuration share the same feedback amount.
 
 ## Architecture
 
