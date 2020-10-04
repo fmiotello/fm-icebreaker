@@ -146,13 +146,13 @@ The feature descriptors are three:
 It describes how noisy a sound is: the higher the stochastic component, the noisier the sound will be.
 The descriptor used to compute this feature is the *spectral flatness* also known as *Wiener entropy*.
 
-**Spectral Richness** <br>
+**Richness** <br>
 It describes how rich and dense is the spectrum of a sound: the more harmonics it has, the higher the spectral richness will be.
 The descriptor used to compute this feature is the *unitless centroid*, extracted from the *spectral centroid* scaled with the highest note, in order not to have a frequency dependence.
 
-**Harmonicity** <br>
+**Inharmonicity** <br>
 It describes how the overtones are arranged along the spectrum.
-This is not an audio feature but it is inferred from the parameters. It is computed depending on both the *ratio* of each operator and the *detune* values: non-integer ratios contribute to the decreasing of harmonicity, since harmonics with a non-integer ratio with respect to the fundamental generate an inharmonic sound. High values of *detune* contribute to the decreasing of harmonicity as well for obvious reasons.
+This is not an audio feature but it is inferred from the parameters. It is computed depending on both the *ratio* of each operator and the *detune* values: non-integer ratios contribute to the increasing of inharmonicity, since harmonics with a non-integer ratio with respect to the fundamental generate an inharmonic sound. High values of *detune* contribute to the increasing of inharmonicity as well for obvious reasons.
 
 [Meyda](https://meyda.js.org/), which implements a selection of standardized audio features, was used for the extraction of *spectral flatness* and *spectral centroid*.
 
