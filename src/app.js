@@ -131,6 +131,9 @@ document.onclick = async function () {
     await audioContext.resume();
     await audioContext.audioWorklet.addModule('src/FmProcessor.js');
 
+    // starting the synth
+    fmSynth = new FmSynth(audioContext, polyphony);
+
     // starting Tone.js
     Tone.start();
     Tone.setContext(audioContext);
@@ -148,7 +151,6 @@ document.onclick = async function () {
     // setting up the fx bus
     delayFx = new Tone.FeedbackDelay();
     reverbFx = new Tone.Freeverb();
-    fmSynth = new FmSynth(audioContext, polyphony);
 
     // Routing the components
     connectAll();
