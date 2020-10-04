@@ -184,7 +184,7 @@ let setupFeatureVisualizer = function () {
         type: 'radar',
         // The data for our dataset
         data: {
-            labels: ["INARMONICITY", "RICHNESS", 'NOISINESS'],
+            labels: ["INHARMONICITY", "RICHNESS", 'NOISINESS'],
             datasets: [{
                 backgroundColor: 'rgba(255,99,132,0)',
                 borderColor: 'rgb(251,70,85)',
