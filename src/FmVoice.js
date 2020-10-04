@@ -154,6 +154,11 @@ class FmVoice {
         this.operatorsEnvAmount[opIndex] = amount;
     }
 
+    /**
+     * Set the feedback amount for all the operators in feedback mode.
+     *
+     * @param amount
+     */
     setFeedback(amount) {
         if (amount < 0) throw 'feedback gain value not valid';
         let now = undefined;

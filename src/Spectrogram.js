@@ -1,3 +1,6 @@
+/**
+ * Implements a spectrogram visualizer.
+ */
 class Spectrogram {
     constructor(canvasCtx, audioCtx, node, fftSize, updateRate = 0.1) {
         this.canvasCtx = canvasCtx;
@@ -6,7 +9,7 @@ class Spectrogram {
         this.fftSize = fftSize;
         this.updateRate = updateRate; // in seconds
         this.visualizer = undefined;
-        this.analyzer = new AnalyserNode(audioCtx);
+        this.analyzer = new AnalyserNode(this.audioCtx);
         this.analyzer.fftSize = this.fftSize;
         this.analyzer.smoothingTimeConstant = 0.02;
         this.analyzerDataArray = new Uint8Array(this.analyzer.frequencyBinCount);
@@ -15,7 +18,13 @@ class Spectrogram {
         this.start();
     }
 
+    /**
+     * Initialize the spectrogram.
+     */
     start() {
+
+        // initialize the data structures containing
+        // the visualizer data
         let bins = [];
         for (let i = 0; i < this.fftSize / 2; i++) {
             bins.push(i.toString());
@@ -25,8 +34,10 @@ class Spectrogram {
             });
         }
 
+        // connects the analyzed node to the analyzer
         this.node.connect(this.analyzer);
 
+        // GUI component
         this.visualizer = new Chart(this.canvasCtx, {
             type: 'line',
             // The data for our dataset
@@ -71,18 +82,22 @@ class Spectrogram {
                     }],
                     yAxes: [{
                         display: false,
-                        ticks : {
-                            max : 255,
-                            min : -40,
+                        ticks: {
+                            max: 255,
+                            min: -40,
                         }
                     }],
                 },
             }
         });
 
+        // calling the update function periodically
         setInterval(this.update.bind(this), this.updateRate * 1000);
     }
 
+    /**
+     * Updates the GUI using the analyzer data.
+     */
     update() {
         let visualizerData = this.visualizer.data.datasets[0];
         this.analyzer.getByteFrequencyData(this.analyzerDataArray);

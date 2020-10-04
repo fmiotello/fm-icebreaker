@@ -29,6 +29,11 @@ class FmSynth {
         this._midiEventQueue.push(midiEvent);
     }
 
+    /**
+     * Used to get the stack of notes to be played by the synth.
+     *
+     * @returns {[]}
+     */
     getNoteOnStack() {
         return this._noteOnStack;
     }
@@ -51,7 +56,7 @@ class FmSynth {
         } else if (command === 14) {
                 this.setPitchBend(((velocity * 128.0 + note)-8192)/8192.0);
         } else {
-            console.log('midi message not supported');
+            // console.log('midi message not supported');
         }
 
     }
@@ -300,6 +305,11 @@ class FmSynth {
         this.voices.forEach(voice => voice.setAlgorithm(index));
     }
 
+    /**
+     * Set the feedback amount for all the operators in feedback mode.
+     *
+     * @param value
+     */
     setFeedback(value) {
         this.voices.forEach(voice => voice.setFeedback(value));
     }

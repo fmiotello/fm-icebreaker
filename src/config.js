@@ -1,6 +1,8 @@
 
+// Full circle radial angle
 export const PI2 = Math.PI*2;
 
+// Smallest value used for nullity checks
 export const EPSILON = 1e-6;
 
 // Minimum tempo in seconds, used to update a parameter
@@ -32,8 +34,17 @@ export function frequencyFromMidi(midiNote) {
     return 440 * Math.pow(2,(midiNote-69)/12);
 }
 
+/**
+ * Linear mapping.
+ *
+ * @param value to be mapped
+ * @param startMin minimum value of the starting domain
+ * @param startMax maximum value of the starting domain
+ * @param endMin minimum value of the destination domain
+ * @param endMax maximum value of the destination domain
+ * @returns {*}
+ */
 export function mapRange (value, startMin, startMax, endMin, endMax) {
-    // first map value from (a..b) to (0..1)
     value = (value - startMin) / (startMax - startMin);
     return endMin + value * (endMax - endMin);
 }

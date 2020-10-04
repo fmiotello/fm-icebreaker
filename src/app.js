@@ -1,6 +1,5 @@
 import {FILE_FORMAT, frequencyFromMidi, mapRange, PARAM_CHANGE_TIME} from "./config.js";
 import FmSynth from "./FmSynth.js";
-import FmVoice from "./FmVoice.js";
 import Midi from "./Midi.js";
 import Spectrogram from "./Spectrogram.js";
 
@@ -10,16 +9,6 @@ let fmSynth = undefined;
 let midi = undefined;
 let featureAnalyzer = undefined;
 
-// Utilities
-let polyphony = 4;
-let componentList = []; // store the references of the html tags, that contain useful data for the synth
-let octaveIndex = 0;
-let maxOctave = 2;
-let minOctave = -2;
-const OUT_INDEX = 4; // used for referencing the out-env on the closures
-const featureUpdateRate = 1; // in seconds
-const fftSize = 2048;
-
 // Visualizers
 let featureVisualizer = undefined;
 let featureVisualizerContext = document.getElementById('featureCanvas').getContext("2d");
@@ -27,6 +16,41 @@ let spectrogramVisualizer = undefined;
 let spectrogramVisualizerContext = document.getElementById('spectrogramCanvas').getContext("2d");
 let algorithmImg = document.getElementById('algorithmImg');
 let imgPath = 'img/';
+
+// Variables & Utilities
+let polyphony = 4;
+let octaveIndex = 0;
+let maxOctave = 2;
+let minOctave = -2;
+const OUT_INDEX = 4; // used for referencing the out-env in the closures
+const featureUpdateRate = 1; // in seconds
+const fftSize = 2048;
+let componentList = []; // store the references of the html tags, used to update and save the model
+
+// Keyboard Mapping
+// to play the synth without a midi keyboard
+let key2notes = [
+    {key: 65, note: 60}, // C
+    {key: 87, note: 61}, // C#
+    {key: 83, note: 62}, // D
+    {key: 69, note: 63}, // D#
+    {key: 68, note: 64}, // E
+    {key: 70, note: 65}, // F
+    {key: 84, note: 66}, // F#
+    {key: 71, note: 67}, // G
+    {key: 89, note: 68}, // G#
+    {key: 72, note: 69}, // A
+    {key: 85, note: 70}, // A#
+    {key: 74, note: 71}, // B
+    {key: 75, note: 72}, // C
+    {key: 79, note: 73}, // C#
+    {key: 76, note: 74}, // D
+];
+
+let allowedKeys = key2notes.map(obj => obj.key);
+let notes = key2notes.map(obj => obj.note);
+
+// HTML Elements ///////////////////////////////
 
 // Operator A
 let ratioASlider = document.getElementById('ratioA');
@@ -76,10 +100,8 @@ let loadPreset = document.getElementById('loadPreset');
 let algorithmButtonUp = document.getElementById('algorithmButtonUp');
 let algorithmButtonDown = document.getElementById('algorithmButtonDown');
 let algorithmSelect = document.getElementById('algorithmSelect');
-let synthContainer = document.getElementById('synthContainer');
-let introContainer = document.getElementById('introContainer');
 
-//Effect bus
+// Effect bus
 let delayTimeSlider = document.getElementById('delayTime');
 let delayFeedbackSlider = document.getElementById('delayFeedback');
 let delayGainSlider = document.getElementById('delayGain');
@@ -92,27 +114,11 @@ let reverbFxGain = new GainNode(audioContext);
 let delaySplitter = audioContext.createChannelSplitter(2);
 let reverbSplitter = audioContext.createChannelSplitter(2);
 
-// keyboard mapping to play the synth without a midi keyboard
-let key2notes = [
-    {key: 65, note: 60}, // C
-    {key: 87, note: 61}, // C#
-    {key: 83, note: 62}, // D
-    {key: 69, note: 63}, // D#
-    {key: 68, note: 64}, // E
-    {key: 70, note: 65}, // F
-    {key: 84, note: 66}, // F#
-    {key: 71, note: 67}, // G
-    {key: 89, note: 68}, // G#
-    {key: 72, note: 69}, // A
-    {key: 85, note: 70}, // A#
-    {key: 74, note: 71}, // B
-    {key: 75, note: 72}, // C
-    {key: 79, note: 73}, // C#
-    {key: 76, note: 74}, // D
-];
+// Containers
+let synthContainer = document.getElementById('synthContainer');
+let introContainer = document.getElementById('introContainer');
 
-let allowedKeys = key2notes.map(obj => obj.key);
-let notes = key2notes.map(obj => obj.note);
+///////////////////////////////////////////////
 
 
 /**
@@ -121,13 +127,15 @@ let notes = key2notes.map(obj => obj.note);
  * @returns {Promise<void>}
  */
 document.onclick = async function () {
+    // waiting for context and worklet loading
     await audioContext.resume();
     await audioContext.audioWorklet.addModule('src/FmProcessor.js');
+
+    // starting Tone.js
     Tone.start();
     Tone.setContext(audioContext);
-    delayFx = new Tone.FeedbackDelay();
-    reverbFx = new Tone.Freeverb();
-    fmSynth = new FmSynth(audioContext, polyphony);
+
+    // starting the feature analyzer
     featureAnalyzer = Meyda.createMeydaAnalyzer({
         "audioContext": audioContext,
         "source": fmSynth.outGain,
@@ -136,16 +144,29 @@ document.onclick = async function () {
     });
     featureAnalyzer.start();
     setupFeatureVisualizer();
+
+    // setting up the fx bus
+    delayFx = new Tone.FeedbackDelay();
+    reverbFx = new Tone.Freeverb();
+    fmSynth = new FmSynth(audioContext, polyphony);
+
+    // Routing the components
     connectAll();
+
+    // starting the synth and the midi engines
     await fmSynth.start();
     midi = new Midi(fmSynth, midiInputSelect);
     await midi.start();
+
+    // configuring the spectrogram
     spectrogramVisualizerContext = new Spectrogram(spectrogramVisualizerContext, audioContext, fmSynth.outGain, fftSize);
+
+    // setting up the app controller
     fillComponentList();
     bindEventsToGui();
     initParametersFromGui();
 
-    // Show the GUI
+    // switching from intro view to main view
     introContainer.style.display = "none";
     synthContainer.style.display = "block";
 
@@ -153,6 +174,9 @@ document.onclick = async function () {
     document.onclick = undefined;
 }
 
+/**
+ * Sets up the feature visualizer.
+ */
 let setupFeatureVisualizer = function () {
     featureVisualizer = new Chart(featureVisualizerContext, {
         type: 'radar',
@@ -769,6 +793,9 @@ let algorithmButtonDownOnClick = function (ev) {
     algorithmSelect.dispatchEvent(new Event('change'));
 }
 
+/**
+ * Updates the feature analyzer view component.
+ */
 let displayFeatures = function () {
     let features = featureAnalyzer.get();
     let featuresValues = Object.values(features);
@@ -801,7 +828,7 @@ let displayFeatures = function () {
     let noisiness = featuresValues[1] * 50;
     noisiness = (noisiness > 1) ? 1 : noisiness;
 
-    // richness (using unitless centroid)
+    // richness (using unit-less centroid)
     let Fs = audioContext.sampleRate;
     let richness = featuresValues[0] / fftSize * Fs;
     let highestNoteMidi = noteOnStack
@@ -812,13 +839,13 @@ let displayFeatures = function () {
     richness /= 10;
     richness = (richness > 1) ? 1 : richness;
 
+    // checking for possible faulty values
     if ([richness, noisiness, inharmonicity].some(x => isNaN(x))) return;
 
+    // updating the view
     featureVisualizer.data.datasets[0].data[1] = richness;
     featureVisualizer.data.datasets[0].data[2] = noisiness;
     featureVisualizer.data.datasets[0].data[0] = inharmonicity;
-
-
     featureVisualizer.update();
 }
 
