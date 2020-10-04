@@ -16,9 +16,6 @@ A polyphonic FM synth web application inspired by <i>Elektron Digitone</i> and <
 To use the synth connect to this <a href="https://fmiotello.github.io/fm-icebreaker">website</a> using Google Chrome.
 </p>
 
-#### Demo
-Video demo
-
 ## What is FM Synthesis
 *Frequency Modulation Synthesis* (or *FM Synthesis*) is a form of non linear sound synthesis which encompasses an entire family of techniques in which the instantaneous frequency of a carrier signal is itself a modulating signal that varies at audio rate. 
 This type of synthesis can be used to obtain an extremely wide range of different sounds with a small number of parameters, since the non-linearity allows to largely enrich the input signal's spectrum.
@@ -66,7 +63,7 @@ Operators are the core of an FM synth. An envelope is connected to operators B/C
 Their parameters can be changed from this module:
 
 * AMT: Changes the modulation amount of the operator
-* DLY: Changes the delay of moudlation envelope of the operator
+* DLY: Changes the delay of the modulation envelope of the operator
 * ATK: Changes the attack of the modulation envelope of the operator
 * DEC: Changes the decay of the modulation envelope of the operator
 * SUS: Changes the sustain of the modulation envelope of the operator
@@ -79,7 +76,7 @@ Their parameters can be changed from this module:
   <img src="https://user-images.githubusercontent.com/17434626/94364364-fe02fd00-00c8-11eb-8f21-d9c90f57e47f.png" width="35%"//>
 </p>
 
-An output envelope controls the overall amplitude time evolution of the sound. Along with this, some other parameters in this module allow to further modify the output timber of the synth:
+An output envelope controls the overall amplitude time evolution of the sound. Along with this, some other parameters in this module allow to further modify the output timbre of the synth:
 
 * RTO: Changes the ratio of the frequency of the operator A with respect to the fundamental
 * ATK: Changes the attack of the output envelope
@@ -122,12 +119,12 @@ From the drop down menu of this module you can choose among the conneced Midi de
 </p>
 
 Since in FM synthesis, a small change of the parameters can radically affect the spectrum, a visual reference is useful to sculpt the wanted sound. For this reason we provided the interface with a spectrogram, to visualize the real time spectral content of the output signal (taken before the fx bus). This is a further hint on how to tune the FM parameters longing for a certain sound. <br>
-In order to fill the spectrogram data, an *FFT* of 2048 samples is performed the over the frames exctracted using an *hanning* window. It is possible to calculate the resolution of the spectrogram, i.e. the minimum frequency difference needed to discriminate two synusoyds. In particular: 
+In order to fill the spectrogram data, an *FFT* of 2048 samples is performed the over the frames exctracted using an *hanning* window. It is possible to calculate the minimum frequency difference needed to discriminate two sinusoids. In particular: 
 
 <a href="https://www.codecogs.com/eqnedit.php?latex=\Delta&space;f&space;=&space;L&space;\frac{F_s}{M}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\Delta&space;f&space;=&space;L&space;\frac{F_s}{M}" title="\Delta f = L \frac{F_s}{M}" /></a>
 
 - *F<sub>s</sub>*: sampling frequency
-- *L*: shaping factor of the window (4 in the case of *hanning* window)
+- *L*: shaping factor of the window (= 4 in the case of *hanning* window)
 - *M*: window length
 
 Considering a sampling frequency of 44.1kHz, and with our window choice, Δf is more or less 86Hz.
@@ -137,28 +134,27 @@ Considering a sampling frequency of 44.1kHz, and with our window choice, Δf is 
   <img src="https://user-images.githubusercontent.com/17434626/94364402-37d40380-00c9-11eb-9a26-8b75befefc66.png" width="35%"//>
 </p>
 
-From the graph above it's possible to see in real time what are the attributes of the sound obtained from the FM synthesis. In this way it is possible to understand how to tune the parameters in order to achieve a specific sound quality.
+From the graph above it's possible to see in real time what are the attributes of the sound obtained from the FM synthesis. In this way it is possible to have an hint on how to tune the parameters in order to achieve a specific sound quality.
 FM synthesis in fact is as powerful as difficult to master: being able to obtain a very high variety of sounds with such a low number of parameters, it is often hard to predict the output's timbre. This module of the synth is ment to simplify this process.
 
 To achive this goal audio features analysis is involved: an audio feature is a measurement of a particular characteristic of an audio signal, and it gives insight into what the signal contains. Audio features can be measured by running an algorithm on an audio signal that will return a number, or a set of numbers that quantify the characteristic that the specific algorithm is intended to measure.
 
-Before exctracting the features, the audio needs to be windowed and divided into frames of the same lenght using a *hanning* window. Then a 512 samples long FFT is performed for each frame and the descriptors are extracted through a specific algorithm.
+Before exctracting the features, the audio is windowed and divided into frames of the same lenght using a *hanning* window. Then a 2048 samples long FFT is performed for each frame and the descriptors are extracted through a specific algorithm.
 The feature descriptors are three:
- (dire se sono time o frequency domain feature)
  
 **Noisiness** <br>
-It describes how noisy a sound is: the more """ are, the more noisy the sound will be.
-The descriptor used to compute this feature is the *spectral flatness* also known as *Wiener Entropy*
-
-**Harmonicity** <br>
-It describes how DA COMPLETARE
-It is computed depending on both the *ratio* of each operator and the *detune* values: non-integer ratios contribute to the decreasing of Harmonicity since harmonics with a non-integer ratio with respect to the fundamental generate an inharmonic sound. High values of *detune* contribute to the decreasing of Harmonicity as well for obvious reasons.
+It describes how noisy a sound is: the higher the stochastic component, the noisier the sound will be.
+The descriptor used to compute this feature is the *spectral flatness* also known as *Wiener entropy*.
 
 **Spectral Richness** <br>
-It describes how rich and dense is the spectrum of the sound. 
+It describes how rich and dense is the spectrum of a sound: the more harmonics it has, the higher the spectral richness will be.
+The descriptor used to compute this feature is the *unitless centroid*, extracted from the *spectral centroid* scaled with the highest note, in order not to have a frequency dependence.
 
+**Harmonicity** <br>
+It describes how the overtones are arranged along the spectrum.
+This is not an audio feature but it is inferred from the parameters. It is computed depending on both the *ratio* of each operator and the *detune* values: non-integer ratios contribute to the decreasing of harmonicity, since harmonics with a non-integer ratio with respect to the fundamental generate an inharmonic sound. High values of *detune* contribute to the decreasing of harmonicity as well for obvious reasons.
 
-[Meyda](https://meyda.js.org/), which implements a selection of standardized audio features, was used for this purpose.
+[Meyda](https://meyda.js.org/), which implements a selection of standardized audio features, was used for the extraction of *spectral flatness* and *spectral centroid*.
 
 ### Algorithms
 <p>
