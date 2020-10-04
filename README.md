@@ -9,7 +9,7 @@ A polyphonic FM synth web application inspired by <i>Elektron Digitone</i> and <
 
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/17434626/94833505-7cd0a080-040f-11eb-8afe-f3ff2c552031.png" width="85%"//>
+  <img src="https://user-images.githubusercontent.com/17434626/95020769-6b84cf80-066d-11eb-8976-9631e0dfce10.png" width="85%"//>
 </p>
 
 <p align="center">
@@ -131,7 +131,7 @@ Considering a sampling frequency of 44.1kHz, and with our window choice, Δf is 
 
 ### Sound Features
 <p>
-  <img src="https://user-images.githubusercontent.com/17434626/94364402-37d40380-00c9-11eb-9a26-8b75befefc66.png" width="35%"//>
+  <img src="https://user-images.githubusercontent.com/17434626/95020772-6fb0ed00-066d-11eb-829f-f47034bbc099.png" width="35%"//>
 </p>
 
 From the graph above it's possible to see in real time what are the attributes of the sound obtained from the FM synthesis. In this way it is possible to have an hint on how to tune the parameters in order to achieve a specific sound quality.
@@ -182,7 +182,7 @@ The audio engine is made of the operators arranged accordingly to the chosen alg
 The audio engine has a polyphony of 4 voices, each one of them has a particular structure based on the chosen algorithm. The following one refers to the first algorithm: 
   
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/17434626/94414770-0583de00-017d-11eb-9e62-4e1f8e725461.png" width="80%"//>
+  <img src="https://user-images.githubusercontent.com/17434626/95020271-6d995f00-066a-11eb-9d0d-f528be41148c.png" width="80%"//>
 </p>
 
 ## Other details
