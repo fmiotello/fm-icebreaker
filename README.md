@@ -182,7 +182,7 @@ The audio engine is made of the operators arranged accordingly to the chosen alg
 The audio engine has a polyphony of 4 voices, each one of them has a particular structure based on the chosen algorithm. The following one refers to the first algorithm: 
   
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/17434626/95020271-6d995f00-066a-11eb-9d0d-f528be41148c.png" width="80%"//>
+  <img src="https://user-images.githubusercontent.com/17434626/95093261-dfd07900-0728-11eb-941b-5931cb1d73f8.png" width="80%"//>
 </p>
 
 ## Other details
